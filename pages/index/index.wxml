@@ -1,0 +1,45 @@
+<!--index.wxml-->
+<button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 请登陆您的账号 </button>
+<view wx:if="{{hasUserInfo}}">
+  <view class="userinfo">
+    <view class="userinfo-left">
+      <image class="userinfo-avatar" 
+      src="{{userInfo.avatarUrl}}" background-size="cover">
+      </image>
+      <view style="position: absolute; left: 0rpx; top: 0rpx; ">
+        <view class="userinfo-avatar"></view>
+      </view>
+    </view>
+    <view class="userinfo-right">
+      <view class="userinfo-right-up">
+      <text class="userinfo-nickname">Hi, {{userInfo.nickName}}</text>
+      </view>
+      <view class="userinfo-right-middle">
+      </view>
+      <view class="userinfo-right-down">
+        <picker mode="region" bindchange="bindRegionChange" value="{{region}}">
+          <view class="picker">
+            <text class="userinfo-city">{{region[1]}}</text>
+            <text class="userinfo-citychange"> [切换城市]</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <image src="../../utils/imgs/button_find_teacher_c.png" class="button-img" bindtap="navToFind"> </image>
+  <image src="../../utils/imgs/button_apply_teacher_c.png" class="button-img" bindtap="navToApply"> </image>
+  <image src="../../utils/imgs/button_find_internship_c.png" class="button-img" bindtap="navToInternship"> </image>
+  <index class="button-img-background">
+    <image src="../../utils/imgs/button_subjects_c.png" class="button-img-background"> </image>
+    <view class="button-detail-block" wx:for="{{subjects}}">
+      <view class="button-detail" 
+      style="bottom: {{index-3>=0 ? 68 : 145}}rpx; left: {{250 + 145 * (index%3)}}rpx;">
+      <view bindtap="navToSubject" data-subject="{{item}}"> {{item}} </view>
+      </view>
+    </view>
+  </index>
+<!--   <index class="button-img-background">
+    <image src="../../utils/imgs/button_schools_c.png" class="button-img-background"> </image>
+  </index> -->
+</view>
+

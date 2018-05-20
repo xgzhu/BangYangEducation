@@ -1,0 +1,77 @@
+
+var sdates = require('../../utils/js/sdate.js')
+
+    sdateValues: [],
+    sdates: [],
+    sdate: '',
+    sdateInfo: "请点击选择学校",
+
+
+      sdates: sdates.sdates,
+
+  selectSdate: function (e) {
+    if (that.data.sdateMenuIsShow) {
+      return
+    }
+    that.startAnimation(true, 6)
+  },
+
+
+  sdateCancel: function (e) {
+    that.startAnimation(false, 6)
+  },
+
+  hideSdateSelected: function (e) {
+    that.startAnimation(false, 6)
+  },
+
+
+    else if (picker_id == 6) {
+      that.setData({
+        sdateAnimationMenu: that.animation.export(),
+        sdateMenuIsShow: isShow,
+      })
+    }
+
+  sdateSure: function(e) {
+    var sdateValue = that.data.sdateValues
+    that.startAnimation(false, 1)
+    if (sdateValue.length == 0) {
+      sdateValue = [0]
+    }
+    that.setData({
+      sdate: that.data.sdates[sdateValue[0]].name,
+      sdateValues: sdateValue,
+      sdateInfo: that.data.sdates[sdateValue[0]].name,
+    })
+    that.startAnimation(false, 6)
+  },
+
+  sdateChange: function (e) {
+    console.log(e)
+    var sdateValue = e.detail.value
+    that.setData({
+      sdateValues: sdateValue,
+    })
+  },
+  
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">教员要求</view>
+    <view class="section__content">
+    <view bindtap="selectSdate">{{sdateInfo}}</view>
+    </view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{sdateMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideSdateSelected" />
+  <view class="picker-view" animation="{{sdateAnimationMenu}}" style="visibility:{{sdateMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="sdateCancel">取消</text>
+      <text style="float: right" catchtap="sdateSure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="sdateChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{sdates}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>

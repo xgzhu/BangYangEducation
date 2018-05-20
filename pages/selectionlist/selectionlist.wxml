@@ -1,0 +1,12 @@
+
+<form bindsubmit="saveAndReturn">
+
+<checkbox-group name="checkedItem" bindchange="checkboxChange">
+  <label class="checkbox" wx:for="{{list}}">
+    <view><checkbox value="{{item.name}}" checked="{{item.checked}}"/>{{item.name}}</view>
+  </label>
+</checkbox-group>
+
+<button formType="submit">保存选择</button>
+
+</form>

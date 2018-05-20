@@ -1,0 +1,36 @@
+<form bindsubmit="saveInfomation">
+  <view class="display_show">
+    <view class="section__title">姓名</view>
+    <view class="{{enableModify ? 'section__big_content' : 'section__big_content_noline'}}">
+    <input name="name" placeholder="请输入您的姓名" maxlength="7" 
+    value="{{personalData.name}}"
+    disabled="{{!enableModify}}"></input>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">性别</view>
+    <view class="{{enableModify ? 'section__big_content' : 'section__big_content_noline'}}">
+      <radio-group name="sex" bindchange="finishGender" wx:if="{{enableModify}}">
+        <view class="selection"><label><radio value="male"
+          checked="{{isMale}}"/>
+          男生</label></view>
+        <view class="selection"><label><radio value="female"
+          checked="{{!isMale}}"/>
+          女生</label></view>
+      </radio-group>
+      <view wx:if="{{!enableModify}}">{{gender}}</view>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">所在地址</view>
+    <view class="{{enableModify ? 'section__big_content' : 'section__big_content_noline'}}">
+      <picker name="region" mode="region" bindchange="finishArea"
+      value="{{address}}" wx:if="{{enableModify}}">
+        <view class="picker">{{address}}</view>
+      </picker>
+      <view wx:if="{{!enableModify}}">{{address}}</view>
+    </view>
+  </view>
+  <button bindtap="enableModify" wx:if="{{!enableModify}}">修改个人信息</button>
+  <button formType="submit" wx:if="{{enableModify}}">保存个人信息</button>
+</form>

@@ -1,0 +1,10 @@
+<view>{{namecard.nickname}}</view>
+<view>{{namecard.subjects}}</view>
+<view>{{namecard.description}}</view>
+<view>{{namecard.gender}}</view>
+<view wx:if="{{namecard.isTeacher}}">
+  家教编号：{{namecard.id}}
+</view>
+<view wx:if="{{!namecard.isTeacher}}">
+  学生编号：{{namecard.id}}</view>
+<button>请求预约</button>

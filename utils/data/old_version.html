@@ -1,0 +1,119 @@
+<form bindsubmit="formSubmit" bindreset="formReset">
+
+  <view class="display_show">
+    <view class="section__title">姓名</view>
+    <input name="name" placeholder="请输入您的官方姓名" class="section__content {{error_name}}" maxlength="7" 
+    bindblur="finishName"/>
+  </view>
+  <view class="display_show">
+    <view class="section__title">性别</view>
+    <radio-group name="gender" class="section__content {{error_gender}}" bindtap="selectGender">
+      <view class="selection"><label><radio value="male"/>男生</label></view>
+      <view class="selection"><label><radio value="female"/>女生</label></view>
+    </radio-group>
+  </view>
+  <view class="display_show">
+    <view class="section__title">头像照</view>
+    <view wx:if="{{avatar == null}}" class="section__content">
+    <view bindtap="chooseImageTap">点击设置头像</view>
+    </view>
+    <view wx:else class="section__content">
+    <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">年级</view>
+    <view class="section__content {{error_grade}}" bindtap="selectGrade">
+    {{gradeInfo}}</view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">辅导科目</view>
+    <view class="section__content {{error_subject}}" id="subjectBtn" bindtap="selectSubject">
+    {{subjectInfo}}</view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">上课地点</view>
+    <view class="section__content {{error_address}}" bindtap="selectDistrict">
+    {{areaInfo}}</view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">联系人</view>
+    <input name="contact" placeholder="请输入您的称呼"  maxlength="7"
+    bindblur="finishContact"
+    class="section__content {{error_contact}}"/>
+  </view>
+  <view class="display_show">
+    <view class="section__title">联系电话</view>
+    <input type="number" name="phone" placeholder="请输入11位手机号码"  maxlength="11"
+    bindblur="finishPhone"
+    class="section__content {{error_phone}}"/>
+  </view>
+  <view class="display_show">
+    <view  class="buttonFrame">
+    <button formType="submit" class="buttonSelf buttonFinishLeft">快速提交</button>
+    </view>
+    <view  class="buttonFrame">
+    <button class="buttonSelf buttonFinishRight">填写更多</button>
+    </view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{addressMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideCitySelected" />
+  <!--城市三级联动-->
+  <!--使用动画时不能wx:if="{{city.length>0&&isVisible}}" ，不能hidden=''属性否则无动画效果-->
+  <view class="picker-view" animation="{{addressAnimationMenu}}" style="visibility:{{addressMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="cityCancel">取消</text>
+      <text style="float: right" catchtap="citySure">确定</text>
+    </view>
+    <!--"可以显示默认的城市，使用后级联选择城市反应很慢就不使用了-->
+    <picker-view style="width: 100%; height: 300px;" bindchange="cityChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{provinces}}" class="picker-item">
+          {{item.name}}
+        </view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{citys}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{areas}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{gradeMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideGradeSelected" />
+  <view class="picker-view" animation="{{gradeAnimationMenu}}" style="visibility:{{gradeMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="gradeCancel">取消</text>
+      <text style="float: right" catchtap="gradeSure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="gradeChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{schools}}" class="picker-item">
+          {{item.name}}
+        </view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{levels}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{subjectMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideSubjectSelected" />
+  <view class="picker-view" animation="{{subjectAnimationMenu}}" style="visibility:{{subjectMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="subjectCancel">取消</text>
+      <text style="float: right" catchtap="subjectSure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="subjectChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{subjects}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+  
+</form>

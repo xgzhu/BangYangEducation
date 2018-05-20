@@ -1,0 +1,182 @@
+<form bindsubmit="formSubmit" bindreset="formReset">
+
+  <view class="display_show" wx:if="{{identity >= 2 && identity <= 5}}">
+    <view class="section__title">本科学校</view>
+    <view class="section__content {{error_college}}" bindtap="selectCollege" data-level="0">
+    {{collegeInfo}}</view>
+  </view>
+  <view class="display_show" wx:if="{{identity >= 3 && identity <= 5}}">
+    <view class="section__title">硕士学校</view>
+    <view class="section__content {{error_collegeMaster}}" bindtap="selectCollege" data-level="1">
+    {{collegeMasterInfo}}</view>
+  </view>
+  <view class="display_show" wx:if="{{identity >= 4 && identity <= 5}}">
+    <view class="section__title">博士学校</view>
+    <view class="section__content {{error_collegePhd}}" bindtap="selectCollege" data-level="2">
+    {{collegePhdInfo}}</view>
+  </view>
+
+  <view class="display_show" wx:if="{{identity >= 6 && identity <= 7}}">
+    <view class="section__title">就读学校</view>
+    <view class="section__big_content">
+    <input name="collegeCustom" placeholder="请输入官方名称" class="{{error_collegeCustom}}" maxlength="20"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">专业</view>
+    <view class="section__big_content">
+    <input name="program" placeholder="请输入官方名称" class="{{error_program}}" maxlength="20" 
+    bindblur="finishProgram"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">学院</view>
+    <view class="section__big_content">
+    <input name="school" placeholder="请输入官方名称" class=" {{error_school}}" maxlength="20" 
+    bindblur="finishSchool"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">学号</view>
+    <view class="section__big_content">
+    <input name="student_id" placeholder="请输入学号" class=" {{error_student_id}}" maxlength="20" 
+    bindblur="finishStudentId"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">籍贯</view>
+    <view class="section__content {{error_home}}">
+    <view bindtap="selectAddress" data-type="0">{{homeInfo}}</view>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">出生日期</view>
+    <view class="section__content">
+    <view bindtap="selectBirthday">{{birthdayInfo}}</view>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">毕业高中</view>
+    <view class="section__big_content">
+    <input name="high_school" placeholder="请输入官方名称" class=" {{error_high_school}}" maxlength="20" 
+    bindblur="finishHighSchool"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">高考分数</view>
+    <view class="section__big_content">
+    <input name="exam_score" placeholder="请输入高考分数" class=" {{error_exam_score}}" maxlength="20" 
+    bindblur="finishExamScore"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">可授科目</view>
+    <view wx:if="{{subjectValues.length == 0}}" class="section__big_content"> 
+    <view class="{{error_subject}}" bindtap="selectSubject">
+    请点击选择科目</view>
+    </view>
+    <view wx:if="{{subjectValues.length > 0}}" class="section__big_content"> 
+    <view wx:for="{{subjectValues}}" class="section__small_content">
+      <view bindtap="selectSubject" data-index="{{index}}">{{item.subject.name}},</view>
+    </view>
+    <view bindtap="selectSubject" class="section__help">---添加更多---</view>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">个人照片</view>
+    <view wx:if="{{avatar == null}}" class="section__content">
+    <view bindtap="chooseImageTap">点击设置个人照片</view>
+    </view>
+    <view wx:else class="section__content">
+    <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view  class="">
+    <button formType="submit" class="buttonSelf buttonFinishRight">下一步:信息认证</button>
+    </view>
+  </view>
+  
+  <view class="dialog-mask " style="z-index:11;visibility:{{collegeMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideCollegeSelected" />
+  <view class="picker-view" animation="{{collegeAnimationMenu}}" style="visibility:{{collegeMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="collegeCancel">取消</text>
+      <text style="float: right" catchtap="collegeSure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="collegeChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{colleges}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{addressMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideAddressSelected" />
+  <view class="picker-view" animation="{{addressAnimationMenu}}" style="visibility:{{addressMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="addressCancel">取消</text>
+      <text style="float: right" catchtap="addressSure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="addressChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{provinces}}" class="picker-item">
+          {{item.name}}
+        </view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{citys}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{birthdayMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideBirthdaySelected" />
+  <view class="picker-view" animation="{{birthdayAnimationMenu}}" style="visibility:{{birthdayMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="birthdayCancel">取消</text>
+      <text style="float: right" catchtap="birthdaySure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="birthdayChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{years}}" class="picker-item">
+          {{item}} 年
+        </view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{months}}" class="picker-item" wx:key="">
+          {{item}} 月</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{days}}" class="picker-item" wx:key="">
+          {{item}} 日</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+  <view class="dialog-mask " style="z-index:11;visibility:{{subjectMenuIsShow ? 'visible': 'hidden'}}" 
+  bindtap="hideSubjectSelected" />
+  <view class="picker-view" animation="{{subjectAnimationMenu}}" 
+  style="visibility:{{subjectMenuIsShow ? 'visible':'hidden'}}">
+    <view style="height:10% ;width:95%;margin-top:10rpx">
+      <text catchtap="subjectCancel">删除</text>
+      <text style="float: right" catchtap="subjectSure">确定</text>
+    </view>
+    <picker-view style="width: 100%; height: 300px;" bindchange="subjectChange" value="{{value}}" wx:key="">
+      <picker-view-column>
+        <view wx:for="{{subjects}}" class="picker-item" wx:key="">
+          {{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+</form>

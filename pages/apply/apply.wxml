@@ -1,0 +1,294 @@
+<image src="../../utils/imgs/title_apply_teacher_c.png" class="button-img"> </image>
+
+<form bindsubmit="nextStep">
+<view>
+  <view class="display_show">
+    <view class="section__title">姓名</view>
+    <view class="section__big_content {{error_name}}">
+      <input name="tName" placeholder="请输入您的姓名" maxlength="20" 
+      bindblur="finishSName"/>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">性别</view>
+    <view class="section__big_content {{error_gender}}">
+    <radio-group name="tSex" bindtap="finishGender">
+      <view class="selection"><label><radio value="0"/>男士</label></view>
+      <view class="selection"><label><radio value="1"/>女士</label></view>
+      <view class="selection" style="display: none;"><label><radio value="100" checked="true"/></label></view>
+    </radio-group>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">当前身份</view>
+    <view class="section__big_content {{error_identity}}">
+      <picker bindchange="finishIdentity" range="{{identitys}}" range-key="name">
+        <view class="picker">
+          {{identityInfo}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue >= 2 && identityValue <= 4}}">
+    <view class="section__title">入学时间</view>
+    <view class="section__big_content {{error_entrance_year}}">
+      <picker bindchange="finishEntranceYear" range="{{entranceYears}}" value="9">
+        <view class="picker">
+          {{entranceYearInfo}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue != 100 && identityValue > 4}}">
+    <view class="section__title">最高学历</view>
+    <view class="section__big_content {{error_edu}}">
+      <picker name="tEducation" bindchange="finishEdu" range="{{tEducations}}" value="本科">
+        <view class="picker">
+          {{tEducation}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">手机号码</view>
+    <view class="section__big_content {{error_phone}}">
+      <input type="number" name="tPhone" placeholder="请输入11位手机号"  maxlength="11"
+      bindblur="finishPhone"
+      class=""/>
+    </view>
+  </view>
+</view>
+
+<view class="display_show" wx:if="{{page==1}}">
+  <view>
+  <button formType="submit" class="buttonSelf buttonFinishRight">下一步:填写详细信息</button>
+  </view>
+</view>
+
+<view wx:if="{{page>=2}}">
+  <image src="../../utils/imgs/content_line.png" class="line-img"> </image>
+  <view class="display_show" wx:if="{{identityValue >= 2 && identityValue <= 5}}">
+    <view class="section__title">本科学校</view>
+    <view class="section__big_content {{error_college}}">
+      <picker name="tUniversity" mode="multiSelector" bindchange="finishUniversity" 
+      value="{{puValue}}" data-level="0"
+      bindcolumnchange="changeUniversityProvince"
+      range="{{provinceAndUniversitys}}" range-key="name">
+        <view> {{collegeInfo}} </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue >= 3 && identityValue <= 5}}">
+    <view class="section__title">硕士学校</view>
+    <view class="section__big_content {{error_collegeMaster}}">
+      <picker name="tGraduate" mode="multiSelector" bindchange="finishUniversity" 
+      value="{{puValueMaster}}" data-level="1"
+      bindcolumnchange="changeUniversityProvince"
+      range="{{provinceAndUniversitysMaster}}" range-key="name">
+        <view> {{collegeInfoMaster}} </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue >= 4 && identityValue <= 5}}">
+    <view class="section__title">博士学校</view>
+    <view class="section__big_content {{error_collegePhd}}">
+      <picker name="tDoctoral" mode="multiSelector" bindchange="finishUniversity" 
+      value="{{puValuePhd}}" data-level="2"
+      bindcolumnchange="changeUniversityProvince"
+      range="{{provinceAndUniversitysPhd}}" range-key="name">
+        <view> {{collegeInfoPhd}} </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue >= 6 && identityValue <= 7}}">
+    <view class="section__title">就读学校</view>
+    <view class="section__big_content {{error_collegeCustom}}">
+    <input name="tUniversity" placeholder="请输入官方名称" maxlength="20" bindblur="finishCollegeCustom"/>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue >= 5}}">
+    <view class="section__title">工作单位</view>
+    <view class="section__big_content">
+      <input name="tWorkunit" placeholder="请输入单位名称" maxlength="50" 
+      bindblur="finishSName"/>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{identityValue >= 5}}">
+    <view class="section__title">职称</view>
+    <view class="section__big_content">
+      <input name="tTitle" placeholder="请输入职位名称" maxlength="50" 
+      bindblur="finishSName"/>
+    </view>
+  </view>
+<!--   <view class="display_show">
+    <view class="section__title">文理方向</view>
+    <radio-group name="tDirection" class="section__big_content {{error_direction}}" bindchange="finishDirection">
+      <view class="selection"><label><radio value="0"/>文科</label></view>
+      <view class="selection"><label><radio value="1"/>理科</label></view>
+    </radio-group>
+  </view> -->
+<!--   <view class="display_show">
+    <view class="section__title">学院</view>
+    <view class="section__big_content {{error_school}}">
+    <input name="wSchool" placeholder="请输入官方名称" maxlength="20" 
+    bindblur="finishSchool"/>
+    </view>
+  </view> -->
+  <view class="display_show">
+    <view class="section__title">专业</view>
+    <view class="section__big_content {{error_program}}">
+    <input name="tMajor" placeholder="请输入官方名称" maxlength="20" 
+    bindblur="finishProgram"/>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">学号</view>
+    <view class="section__big_content {{error_student_id}}">
+    <input name="wStudentId" placeholder="请输入学号" maxlength="20" 
+    bindblur="finishStudentId"/>
+    </view>
+  </view>
+<!--   <view class="display_show">
+    <view class="section__title">籍贯</view>
+    <view class="section__big_content {{error_home}}">
+      <picker mode="region" bindchange="finishHome" value="{{homeValues}}" custom-item="{{customItem}}">
+        <view class="picker">
+          {{homeInfo}}
+        </view>
+      </picker>
+    </view>
+  </view> -->
+  <view class="display_show">
+    <view class="section__title">出生日期</view>
+    <view class="section__big_content {{error_birthday}}">
+    <picker mode="date" value="{{birthValue}}" start="1980-01-01" end="2010-12-31" bindchange="finishBirthday" name="tBirthday">
+      <view class="picker">
+        {{birthInfo}}
+      </view>
+    </picker>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">毕业高中</view>
+    <view class="section__big_content {{error_high_school}}">
+    <input name="tHighschool" placeholder="请输入官方名称" maxlength="20" 
+    bindblur="finishHighSchool"/>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">高考分数</view>
+    <view class="section__big_content {{error_exam_score}}">
+      <view class="section__big_content_2">
+        <input name="tScore" type="number" placeholder="请输入高考分数" maxlength="20" 
+        bindblur="finishExamScore" disabled="{{examScoreDisabled}}" />
+      </view>
+      <view class="section__small_content">
+        <checkbox-group value="yes" bindchange="finishExamScore">
+          <checkbox>保送</checkbox>
+        </checkbox-group>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="display_show" wx:if="{{page==2}}">
+  <view>
+  <button formType="submit" class="buttonSelf buttonFinishRight">
+  下一步:填写教员相关信息</button>
+  </view>
+</view>
+
+<view wx:if="{{page>=3}}">
+  <image src="../../utils/imgs/content_line.png" class="line-img"> </image>
+
+  <view class="display_show">
+    <view class="section__title">上课区域</view>
+      <view class="section__big_content {{error_address}}">
+      <picker mode="region" value="{{addressValues}}" custom-item="全部" bindchange="finishAddress">
+        <view class="picker">{{addressValues}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">上课时间</view>
+    <view class="section__big_content {{error_time}}">
+      <checkbox-group bindchange="finishTime" name="tDirection">
+        <label class="checkbox" wx:for="{{times}}" wx:key="item">
+          <checkbox value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
+        </label>
+      </checkbox-group>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">目标年级</view>
+    <view class="section__big_content {{error_grade}}">
+      <view class="picker" bindtap="selectGrade">
+          {{gradeInfo}}
+      </view>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">目标科目</view>
+    <view class="section__big_content {{error_subject}}">
+      <view class="picker" bindtap="selectSubject">
+          {{subjectInfo}}
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="display_show" wx:if="{{page==3}}">
+  <view>
+  <button formType="submit" class="buttonSelf buttonFinishRight">
+  下一步:提交信息验证</button>
+  </view>
+</view>
+
+<view wx:if="{{page>=4}}">
+  <image src="../../utils/imgs/content_line.png" class="line-img"> </image>
+  <view class="display_show">
+    <view class="section__title">个人照片</view>
+    <view wx:if="{{avatar == null}}" class="section__big_content">
+    <view bindtap="chooseImageTap">上传个人照片</view>
+    </view>
+    <view wx:else class="section__big_content">
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">学生证</view>
+    <view wx:if="{{avatar == null}}" class="section__big_content">
+    <view bindtap="chooseImageTap">上传学生证照片</view>
+    </view>
+    <view wx:else class="section__big_content">
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">校园卡</view>
+    <view wx:if="{{avatar == null}}" class="section__big_content">
+    <view bindtap="chooseImageTap">上传校园卡照片</view>
+    </view>
+    <view wx:else class="section__big_content">
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">联系地址</view>
+    <view class="section__big_content">
+    <input name="tAddress" placeholder="街道，单元楼等（选填）" maxlength="40"/>
+    </view>
+  </view>
+</view>
+
+<view class="display_show" wx:if="{{page==4}}">
+  <view>
+  <button formType="submit" class="buttonSelf buttonFinishLeft">
+  提交注册当家教信息</button>
+  </view>
+</view>
+
+</form>

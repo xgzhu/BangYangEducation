@@ -1,0 +1,23 @@
+<image src="../../utils/imgs/title_find_internship_c.png" class="button-img"> </image>
+
+<view>
+  <view wx:for="{{shownList}}" class="card-edge">
+    <view class="card-internship" data-index="{{index}}" bindtap="navToInternCard">
+      <view class="card-avatar-edge">
+        <image src="../../utils/imgs/icon_main.png" class="card-picture" bindtap="openFilter">
+        </image>
+        <view class="card-id">编号</view>
+        <view class="card-id">{{item.id}}</view>
+      </view>
+      <view class="card-content-edge">
+        <view class="card-content-name">{{item.institute}}</view>
+        <view class="card-content-subject">需求科目: {{item.subjects}}</view>
+        <view class="card-content-description">简介: {{item.description}}</view>
+        <view class="card-content-salary" wx:if="{{item.flexible_pay}}">
+        工资: {{item.hourly_pay}}元／小时 (工资可议)</view>
+        <view class="card-content-salary" wx:if="{{!item.flexible_pay}}">
+        工资: {{item.hourly_pay}}元／小时 (工资固定)</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+<view style="padding-top: 60rpx;">
+  <view wx:for="{{shownList}}" class="card-edge">
+    <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
+      <view class="card-avatar-edge">
+        <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content" bindtap="openFilter">
+        </image>
+        <image wx:if="{{item.gender == 1}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content" bindtap="openFilter">
+        </image>
+        <view class="card-teacher-id">家教编号</view>
+        <view class="card-teacher-id">{{item.id}}</view>
+      </view>
+      <view class="card-content-edge">
+        <view wx:if="{{item.gender == 0}}" class="card-content-name">{{item.name}} (男) {{item.identityInfo}}</view>
+        <view wx:if="{{item.gender == 1}}" class="card-content-name">{{item.name}} (女) {{item.identityInfo}}</view>
+        <view class="card-content-subject">可教科目: {{item.subjects}}</view>
+        <view class="card-content-description">个人简介: {{item.description}}</view>
+        <view class="card-content-salary" wx:if="{{item.hourly_pay > 0}}">目标工资: {{item.hourly_pay}}元／小时</view>
+        <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">目标工资: 面议</view>
+      </view>
+    </view>
+
+    <view wx:if="{{!item.isTeacher}}" class="card-student" data-index="{{index}}" bindtap="navToNamecard">
+      <view class="card-avatar-edge">
+        <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content" bindtap="openFilter">
+        </image>
+        <image wx:if="{{item.gender == 1}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content" bindtap="openFilter">
+        </image>
+        <view class="card-student-id">学生编号</view>
+        <view class="card-student-id">{{item.id}}</view>
+      </view>
+      <view class="card-content-edge">
+        <view wx:if="{{item.gender == 0}}" class="card-content-name">{{item.name}} (男) {{item.grade}}</view>
+        <view wx:if="{{item.gender == 1}}" class="card-content-name">{{item.name}} (女) {{item.grade}}</view>
+        <view class="card-content-subject">求教科目: {{item.subjects}}</view>
+        <view class="card-content-description">学员情况: {{item.description}}</view>
+        <view class="card-content-salary" wx:if="{{item.hourly_pay > 0}}">可付工资: {{item.hourly_pay}}元／小时</view>
+        <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">可付工资: 面议</view>
+        <view class="card-content-salary">教员要求: {{item.demand}}</view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{shownList.length == 0}}">
+  	您的登记历史为空，请前往 “请家教” “做家教” 登记信息，谢谢。
+  </view>
+</view>

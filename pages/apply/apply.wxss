@@ -1,0 +1,157 @@
+/* pages/apply/apply.wxss */
+
+.display_show{
+  display: block;
+  padding: 10rpx;
+  padding-top: 10rpx;
+}
+
+.section__overall {
+  font-size: 45rpx;
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+  text-align: center;
+  padding-bottom: 15rpx;
+}
+
+.selection {
+  width: 40%;
+  display: inline-block;
+  vertical-align:top;
+}
+
+.section__title {
+  display: inline-block;
+  vertical-align:top;
+  padding-right: 20rpx;
+  width: 25%;
+}
+.section__big_content {
+  display: inline-block;
+  vertical-align:top;
+  border-bottom: 1rpx dotted blue;
+  width: 60%;
+}
+.section__big_content_2 {
+  display: inline-block;
+  vertical-align:top;
+  width: 55%;
+}
+.section__small_content {
+  display: inline-block;
+  vertical-align:top;
+  width: 40%;
+}
+.section__content {
+  display: inline-block;
+  vertical-align:top;
+  width: 55%;
+  padding-bottom: 4rpx;
+}
+.section__small_icon {
+  display: inline-block;
+  vertical-align:top;
+  width: 44rpx;
+  height: 44rpx;
+  padding-left: 20rpx;
+/*  border: 1rpx solid;
+  border-color: red;
+*/}
+
+.section__help {
+  color: #ee8
+}
+.icon {
+  width: 25rpx;
+  height: 25rpx;
+}
+
+.dialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.state-item {
+  width: 20%;
+  height: 70rpx;
+  font-size: 11pt;
+  line-height: 70rpx;
+  text-align: center;
+  border-radius: 10rpx;
+  border: 2rpx solid #ddd;
+}
+
+.border.state-item {
+  border: 2rpx solid #c4245c;
+}
+
+.date {
+  min-width: 40%;
+  display: flex;
+  font-size: 11pt;
+  color: #bdbdbd;
+  align-items: center;
+}
+
+.date-btn {
+  min-width: 80%;
+  font-size: 12pt;
+  background-color: #c4245c;
+  color: #fff;
+  position: fixed
+}
+
+
+.picker-view {
+  width: 100%;
+  display: flex;
+  z-index:12;
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0rpx;
+  left: 0rpx;
+  height: 40vh;
+}
+
+.picker-item {
+  line-height: 70rpx;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  text-align: center;
+}
+
+.error {
+  border-bottom: 4rpx solid;
+  border-color: red;
+}
+
+.buttonFrame {
+  display: inline-block;
+  vertical-align:top;
+  width: 50%;
+}
+
+.buttonSelf {
+  width: 90%;
+}
+
+.buttonFinishLeft {
+  color: white; 
+  background-color: #ff8719;
+  border: 2rpx solid;
+  border-color: #ff8719;
+}
+
+.buttonFinishRight {
+  color: #ff8719; 
+  border: 2rpx solid;
+  border-color: #ff8719;
+  background-color: white;
+}

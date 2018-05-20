@@ -1,0 +1,170 @@
+<form bindsubmit="formSubmit">
+
+  <image src="../../utils/imgs/title_find_teacher_c.png" class="button-img"> </image>
+
+  <view class="display_show">
+    <view class="section__title">姓名</view>
+    <view class="section__big_content {{error_name}}">
+    <input name="sName" placeholder="请输入学生姓名" maxlength="20" 
+    bindblur="finishSName"/>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">性别</view>
+    <view class="section__big_content {{error_gender}}">
+    <radio-group name="sSex" bindtap="finishGender">
+      <view class="selection"><label><radio value="0"/>男生</label></view>
+      <view class="selection"><label><radio value="1"/>女生</label></view>
+    </radio-group>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">当前年级</view>
+    <view class="section__big_content {{error_grade}}">
+      <picker bindchange="finishGrade" value="{{gradeValue}}" range="{{grades}}" range-key="name">
+        <view class="picker">
+          {{gradeInfo}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">辅导科目</view>
+    <view class="section__big_content {{error_subject}}">
+      <view wx:if="{{subjectValues.length > 0}}"> 
+        <view wx:for="{{subjectValues}}">
+          <view class="section__content">
+            {{subjectValues[index].subject.name}},{{subjectValues[index].point.name}}
+          </view>
+          <image src="../../utils/imgs/icon_remove.png" class="section__small_icon" 
+          bindtap="removeSubject" data-index="{{index}}"/>
+          <picker mode="multiSelector" bindchange="finishAddSubject" value="{{subjectValue}}"  class="section__small_icon"
+          range="{{subjectAndPoints}}" range-key="name" wx:if="{{index==subjectValues.length-1}}">
+            <image src="../../utils/imgs/icon_addmore.png" class="section__small_icon"></image>
+          </picker>
+        </view>
+      </view>
+      <view wx:if="{{subjectValues.length == 0}}">
+        <picker mode="multiSelector" bindchange="finishAddSubject" value="{{subjectValue}}" 
+        range="{{subjectAndPoints}}" range-key="name">
+          <view wx:if="{{subjectValues.length == 0}}" class="picker">
+            请选择科目及成绩情况
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">上课地址</view>
+      <view class="section__big_content {{error_address}}">
+      <picker mode="region" bindchange="finishArea" value="{{areaValues}}">
+        <view class="picker">{{areaInfo}}</view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">上课时间</view>
+    <view class="section__big_content {{error_time}}">
+      <checkbox-group bindchange="finishTime" name="wType">
+        <label class="checkbox" wx:for="{{times}}" wx:key="item">
+          <checkbox value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
+        </label>
+      </checkbox-group>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">家长称呼</view>
+    <input name="pName" placeholder="请输入您的称呼"  maxlength="7"
+    bindblur="finishPName"
+    class="section__big_content {{error_pName}}"/>
+  </view>
+  <view class="display_show">
+    <view class="section__title">家长电话</view>
+    <view class="section__big_content {{error_phone}}">
+    <input type="number" name="pPhone" placeholder="请输入11位手机号"  maxlength="11"
+    bindblur="finishPhone"/></view>
+  </view>
+  
+  <image src="../../utils/imgs/content_line_optional.png" class="line-img" wx:if="{{submitMore}}"> </image>
+
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">具体地址</view>
+    <view class="section__big_content">
+    <input name="wAddress" placeholder="街道，单元楼等（选填）" maxlength="40"/>
+    </view>
+  </view>
+
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">文理方向</view>
+    <radio-group name="sDirection" class="section__big_content">
+      <view class="selection"><label><radio value="1"/>文科</label></view>
+      <view class="selection"><label><radio value="2"/>理科</label></view>
+    </radio-group>
+  </view>
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">目标专业</view>
+    <view class="section__big_content">
+    <input name="sMajor" placeholder="比如外语、计算机等（选填）" maxlength="40"/>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">性格</view>
+    <view class="section__big_content">
+      <picker bindchange="finishCharacter" value="{{characterValue}}" range="{{characters}}" range-key="name">
+        <view class="picker">
+          {{characterInfo}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">个人描述</view>
+    <view class="section__big_content">
+    <input name="sDescribe" placeholder="比如性格、兴趣等（选填）" maxlength="40"/>
+    </view>
+  </view>
+
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">教员要求</view>
+    <view class="section__big_content">
+      <picker mode="multiSelector" bindchange="finishTeacher" value="{{teacherValue}}" 
+        range="{{teacherRequirements}}" range-key="name">
+          <view class="picker">
+            {{teacherInfo}}
+          </view>
+        </picker>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">教员薪酬</view>
+    <view class="section__big_content">
+      <view class="section__median_content">
+      <input name="wPrice" type="digit" placeholder="0.0"/></view>
+      <view class="section__median_content">元／小时</view>
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">学生电话</view>
+    <input type="number" name="sPhone" placeholder="请输入11位手机号"  maxlength="11"
+    bindblur="finishPhone"
+    class="section__big_content"/>
+  </view>
+  <view class="display_show" wx:if="{{submitMore}}">
+    <view class="section__title">学生QQ</view>
+    <view class="section__big_content">
+    <input type="number" name="sQq" placeholder="请输入QQ号码(选填)"  maxlength="11"
+    bindblur="finishPhone"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="buttonFrame" wx:if="{{!submitMore}}">
+    <button formType="submit" class="buttonSelf buttonFinishLeft">快速提交</button>
+    </view>
+    <view class="buttonFrame" wx:if="{{!submitMore}}">
+    <button bindtap="submitMore" class="buttonSelf buttonFinishRight">填写更多</button>
+    </view>
+    <button formType="submit" wx:if="{{submitMore}}" class="buttonSelf buttonFinishLeft">最终提交</button>
+  </view>
+  
+</form>

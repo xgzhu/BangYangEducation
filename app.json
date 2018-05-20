@@ -1,0 +1,37 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/histories/histories",
+    "pages/library/library",
+    "pages/apply/apply",
+    "pages/selectionlist/selectionlist",
+    "pages/internship/internship",
+    "pages/card/card",
+    "pages/personal/personal",
+    "pages/find/find",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "backgroundColor": "#eeeeee",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle":"black",
+    "navigationBarTitleText": "985大学生教育平台",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页",
+      "iconPath": "utils/imgs/icon_index.jpg"
+    }, {
+      "pagePath": "pages/library/library",
+      "text": "资源库",
+      "iconPath": "utils/imgs/icon_library.jpg"
+    }, {
+      "pagePath": "pages/personal/personal",
+      "text": "我的",
+      "iconPath": "utils/imgs/icon_self.jpg"
+    }]
+  }
+}

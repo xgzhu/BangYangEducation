@@ -1,0 +1,35 @@
+<view wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 请回首页登陆您的账号 </view>
+<view wx:if="{{hasUserInfo}}">
+<view class="userinfo">
+  <view class="userinfo-left">
+    <view class="userinfo-right-up">
+    </view>
+    <view class="userinfo-left-middle">
+    </view>
+    <view class="userinfo-right-down">
+    </view>
+  </view>
+  <view class="userinfo-middle">
+    <image class="userinfo-avatar" 
+    src="{{userInfo.avatarUrl}}" background-size="cover">
+    </image>
+    <view style="position: absolute; left: 265rpx; top: 0rpx; ">
+      <view class="userinfo-avatar"></view>
+    </view>
+  </view>
+  <view class="userinfo-right">
+    <view class="userinfo-right-up">
+    </view>
+    <view class="userinfo-right-middle">
+    </view>
+    <view class="userinfo-right-down">
+    </view>
+  </view>
+</view>
+<!-- 
+<view class="button-img-edge"><image src="../../utils/imgs/personal_userdata.png" class="button-img" bindtap="navToPersonalData"> </image></view> -->
+<view class="button-img-edge"><image src="../../utils/imgs/personal_history.png" class="button-img" bindtap="navToPersonalHistory"> </image></view>
+<view class="button-img-edge"><image src="../../utils/imgs/personal_information.png" class="button-img" bindtap="navToPersonalInformation"> </image></view>
+<view class="button-img-edge"><image src="../../utils/imgs/personal_legal.png" class="button-img" bindtap="navToPersonalLegal"> </image></view>
+<view class="button-img-edge"><image src="../../utils/imgs/personal_contact.png" class="button-img" bindtap="navToPersonalContact"> </image></view>
+</view>

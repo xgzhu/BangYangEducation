@@ -1,0 +1,1 @@
+<button open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 请登陆您的账号 </button>
