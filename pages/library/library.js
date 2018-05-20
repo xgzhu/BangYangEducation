@@ -36,7 +36,7 @@ Page({
     that = this
     // console.log(app.globalData)
     var areaValues = wx.getStorageSync('userCustomerInfo').region
-    var cityId = that.getCityId(areaValues)
+    var cityId = app.getCityId(areaValues)
     that.setData({
       subjects: subjects.subjects.slice(),
       uProvince: universitys.provinces.slice(),
@@ -90,6 +90,11 @@ Page({
       allList = app.globalData.localTeacherLibrary[that.data.cityId]
     } else if (that.data.selectedObject == "student") {
       allList = app.globalData.localStudentLibrary[that.data.cityId]
+    }
+    if (allList == null) {
+      that.setData({shownList: []})
+      wx.startPullDownRefresh()
+      return;
     }
     console.log("allList",allList)
     var shownList = []
@@ -199,7 +204,7 @@ Page({
     if (that.data.regionMayChanged) {
       var currentRegion = that.data.currentAreaValues
       var newRegion = that.data.areaValues
-      var cityId = that.getCityId(newRegion)
+      var cityId = app.getCityId(newRegion)
       that.setData({regionMayChanged: false, cityId:cityId})
       if (that.cityId != cityId && app.globalData.localStudentLibrary[cityId] == undefined) {
         console.log("NEW REGION!!", cityId)
@@ -339,20 +344,5 @@ Page({
       }
     }
     app.getLibraryData(that.data.cityId)
-  },
-
-  // Redundant code
-  getCityId: function(areaValues) {
-    var provinceId = citys.provinceToId[areaValues[0]]
-    var cityId = provinceId
-    var citysInProvince = citys.citys[provinceId]
-    for (var i = 0; i < citysInProvince.length; i++) {
-      if (citysInProvince[i].name == areaValues[1]) {
-        cityId = citysInProvince[i].id
-        break
-      }
-    }
-    console.log(cityId)
-    return cityId
   },
 })

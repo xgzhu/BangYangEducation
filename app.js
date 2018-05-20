@@ -1,5 +1,6 @@
 //app.js
 const grades = require('utils/js/grade.js')
+const citys = require('utils/js/city.js')
 const idLength = 8
 var that
 
@@ -14,7 +15,11 @@ App({
     that.getUserIdAndHistories()
     that.getUserInfo()
     that.getSystemInfo()
-    that.getLibraryData("370100")
+    var addressValues = wx.getStorageSync('userCustomerInfo').region
+    if (addressValues == undefined) {
+      addressValues = ["山东省", "济南市", "市中区"]
+    }
+    that.getLibraryData(that.getCityId(addressValues))
   },
   getUserInfo: function() {
     // 获取用户信息
@@ -82,6 +87,19 @@ App({
         })
       }
     })
+  },
+  getCityId: function(addressValues) {
+    var provinceId = citys.provinceToId[addressValues[0]]
+    var cityId = provinceId
+    var citysInProvince = citys.citys[provinceId]
+    for (var i = 0; i < citysInProvince.length; i++) {
+      if (citysInProvince[i].name == addressValues[1]) {
+        cityId = citysInProvince[i].id
+        break
+      }
+    }
+    console.log(cityId)
+    return cityId
   },
   getLibraryData: function(cityId) {
     var bsurl = "https://www.zhexiankeji.com/education/baseStudent/search"

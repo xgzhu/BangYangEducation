@@ -42,14 +42,14 @@ Page({
         }
       })
     }
-    if (wx.getStorageSync('userCustomerInfo').region != undefined) {
-      that.setData({region: wx.getStorageSync('userCustomerInfo').region})
-    } else {
-      var initRegion = ["山东省", "济南市", "市中区"]
-      that.setData({region: initRegion})
+
+    var region = wx.getStorageSync('userCustomerInfo').region
+    if (region == undefined) {
+      region = ["山东省", "济南市", "市中区"]
       wx.setStorageSync('userCustomerInfo', {region: initRegion})
     }
-    console.log(that.data)
+    that.setData({region: region, cityId: app.getCityId(region)})
+    console.log("index.data", that.data)
   },
   getUserInfo: function(e) {
     if (e.detail.userInfo != undefined) {
@@ -103,6 +103,10 @@ Page({
     that.setData({
       region: e.detail.value
     })
+    var cityId = app.getCityId(e.detail.value)
+    if (cityId != that.data.cityId) {
+      app.getLibraryData(cityId)
+    }
     wx.setStorageSync('userCustomerInfo', {region: e.detail.value})
   },
 })

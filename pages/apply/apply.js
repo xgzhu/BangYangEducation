@@ -1,4 +1,5 @@
 // pages/apply/apply.js
+const app = getApp()
 const grades = require('../../utils/js/grade.js')
 const subjects = require('../../utils/js/subject.js')
 const characters = require('../../utils/js/character.js')
@@ -336,19 +337,6 @@ Page({
     }
     return success
   },
-  getCityId: function() {
-    var provinceId = that.data.provinceToId[that.data.addressValues[0]]
-    var cityId = provinceId
-    var citysInProvince = that.data.citys[provinceId]
-    for (var i = 0; i < citysInProvince.length; i++) {
-      if (citysInProvince[i].name == that.data.addressValues[1]) {
-        cityId = citysInProvince[i].id
-        break
-      }
-    }
-    console.log(cityId)
-    return cityId
-  },
   getTimeType: function (wTypes) {
     var wType = 0
     for (var i = 0; i < wTypes.length; i++) {
@@ -368,7 +356,7 @@ Page({
       e.detail.value.tDoctoral = "U"+that.data.provinceAndUniversitysPhd[1][e.detail.value.tDoctoral[1]].id.toString()
     if (that.data.examScoreDisabled == true)
       e.detail.value.tScore = 1000
-    e.detail.value.cityId = that.getCityId()
+    e.detail.value.cityId = app.getCityId(that.data.addressValues)
     e.detail.value.tArea = that.data.addressValues[2]
     if (e.detail.value.tDirection != undefined)
       e.detail.value.tDirection = that.getTimeType(e.detail.value.tDirection)

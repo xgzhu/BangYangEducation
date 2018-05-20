@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>榜样教育实习信息发布工具</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("p").click(function(){
+        $(this).hide();
+      });
+      $("button").click(function(){
+        // // alert("Click!"+$("#name").val())
+        // var url = "https://www.zhexiankeji.com/education/baseTeacher/search"
+        // var data = {"cityId":"370100"}
+        // // $.post(url,data,function(result){
+        // //   $("span").html(result);
+        // // });
+        // $.ajax({
+        //   url: url,
+        //   data:  '{"cityId":"370100"}',
+        //   headers: {
+        //     'content-type': 'application/json' 
+        //   },
+        //   type: "post",
+        //   crossDomain : true,
+        //   success: function (data) {
+        //     console.info(data);
+        //   }
+        // })
+        function createCORSRequest(method, url) {
+          var xhr = new XMLHttpRequest();
+          if ("withCredentials" in xhr) {
+
+            // Check if the XMLHttpRequest object has a "withCredentials" property.
+            // "withCredentials" only exists on XMLHTTPRequest2 objects.
+            xhr.open(method, url, true);
+
+          } else if (typeof XDomainRequest != "undefined") {
+
+            // Otherwise, check if XDomainRequest.
+            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+
+          } else {
+
+            // Otherwise, CORS is not supported by the browser.
+            xhr = null;
+
+          }
+          return xhr;
+        }
+
+        var url = "https://www.zhexiankeji.com/education/baseTeacher/search"
+        var xhr = createCORSRequest('post', url);
+        if (!xhr) {
+          throw new Error('CORS not supported');
+        }
+        xhr.onload = function() {
+         var responseText = xhr.responseText;
+         console.log(responseText);
+         // process the response.
+        };
+
+        xhr.onerror = function() {
+          console.log('There was an error!');
+        };
+        xhr.send();
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <h1>请填写发布实习信息</h1>
+  教育机构名称:<br>
+  <input type="text" name="name" id="name">
+  <br>
+  城市行政区号（比如济南是“370100”，青岛是“370200”。注意：请核实后填写）:<br>
+  <input type="text" name="cityId" id="cityId">
+  <br>
+  <br>
+  <button>提交</button>
+  <span>wait</span>
+</body>
+</html>

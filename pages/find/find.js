@@ -1,4 +1,5 @@
 // pages/apply/apply.js
+const app = getApp()
 const grades = require('../../utils/js/grade.js')
 const subjects = require('../../utils/js/subject.js')
 const characters = require('../../utils/js/character.js')
@@ -204,18 +205,6 @@ Page({
     })
     return success
   },
-  getCityId: function(e) {
-    var provinceId = that.data.provinceToId[e.detail.value.sProvince]
-    var cityId = provinceId
-    var citysInProvince = that.data.citys[provinceId]
-    for (var i = 0; i < citysInProvince.length; i++) {
-      if (citysInProvince[i].name == e.detail.value.sCity) {
-        cityId = citysInProvince[i].id
-        break
-      }
-    }
-    return cityId
-  },
   getTimeType: function (wTypes) {
     var wType = 0
     for (var i = 0; i < wTypes.length; i++) {
@@ -239,7 +228,7 @@ Page({
       formData.sSex = parseInt(e.detail.value.sSex)
       formData.sWxid = wx.getStorageSync('openId')
       formData.wGrade = "G"+e.detail.value.wGrade.toString()
-      formData.cityId = that.getCityId(e)
+      formData.cityId = app.getCityId(that.data.areaValues)
       formData.pName = e.detail.value.pName
       formData.pPhone = e.detail.value.pPhone
       formData.sPhone = e.detail.value.pPhone
