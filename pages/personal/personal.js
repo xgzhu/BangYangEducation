@@ -14,7 +14,7 @@ Page({
         hasUserInfo: true
       })
       console.log(that.data)
-      console.log(wx.getStorageSync('userCustomerInfo'))
+      // console.log(wx.getStorageSync('userCustomerInfo'))
     }
   },
   navToPersonalHistory: function () {

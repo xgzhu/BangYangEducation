@@ -6,7 +6,8 @@ Page({
   },
   onLoad: function() {
     that = this
-    var personalData = wx.getStorageSync('userCustomerInfo')
+    // var personalData = wx.getStorageSync('userCustomerInfo')
+    var personalData = app.globalData.userCustomInfo
     that.setData({
       personalData: personalData,
       enableModify: false
@@ -49,11 +50,13 @@ Page({
   },
   saveInfomation: function(e) {
     that.setData({enableModify: false})
-    var personalData = wx.getStorageSync('userCustomerInfo')
+    // var personalData = wx.getStorageSync('userCustomerInfo')
+    var personalData = app.globalData.userCustomInfo
     personalData.gender = e.detail.value.sex
     personalData.region = e.detail.value.region
     personalData.name = e.detail.value.name
-    wx.setStorageSync('userCustomerInfo', personalData)
+    // wx.setStorageSync('userCustomerInfo', personalData)
+    app.globalData.userCustomInfo = personalData
     console.log(e)
     console.log(personalData)
   }

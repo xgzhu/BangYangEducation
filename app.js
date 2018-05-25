@@ -8,18 +8,23 @@ App({
   onLaunch: function () {
     that = this
     // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    // var logs = wx.getStorageSync('logs') || []
+    // logs.unshift(Date.now())
+    // wx.setStorageSync('logs', logs)
 
     that.getUserIdAndHistories()
     that.getUserInfo()
     that.getSystemInfo()
-    var addressValues = wx.getStorageSync('userCustomerInfo').region
-    if (addressValues == undefined) {
-      addressValues = ["山东省", "济南市", "市中区"]
-    }
-    that.getLibraryData(that.getCityId(addressValues))
+    // var addressValues = wx.getStorageSync('userCustomerInfo').region
+    // if (addressValues == undefined) {
+    //   addressValues = ["山东省", "济南市", "市中区"]
+    // }
+    that.getUserCustomInfo()
+  },
+  getUserCustomInfo: function() {
+    // These data should be stored in the cloud later.
+    that.globalData.userCustomInfo = {region: ["山东省", "济南市", "市中区"]}
+    that.getLibraryData(that.getCityId(that.globalData.userCustomInfo.region))
   },
   getUserInfo: function() {
     // 获取用户信息
@@ -59,9 +64,7 @@ App({
   getUserIdAndHistories: function () {
     wx.login({
       success: function (res) {
-        var appId = "wx28e4a84ebaa9d9f4"
         var code = res.code
-        var secret = "3f0559dbc6a747a5c6888d6539610bf6"
         wx.request({
           //url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + appId + '&secret=' + secret + '&js_code=' + code + '&grant_type=authorization_code',
           url: 'https://api.zhexiankeji.com/education/wx/getOpenid?code=' + code,
@@ -77,9 +80,10 @@ App({
               var obj = JSON.parse(res.data.result);
               wxId = obj.openid
             }
-            wx.setStorageSync('openId', wxId)
+            // wx.setStorageSync('openId', wxId)
             console.log('openId', wxId)
             that.getUserHistories(wxId)
+            that.globalData.openId = wxId
           },
           fail: function (res) {
             console.log("fail to get openId")
@@ -102,7 +106,7 @@ App({
     return cityId
   },
   getLibraryData: function(cityId) {
-    var bsurl = "https://www.zhexiankeji.com/education/baseStudent/search"
+    var bsurl = "https://api.zhexiankeji.com/education/baseStudent/search"
     wx.request({
       url: bsurl,
       data:  {"cityId":cityId},
@@ -112,7 +116,7 @@ App({
       method: "POST",
       success: function (res) {
         var bsresult = res.data.result
-        var wurl = "https://www.zhexiankeji.com/education/work/search"
+        var wurl = "https://api.zhexiankeji.com/education/work/search"
         wx.request({
           url: wurl,
           data:  {"cityId":cityId},
@@ -140,7 +144,7 @@ App({
       }
     })
 
-    var bturl = "https://www.zhexiankeji.com/education/baseTeacher/search"
+    var bturl = "https://api.zhexiankeji.com/education/baseTeacher/search"
     wx.request({
       url: bturl,
       data:  {"cityId":cityId},
@@ -150,7 +154,7 @@ App({
       method: "POST",
       success: function (res) {
         var btresult = res.data.result
-        var wturl = "https://www.zhexiankeji.com/education/workTeacher/search"
+        var wturl = "https://api.zhexiankeji.com/education/workTeacher/search"
         wx.request({
           url: wturl,
           data:  {"cityId":cityId},
@@ -180,7 +184,7 @@ App({
     // console.log("global", that.globalData)
   },
   getUserHistories: function(wxId) {
-    var bsurl = "https://www.zhexiankeji.com/education/baseStudent/search"
+    var bsurl = "https://api.zhexiankeji.com/education/baseStudent/search"
     wx.request({
       url: bsurl,
       data:  {"sWxid":wxId},
@@ -190,7 +194,7 @@ App({
       method: "POST",
       success: function (res) {
         var bsresult = res.data.result
-        var wurl = "https://www.zhexiankeji.com/education/work/search"
+        var wurl = "https://api.zhexiankeji.com/education/work/search"
         wx.request({
           url: wurl,
           data:  {"sWxid":wxId},
@@ -201,7 +205,8 @@ App({
           success: function (res) {
             var wresult = res.data.result
             var studentHistory = that.mapBsrAndWr(bsresult, wresult, "student")
-            wx.setStorageSync('myStudentHistory', studentHistory)
+            // wx.setStorageSync('myStudentHistory', studentHistory)
+            that.globalData.myStudentHistory = studentHistory
             console.log('myStudentHistory', studentHistory)
             if (that.personalStudentHistoriesReadyCallback) {
               that.personalStudentHistoriesReadyCallback()
@@ -209,15 +214,15 @@ App({
             }
           },
           fail: function (res) {
-            wx.setStorageSync('myStudentHistory', [])
+            // wx.setStorageSync('myStudentHistory', [])
           }
         })
       },
       fail: function (res) {
-        wx.setStorageSync('myStudentHistory', [])
+        // wx.setStorageSync('myStudentHistory', [])
       }
     })
-    var bturl = "https://www.zhexiankeji.com/education/baseTeacher/search"
+    var bturl = "https://api.zhexiankeji.com/education/baseTeacher/search"
     wx.request({
       url: bturl,
       data:  {"tWxid":wxId},
@@ -227,7 +232,7 @@ App({
       method: "POST",
       success: function (res) {
         var btresult = res.data.result
-        var wturl = "https://www.zhexiankeji.com/education/workTeacher/search"
+        var wturl = "https://api.zhexiankeji.com/education/workTeacher/search"
         wx.request({
           url: wturl,
           data:  {"tWxid":wxId},
@@ -238,7 +243,8 @@ App({
           success: function (res) {
             var wtresult = res.data.result
             var teacherHistory = that.mapBtrAndWtr(btresult, wtresult, "teacher")
-            wx.setStorageSync('myTeacherHistory', teacherHistory)
+            // wx.setStorageSync('myTeacherHistory', teacherHistory)
+            that.globalData.myTeacherHistory = teacherHistory
             console.log('myTeacherHistory', teacherHistory)
             if (that.personalTeacherHistoriesReadyCallback) {
               that.personalTeacherHistoriesReadyCallback()
@@ -246,12 +252,12 @@ App({
             }
           },
           fail: function (res) {
-            wx.setStorageSync('myTeacherHistory', [])
+            // wx.setStorageSync('myTeacherHistory', [])
           }
         })
       },
       fail: function (res) {
-        wx.setStorageSync('myTeacherHistory', [])
+        // wx.setStorageSync('myTeacherHistory', [])
       }
     })
   },
@@ -349,40 +355,44 @@ App({
     }
     return result
   },
-  getMockLibraryData: function() {
-    var t1 = {type:"teacher", id:"00000001", sName:"王元鹏", sSex:1,  hourly_pay:"200",
-      sDescribe:"快学教育创始人，著名教育家，山东省实验中学优秀学子。", sDirection: 0,
-      subjects:["语文", "体育"], 
-      university:"74", universityMaster:"75", identity:3, targetGrade:["初中", "高中"],
-      postDate:"2018-04-20"}
-    var t2 = {type:"teacher", id:"00000003", name:"邢宽", gender:"male",  hourly_pay:"200",
-      description:"很聪明的程序猿，很喜欢教育小朋友们。", subjects:["数学", "英语", "计算机"], 
-      university:"46", universityMaster:"1", universityPhd:"1", identity:4, targetGrade:["高中"],
-      postDate:"2018-04-21"}
-    var s1 = {type:"student", id:"00000002", name:"徐艺唯", gender:"female", 
-      description:"爱哭的小女生。但是很聪明。", hourly_pay:"150",
-      subjects:["数学"], point:"成绩保密", grade:"小学一年级",
-      postDate:"2018-04-21"}
-    var t3 = {type:"teacher", id:"00000005", name:"佟丽娅", gender:"female", 
-      description:"明星。", subjects:["数学", "英语", "物理", "化学"],  hourly_pay:"1000",
-      university:"24", identity:5, targetGrade:["高中"],
-      postDate:"2018-04-21"}
-    var library = [t1, t2, s1, t3]
-    wx.setStorageSync('fakelibrary', library)
-    var i1 = {id:"00000666", institute: "新东方", subjects:["数学", "英语", "物理", "化学"], 
-      hourly_pay:"75", flexible_pay: false, week_length: 24, address: ["山东省", "济南市", "槐荫区"],
-      description:"新东方招募老师啦，一次课两小时，要求一周至少上2次课，时长半年。"}
-    var i2 = {id:"00000888", institute: "蓝翔", subjects:["其他"], 
-      hourly_pay:"40", flexible_pay: true, week_length: 50, address: ["山东省", "济南市", "市中区"],
-      description:"学厨师，挖掘机，找蓝翔。蓝翔高级技工学校招聘实习老师。工资可议。"}
-    var internship = [i1, i2]
-    wx.setStorageSync('fakeInternship', internship)
-  },
+  // getMockLibraryData: function() {
+  //   var t1 = {type:"teacher", id:"00000001", sName:"王元鹏", sSex:1,  hourly_pay:"200",
+  //     sDescribe:"快学教育创始人，著名教育家，山东省实验中学优秀学子。", sDirection: 0,
+  //     subjects:["语文", "体育"], 
+  //     university:"74", universityMaster:"75", identity:3, targetGrade:["初中", "高中"],
+  //     postDate:"2018-04-20"}
+  //   var t2 = {type:"teacher", id:"00000003", name:"邢宽", gender:"male",  hourly_pay:"200",
+  //     description:"很聪明的程序猿，很喜欢教育小朋友们。", subjects:["数学", "英语", "计算机"], 
+  //     university:"46", universityMaster:"1", universityPhd:"1", identity:4, targetGrade:["高中"],
+  //     postDate:"2018-04-21"}
+  //   var s1 = {type:"student", id:"00000002", name:"徐艺唯", gender:"female", 
+  //     description:"爱哭的小女生。但是很聪明。", hourly_pay:"150",
+  //     subjects:["数学"], point:"成绩保密", grade:"小学一年级",
+  //     postDate:"2018-04-21"}
+  //   var t3 = {type:"teacher", id:"00000005", name:"佟丽娅", gender:"female", 
+  //     description:"明星。", subjects:["数学", "英语", "物理", "化学"],  hourly_pay:"1000",
+  //     university:"24", identity:5, targetGrade:["高中"],
+  //     postDate:"2018-04-21"}
+  //   var library = [t1, t2, s1, t3]
+  //   wx.setStorageSync('fakelibrary', library)
+  //   var i1 = {id:"00000666", institute: "新东方", subjects:["数学", "英语", "物理", "化学"], 
+  //     hourly_pay:"75", flexible_pay: false, week_length: 24, address: ["山东省", "济南市", "槐荫区"],
+  //     description:"新东方招募老师啦，一次课两小时，要求一周至少上2次课，时长半年。"}
+  //   var i2 = {id:"00000888", institute: "蓝翔", subjects:["其他"], 
+  //     hourly_pay:"40", flexible_pay: true, week_length: 50, address: ["山东省", "济南市", "市中区"],
+  //     description:"学厨师，挖掘机，找蓝翔。蓝翔高级技工学校招聘实习老师。工资可议。"}
+  //   var internship = [i1, i2]
+  //   wx.setStorageSync('fakeInternship', internship)
+  // },
   globalData: {
     needAuth: false,
     userInfo: null,
     systemInfo: null,
+    openId: null,
+    myStudentHistory: [],
+    myTeacherHistory: [],
     localStudentLibrary: {},
-    localTeacherLibrary: {}
+    localTeacherLibrary: {},
+    librarySelection: ""
   }
 })

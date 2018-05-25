@@ -23,8 +23,10 @@ Page({
       uProvince: universitys.provinces.slice(),
       idToTeacherIdentity: teachers.reversedGrade.slice(),
       idToUniversitys: universitys.idToUniversitys,
-      teacherList: wx.getStorageSync('myTeacherHistory'),
-      studentList: wx.getStorageSync('myStudentHistory')
+      // teacherList: wx.getStorageSync('myTeacherHistory'),
+      // studentList: wx.getStorageSync('myStudentHistory')
+      teacherList: app.globalData.myTeacherHistory,
+      studentList: app.globalData.myStudentHistory
     })
     that.setupList()
     console.log(that.data)
@@ -114,7 +116,8 @@ Page({
   onPullDownRefresh: function() {
     console.log("REFRESH!!")
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    var wxId = wx.getStorageSync('openId')
+    // var wxId = wx.getStorageSync('openId')
+    var wxId = app.globalData.openId
     wx.showLoading({
       title: '正在更新...'
     })
@@ -123,11 +126,11 @@ Page({
     }
     that.setData({updateStudentFinished: false, updateTeacherFinished: false})
     app.personalStudentHistoriesReadyCallback = function() {
-      that.setData({updateStudentFinished: true, studentList: wx.getStorageSync('myStudentHistory')})
+      that.setData({updateStudentFinished: true, studentList: app.globalData.myStudentHistory})
       that.updateFinished()
     }
     app.personalTeacherHistoriesReadyCallback = function() {
-      that.setData({updateTeacherFinished: true, teacherList: wx.getStorageSync('myTeacherHistory')})
+      that.setData({updateTeacherFinished: true, teacherList: app.globalData.myTeacherHistory})
       that.updateFinished()
     }
     app.getUserHistories(wxId)

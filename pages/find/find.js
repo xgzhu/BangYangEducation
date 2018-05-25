@@ -226,7 +226,8 @@ Page({
       var formData = {}
       formData.sName = e.detail.value.sName
       formData.sSex = parseInt(e.detail.value.sSex)
-      formData.sWxid = wx.getStorageSync('openId')
+      // formData.sWxid = wx.getStorageSync('openId')
+      formData.sWxid = app.globalData.openId
       formData.wGrade = "G"+e.detail.value.wGrade.toString()
       formData.cityId = app.getCityId(that.data.areaValues)
       formData.pName = e.detail.value.pName
@@ -273,7 +274,7 @@ Page({
             wx.showLoading({
               title: '正在提交...'
             })
-            var url = "https://www.zhexiankeji.com/education/student/insert"
+            var url = "https://api.zhexiankeji.com/education/student/insert"
             wx.request({
               url: url,
               data: formDataStr,

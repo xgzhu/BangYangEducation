@@ -1,3 +1,8 @@
+2018.05.24 Version 1.0.1
+- 发现setStorageSync在手机端工作极其不正常，所以暂时使用globalData代替，这样有一个问题就是之前用户的信息不能被储存，所以我们大概需要server端来存储用户customInfo。
+- 初步联通server，已经初步可以用了
+
+
 2018.05.20 Version 1.0
 
 [已完成]

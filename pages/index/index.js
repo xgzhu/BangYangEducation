@@ -43,11 +43,13 @@ Page({
       })
     }
 
-    var region = wx.getStorageSync('userCustomerInfo').region
-    if (region == undefined) {
-      region = ["山东省", "济南市", "市中区"]
-      wx.setStorageSync('userCustomerInfo', {region: initRegion})
-    }
+    // var region = wx.getStorageSync('userCustomerInfo').region
+    // if (region == undefined) {
+    //   region = ["山东省", "济南市", "市中区"]
+    //   wx.setStorageSync('userCustomerInfo', {region: region})
+    // }
+    // that.setData({region: region, cityId: app.getCityId(region)})
+    var region = app.globalData.userCustomInfo.region
     that.setData({region: region, cityId: app.getCityId(region)})
     console.log("index.data", that.data)
   },
@@ -76,7 +78,8 @@ Page({
     })
   },
   navToSubject: function (e) {
-    wx.setStorageSync('librarySelection', e.currentTarget.dataset.subject)
+    // wx.setStorageSync('librarySelection', e.currentTarget.dataset.subject)
+    app.globalData.librarySelection = e.currentTarget.dataset.subject
     wx.switchTab({
       url: '../library/library'
     })
@@ -107,7 +110,9 @@ Page({
     if (cityId != that.data.cityId) {
       app.getLibraryData(cityId)
     }
-    wx.setStorageSync('userCustomerInfo', {region: e.detail.value})
+    // wx.setStorageSync('userCustomerInfo', {region: e.detail.value})
+    app.globalData.userCustomInfo = {region: e.detail.value}
+    console.log(app.globalData)
   },
 })
 

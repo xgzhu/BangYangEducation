@@ -10,7 +10,7 @@
       });
       $("button").click(function(){
         // // alert("Click!"+$("#name").val())
-        // var url = "https://www.zhexiankeji.com/education/baseTeacher/search"
+        // var url = "https://api.zhexiankeji.com/education/baseTeacher/search"
         // var data = {"cityId":"370100"}
         // // $.post(url,data,function(result){
         // //   $("span").html(result);
@@ -51,7 +51,7 @@
           return xhr;
         }
 
-        var url = "https://www.zhexiankeji.com/education/baseTeacher/search"
+        var url = "https://api.zhexiankeji.com/education/baseTeacher/search"
         var xhr = createCORSRequest('post', url);
         if (!xhr) {
           throw new Error('CORS not supported');

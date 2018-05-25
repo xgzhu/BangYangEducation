@@ -360,7 +360,8 @@ Page({
     e.detail.value.tArea = that.data.addressValues[2]
     if (e.detail.value.tDirection != undefined)
       e.detail.value.tDirection = that.getTimeType(e.detail.value.tDirection)
-    e.detail.value.tWxid = wx.getStorageSync('openId')
+    // e.detail.value.tWxid = wx.getStorageSync('openId')
+    e.detail.value.tWxid = app.globalData.openId
     e.detail.value.tAim = wx.getStorageSync('tAim')
     e.detail.value.tSubject = wx.getStorageSync('tSubject')
     var formDataStr = JSON.stringify(e.detail.value)
@@ -379,7 +380,7 @@ Page({
               wx.showLoading({
                 title: '正在提交...'
               })
-              var url = "https://www.zhexiankeji.com/education/teacher/insert"
+              var url = "https://api.zhexiankeji.com/education/teacher/insert"
               wx.request({
                 url: url,
                 data: formDataStr,

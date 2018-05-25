@@ -35,7 +35,8 @@ Page({
   onShow: function (e) {
     that = this
     // console.log(app.globalData)
-    var areaValues = wx.getStorageSync('userCustomerInfo').region
+    // var areaValues = wx.getStorageSync('userCustomerInfo').region
+    var areaValues = app.globalData.userCustomInfo.region
     var cityId = app.getCityId(areaValues)
     that.setData({
       subjects: subjects.subjects.slice(),
@@ -47,7 +48,7 @@ Page({
       cityId: cityId,
     })
 
-    var province = wx.getStorageSync('userCustomerInfo').region[0]
+    var province = areaValues[0]
     var foundProvince = that.data.uProvince.find(function(element) {
       return element.name == province;
     });
@@ -60,10 +61,12 @@ Page({
       that.setData({universitys: localUniversitys})
     }
 
-    var subjectSelected = wx.getStorageSync('librarySelection')
+    // var subjectSelected = wx.getStorageSync('librarySelection')
+    var subjectSelected = app.globalData.librarySelection
     console.log(subjectSelected)
     if (subjectSelected != "") {
-      wx.setStorageSync('librarySelection', "")
+      // wx.setStorageSync('librarySelection', "")
+      app.globalData.librarySelection = ""
       that.setData({
         selectedSubjects: [subjectSelected],
         subjectsInfo: subjectSelected,
