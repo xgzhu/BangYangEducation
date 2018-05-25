@@ -143,8 +143,10 @@ Page({
       icon: 'none',
       duration: 2000
     })
-    wx.setStorageSync('myStudentHistory', [])
-    wx.setStorageSync('myTeacherHistory', [])
+    // wx.setStorageSync('myStudentHistory', [])
+    // wx.setStorageSync('myTeacherHistory', [])
+    app.globalData.myStudentHistory = []
+    app.globalData.myTeacherHistory = []
   },
   updateFinished: function() {
     console.log("updateFinished?")
@@ -153,8 +155,10 @@ Page({
       that.setupList()
       wx.hideLoading()
       wx.hideNavigationBarLoading()
-      wx.setStorageSync('myStudentHistory', that.data.studentList)
-      wx.setStorageSync('myTeacherHistory', that.data.teacherList)
+      // wx.setStorageSync('myStudentHistory', that.data.studentList)
+      // wx.setStorageSync('myTeacherHistory', that.data.teacherList)
+    app.globalData.myStudentHistory = that.data.studentList
+    app.globalData.myTeacherHistory = that.data.teacherList
     }
   },
 })
