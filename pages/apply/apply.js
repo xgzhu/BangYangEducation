@@ -37,6 +37,7 @@ Page({
       { name: '周末', value: 2},
       { name: '假期', value: 4},
     ],
+    images: [null, null, null]
   },
   /**
    * 生命周期函数--监听页面加载
@@ -240,6 +241,10 @@ Page({
       that.setData({examScoreDisabled: false})
     }
   },
+  finishDetailAddress: function(e) {
+    if (e.detail.value != "")
+      that.setData({error_detail_address: ""})
+  },
   selectGrade: function() {
     wx.navigateTo({
       url: '../selectionlist/selectionlist?name=tAim&list='+that.data.gradelist
@@ -249,6 +254,37 @@ Page({
     wx.navigateTo({
       url: '../selectionlist/selectionlist?name=tSubject&list='+that.data.subjectList
     });
+  },
+  chooseImageTap: function(e){
+    let _this = this;
+    var idx = parseInt(e.currentTarget.dataset.idx);
+    wx.showActionSheet({
+      itemList: ['从相册中选择', '拍照'],
+      itemColor: "#f7982a",
+      success: function(res) {
+        if (!res.cancel) {
+          if(res.tapIndex == 0){
+            _this.chooseWxImage('album', idx)
+          } else if(res.tapIndex == 1){
+            _this.chooseWxImage('camera', idx)
+          }
+        }
+      }
+    })
+  },
+  chooseWxImage:function(chooseType, imageIdx){
+    let _this = this;
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'],
+      sourceType: [chooseType],
+      success: function (res) {
+        var images = that.data.images
+        images[imageIdx] = res.tempFilePaths[0]
+        _this.setData({
+          images: images,
+        })
+      }
+    })
   },
   validateInput: function (data, page) {
     console.log(data)
@@ -335,6 +371,25 @@ Page({
         success = false
       }
     }
+    if (page >= 4) {
+      if (data.tAddress == "") {
+        that.setData({error_detail_address: "error"})
+        success = false
+      }
+      if (that.data.images[0] == null) {
+        that.setData({error_images_0: "error"})
+        success = false
+      }
+      if (that.data.images[1] == null) {
+        that.setData({error_images_1: "error"})
+        success = false
+      }
+      if (that.data.images[2] == null) {
+        that.setData({error_images_2: "error"})
+        success = false
+      }
+      console.log(that.data)
+    }
     return success
   },
   getTimeType: function (wTypes) {
@@ -367,6 +422,7 @@ Page({
     var formDataStr = JSON.stringify(e.detail.value)
     console.log('form发生了submit事件，携带数据为：', formDataStr)
     if (that.validateInput(e.detail.value, that.data.page)) {
+    // if (true) {
       if (that.data.page < 4) {
         that.setData({
           page: that.data.page+1
@@ -391,6 +447,20 @@ Page({
                 success: function (res) {
                   wx.hideLoading()
                   console.log(res);
+                  // TODO: 现在返回的result是true而不是tId了，需要进行调查一下
+                  var res_id = res.data.result
+                  if (res.data.errCode == undefined) {
+                    var obj = JSON.parse(res.data);
+                    res_id = obj.result
+                  }
+                  if (res_id == null) {
+                    wx.showToast({
+                      title: '请检查输入信息，或者反馈给客服',
+                      icon: 'none',
+                      duration: 2000
+                    })
+                  }
+                  that.uploadImage(res_id, e.detail.value)
                   wx.redirectTo({
                     url: '../histories/histories?update=true'
                   })
@@ -405,7 +475,8 @@ Page({
                   })
                 }
               })
-            }
+              
+            } // end confirm
           }
         })
       }
@@ -417,4 +488,80 @@ Page({
       })
     }
   },
+  uploadImage: function(id, metadata) {
+    var img_url = "https://api.zhexiankeji.com/education/image/upload"
+
+    wx.uploadFile({
+      url: img_url,
+      filePath:that.data.images[0],
+      formData: {name: id + "__0"},
+      name:"image",
+      header: {
+        'content-type': 'multipart/form-data'
+      },
+      success: function (res) {
+        console.log("upload image", res)
+        var res_id = res.data.result
+        if (res.data.errCode == undefined) {
+          var obj = JSON.parse(res.data);
+          res_id = obj.result
+        }
+        that.completeImageInfo(res_id, id, 0, metadata)
+      }
+    })
+    wx.uploadFile({
+      url: img_url,
+      filePath:that.data.images[1],
+      formData: {name: id + "__1"},
+      name:"image",
+      header: {
+        'content-type': 'multipart/form-data'
+      },
+      success: function (res) {
+        console.log("upload image", res)
+        var res_id = res.data.result
+        if (res.data.errCode == undefined) {
+          var obj = JSON.parse(res.data);
+          res_id = obj.result
+        }
+        that.completeImageInfo(res_id, id, 1, metadata)
+      }
+    })
+    wx.uploadFile({
+      url: img_url,
+      filePath:that.data.images[2],
+      formData: {name: id + "__2"},
+      name:"image",
+      header: {
+        'content-type': 'multipart/form-data'
+      },
+      success: function (res) {
+        console.log("upload image", res)
+        var res_id = res.data.result
+        if (res.data.errCode == undefined) {
+          var obj = JSON.parse(res.data);
+          res_id = obj.result
+        }
+        that.completeImageInfo(res_id, id, 2, metadata)
+      }
+    })
+  },
+  completeImageInfo: function(imageId, applicationId, typeId, metadata) {
+    var url = "https://api.zhexiankeji.com/education/picture/insert"
+    // pClass:1 教师表
+    var data = {cityId: metadata.cityId, pClass: 1, pGroup: typeId, pId: applicationId, pWxid: metadata.tWxid, pPid: imageId}
+    var formDataStr = JSON.stringify(data)
+    console.log('更新图片信息：', formDataStr)
+    wx.request({
+      url: url,
+      data: formDataStr,
+      method: "POST",
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log("completeImageInfo", imageId, typeId, res)
+      }
+    })
+  }
 })

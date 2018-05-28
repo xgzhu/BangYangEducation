@@ -155,3 +155,10 @@
   border-color: #ff8719;
   background-color: white;
 }
+
+.section__avatar {
+  width: 450rpx;
+  height: 450rpx;
+  margin: 10rpx;
+  background-size: cover;
+}

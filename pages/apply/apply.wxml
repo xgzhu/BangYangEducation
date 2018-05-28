@@ -249,37 +249,44 @@
 
 <view wx:if="{{page>=4}}">
   <image src="../../utils/imgs/content_line.png" class="line-img"> </image>
+
+  
   <view class="display_show">
     <view class="section__title">个人照片</view>
-    <view wx:if="{{avatar == null}}" class="section__big_content">
-    <view bindtap="chooseImageTap">上传个人照片</view>
+    <view wx:if="{{images[0] == null}}" class="section__big_content {{error_images_0}}">
+      <view bindtap="chooseImageTap" data-idx="0">上传个人照片</view>
     </view>
     <view wx:else class="section__big_content">
-      <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[0]}}" data-idx="0"/>
     </view>
   </view>
+
+  
   <view class="display_show">
     <view class="section__title">学生证</view>
-    <view wx:if="{{avatar == null}}" class="section__big_content">
-    <view bindtap="chooseImageTap">上传学生证照片</view>
+    <view wx:if="{{images[1] == null}}" class="section__big_content {{error_images_1}}">
+      <view bindtap="chooseImageTap" data-idx="1">上传学生证照片</view>
     </view>
     <view wx:else class="section__big_content">
-      <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[1]}}" data-idx="1"/>
     </view>
   </view>
+
+  
   <view class="display_show">
     <view class="section__title">校园卡</view>
-    <view wx:if="{{avatar == null}}" class="section__big_content">
-    <view bindtap="chooseImageTap">上传校园卡照片</view>
+    <view wx:if="{{images[2] == null}}" class="section__big_content {{error_images_2}}">
+      <view bindtap="chooseImageTap" data-idx="2">上传校园卡照片</view>
     </view>
     <view wx:else class="section__big_content">
-      <image class="section__avatar" catchtap="chooseImageTap" src="{{avatar}}"></image>
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[2]}}" data-idx="2"/>
     </view>
   </view>
+
   <view class="display_show">
-    <view class="section__title">联系地址</view>
-    <view class="section__big_content">
-    <input name="tAddress" placeholder="街道，单元楼等（选填）" maxlength="40"/>
+    <view class="section__title">邮寄地址</view>
+    <view class="section__big_content {{error_detail_address}}">
+    <input name="tAddress" placeholder="宿舍、家庭地址" maxlength="40" bindblur="finishDetailAddress"/>
     </view>
   </view>
 </view>
