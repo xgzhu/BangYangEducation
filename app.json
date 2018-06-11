@@ -1,7 +1,7 @@
 {
   "pages":[
-    "pages/lib-selection/lib-selection",
     "pages/index/index",
+    "pages/lib-selection/lib-selection",
     "pages/histories/histories",
     "pages/library/library",
     "pages/apply/apply",
