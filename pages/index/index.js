@@ -78,10 +78,11 @@ Page({
     })
   },
   navToSubject: function (e) {
-    // wx.setStorageSync('librarySelection', e.currentTarget.dataset.subject)
-    app.globalData.librarySelection = e.currentTarget.dataset.subject
-    wx.switchTab({
-      url: '../library/library'
+    var selections = {}
+    selections.info = "teacher"
+    selections.subjects = [e.currentTarget.dataset.subject]
+    wx.navigateTo({
+      url: '../library/library?selections=' + JSON.stringify(selections)
     })
   },
   navToInternship: function(e) {

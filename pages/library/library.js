@@ -32,114 +32,81 @@ Page({
       that.saveFilter()
     }
   },
-  onShow: function (e) {
+  onLoad: function (e) {
     that = this
-    // console.log(app.globalData)
-    // var areaValues = wx.getStorageSync('userCustomerInfo').region
+    var selections = JSON.parse(e.selections)
+    console.log("librarySelection", selections)
     var areaValues = app.globalData.userCustomInfo.region
     var cityId = app.getCityId(areaValues)
     that.setData({
-      subjects: subjects.subjects.slice(),
-      uProvince: universitys.provinces.slice(),
       idToTeacherIdentity: teachers.reversedGrade.slice(),
       idToUniversitys: universitys.idToUniversitys,
       areaValues: areaValues,
-      region: areaValues[1],
       cityId: cityId,
     })
-
-    var province = areaValues[0]
-    var foundProvince = that.data.uProvince.find(function(element) {
-      return element.name == province;
-    });
-    if (foundProvince != undefined) {
-      var localUniversitys = universitys.universitys[foundProvince.id].slice()
-      localUniversitys.pop()
-      while (localUniversitys.length > 6) {
-        localUniversitys.pop()
-      }
-      that.setData({universitys: localUniversitys})
-    }
-
-    // var subjectSelected = wx.getStorageSync('librarySelection')
-    var subjectSelected = app.globalData.librarySelection
-    console.log(subjectSelected)
-    if (subjectSelected != "") {
-      // wx.setStorageSync('librarySelection', "")
-      app.globalData.librarySelection = ""
-      that.setData({
-        selectedSubjects: [subjectSelected],
-        subjectsInfo: subjectSelected,
-        teacherChecked: true,
-        selectedObject: "teacher",
-        objectsInfo: "教员信息"
-      })
-      var subjectsLocalCopy = that.data.subjects
-      for (var i = 0; i < subjectsLocalCopy.length; i++) {
-        if (subjectsLocalCopy[i].name == subjectSelected) {
-          subjectsLocalCopy[i].checked = true
-          that.setData({subjects: subjectsLocalCopy})
-        }
-      }
-    }
-    that.setupList()
+    that.setupList(selections)
     console.log(that.data)
   },
-  setupList: function() {
-    var allList
-    console.log("globalData",app.globalData)
-    console.log("thatData",that.data)
-    if (that.data.selectedObject == "teacher") {
+  setupList: function(selections) {
+    var allList = null
+    // Object Filter
+    if (selections.info == "teacher") {
       allList = app.globalData.localTeacherLibrary[that.data.cityId]
-    } else if (that.data.selectedObject == "student") {
+    } else if (selections.info == "student") {
       allList = app.globalData.localStudentLibrary[that.data.cityId]
     }
     if (allList == null) {
       that.setData({shownList: []})
-      wx.startPullDownRefresh()
       return;
     }
-    console.log("allList",allList)
+    console.log("allList", allList)
     var shownList = []
     for (var i = 0; i < allList.length; i++) {
       var element = allList[i]
-      if (that.data.selectedObject != element.type) {
+      if (selections.info != element.type) {
         continue
       }
-      if (that.data.selectedGender.length != 0 
-        && !that.data.selectedGender.includes(element.gender.toString())) {
+      // Gender Filter
+      if (selections.gender != undefined && selections.gender != "2"
+        && selections.gender != element.gender.toString()) {
         continue
       }
-      if (that.data.selectedObject == "teacher" 
-        && that.data.selectedUniversitys.length != 0) {
-          // console.log("U--->0")
-        if (that.data.selectedUniversitys.includes("U0") 
-          && element.tUniversity.length >= 4
-          && element.tGraduate.length >= 4
-          && element.tDoctoral.length >= 4) {
-          // console.log("U--->1")
-          continue
-        }
-        if (!that.data.selectedUniversitys.includes("U0") 
-          && !that.data.selectedUniversitys.includes(element.tUniversity)
-          && !that.data.selectedUniversitys.includes(element.tGraduate)
-          && !that.data.selectedUniversitys.includes(element.tDoctoral)) {
-          // console.log("U--->2")
-          continue
-        }
-      }
-      if (that.data.selectedSubjects.length != 0) {
+      // Subject Filter
+      if (selections.subjects != undefined && selections.subjects.length > 0) {
         var invalid = true
         for (var j = 0; j < element.subjectsList.length; j++) {
           var subject = element.subjectsList[j]
-          if (that.data.selectedSubjects.includes(subject.name)) {
+          if (selections.subjects.includes(subject.name)) {
             invalid = false
             break
           }
         }
         if (invalid) {
-          console.log(that.data.selectedSubjects)
-          console.log(element.subjects)
+          continue
+        }
+      }
+      // Identities(tType) Filter
+      if (selections.identities != undefined && selections.universities.length > 0) {
+        if (!selections.identities.includes(element.tType)) {
+          continue;
+        }
+      }
+      // Universities Filter
+      if (selections.info == "teacher" && selections.universities != undefined && selections.universities.length > 0) {
+        var passed = false
+        if (selections.universities.includes("U0") 
+          && (element.tUniversity.length < 4
+           || element.tGraduate.length < 4
+           || element.tDoctoral.length < 4)) {
+          passed = true
+        }
+        if (!selections.universities.includes("U0") 
+          && (selections.universities.includes(element.tUniversity) 
+           || selections.universities.includes(element.tGraduate)
+           || selections.universities.includes(element.tDoctoral))) {
+          passed = true
+        }
+        if (!passed) {
           continue
         }
       }
@@ -179,131 +146,6 @@ Page({
       shownList.push(element)
     }
     that.setData({shownList: shownList})
-  },
-  openFilter: function() {
-    var animation1 = wx.createAnimation({
-      duration: 500,
-        timingFunction: 'ease',
-    })
-    var animation2 = wx.createAnimation({
-      duration: 700,
-        timingFunction: 'ease',
-    })
-    that.animation1 = animation1
-    that.animation2 = animation2
-    animation1.scaleY(40).step()
-    animation2.translateX(375).step()
-
-    that.setData({
-      filterAnimation:animation1.export(),
-      dividerAnimation:animation2.export(),
-      title_display:"none",
-      filterOpen: true
-    })
-
-    console.log(that.data)
-  },
-  saveFilter: function() {
-    if (that.data.regionMayChanged) {
-      var currentRegion = that.data.currentAreaValues
-      var newRegion = that.data.areaValues
-      var cityId = app.getCityId(newRegion)
-      that.setData({regionMayChanged: false, cityId:cityId})
-      if (that.cityId != cityId && app.globalData.localStudentLibrary[cityId] == undefined) {
-        console.log("NEW REGION!!", cityId)
-        that.setData({shownList: []})
-        wx.showLoading({
-          title: '正在更新...'
-        })
-        app.studentLibraryReadyCallback = function() {
-          if (that.data.selectedObject == "student") {
-            that.setupList()
-            wx.hideLoading()
-          }
-        }
-        app.teacherLibraryReadyCallback = function() {
-          if (that.data.selectedObject == "teacher") {
-            that.setupList()
-            wx.hideLoading()
-          }
-        }
-        app.getLibraryData(cityId)
-      } else {
-        that.setData({regionMayChanged: false})
-        that.setupList()
-      }  
-    } else {
-      that.setupList()
-    }
-
-    var animation1 = wx.createAnimation({
-      duration: 700,
-        timingFunction: 'ease',
-    })
-    var animation2 = wx.createAnimation({
-      duration: 700,
-        timingFunction: 'ease',
-    })
-    that.animation1 = animation1
-    that.animation2 = animation2
-    animation1.scaleY(1/40).step()
-    animation2.translateX(-375).step()
-
-    that.setData({
-      filterAnimation:animation1.export(),
-      dividerAnimation:animation2.export(),
-      filterOpen: false
-    })
-
-    setTimeout(function() {
-      that.setData({
-        title_display:""
-      })
-    }.bind(that), 500)
-
-  },
-  selectUniversityFilter: function(e) {
-    that.setData({selectedUniversitys: e.detail.value})
-  },
-  selectGenderFilter: function(e) {
-    that.setData({selectedGender: e.detail.value})
-  },
-  selectSubjectFilter: function(e) {
-    that.setData({selectedSubjects: e.detail.value})
-    if (that.data.selectedSubjects.length == 0 || that.data.selectedSubjects.length == that.data.subjects.length) {
-      that.setData({subjectsInfo: "全部科目"})
-    } else {
-      var i = 1
-      var subjectsInfo=that.data.selectedSubjects[0]
-      for (i = 1; i < 3; i++) {
-        if (i >= that.data.selectedSubjects.length)
-          break
-        subjectsInfo = subjectsInfo + "," + that.data.selectedSubjects[i]
-      }
-      if (i < that.data.selectedSubjects.length) {
-        subjectsInfo = subjectsInfo + "..."
-      }
-      that.setData({subjectsInfo: subjectsInfo})
-    }
-  },
-  selectRegionFilter: function(e) {
-    var currentRegion = that.data.areaValues
-    that.setData({
-      regionMayChanged: true,
-      areaValues: e.detail.value,
-      currentAreaValues: currentRegion,
-      region: e.detail.value[1],
-    })
-    console.log(e)
-  },
-  selectObjectFilter: function(e) {
-    console.log(e)
-    that.setData({selectedObject: e.detail.value})
-    if (that.data.selectedObject == "teacher") {
-      that.setData({objectsInfo: "教员信息"})
-    } else {
-      that.setData({objectsInfo: "学生信息"})
-    }
   },
   navToNamecard: function (e) {
     var idx = e.currentTarget.dataset.index

@@ -490,11 +490,11 @@ Page({
   },
   uploadImage: function(id, metadata) {
     var img_url = "https://api.zhexiankeji.com/education/image/upload"
-
+    console.log(id, id+"_teacher__0")
     wx.uploadFile({
       url: img_url,
       filePath:that.data.images[0],
-      formData: {name: id + "__0"},
+      formData: {name: id + "_teacher__0"},
       name:"image",
       header: {
         'content-type': 'multipart/form-data'
@@ -512,7 +512,7 @@ Page({
     wx.uploadFile({
       url: img_url,
       filePath:that.data.images[1],
-      formData: {name: id + "__1"},
+      formData: {name: id + "_teacher__1"},
       name:"image",
       header: {
         'content-type': 'multipart/form-data'
@@ -530,7 +530,7 @@ Page({
     wx.uploadFile({
       url: img_url,
       filePath:that.data.images[2],
-      formData: {name: id + "__2"},
+      formData: {name: id + "_teacher__2"},
       name:"image",
       header: {
         'content-type': 'multipart/form-data'

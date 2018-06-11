@@ -1,92 +1,11 @@
-<view style="position: fixed; left: 0; top: 0; background-color: #ffe; width: 750rpx; height: 60rpx;" animation="{{filterAnimation}}"></view>
-<view style="position: fixed; left: 0; top: 0; background-color: #ffe; width: 750rpx; height: 60rpx; display: {{title_display}}">
-  <view class="section__title">{{subjectsInfo}}</view>
-  <view class="section__title">{{objectsInfo}}</view>
-  <view class="section__title">{{region}}</view>
-</view>
-<view style="position: fixed; right: 40rpx; top: 40 rpx;; display: {{title_display}}">
-  <image src="../../utils/imgs/down_arrow.png" class="icon" bindtap="openFilter"></image>
-</view>
-
-<view style="position: fixed; left: -750rpx; top: 0; width: 750rpx; height: 70rpx;" animation="{{dividerAnimation}}">
-  <view style="width: 750rpx; height: 15rpx;"></view>
-  <view style="display: inline-block; width: 500rpx; font-size: 50rpx; padding-left: 20rpx;"> 搜索设置 </view>
-  <view style="display: inline-block; height: 30rpx; padding-top: 50rpx" bindtap="saveFilter">[保存修改]</view>
-  <view style="width: 700rpx; height: 10rpx; background-color: #000;"></view>
-  <view style="width: 750rpx; height: 30rpx;"></view>
-
-
-  <view class="filter__title"> 类型 </view>
-  <view class="filter__content"> 
-    <radio-group bindchange="selectObjectFilter">
-      <label class="checkbox_normal">
-        <radio value="student" checked="{{studentChecked}}"/>
-        学生信息
-      </label>
-      <label class="checkbox_normal">
-        <radio value="teacher" checked="{{teacherChecked}}"/>
-        教员信息
-      </label>
-    </radio-group>
-  </view>
-
-  <view style="width: 750rpx; height: 20rpx;"></view>
-  <view class="filter__title"> 城市 </view>
-  <view class="filter__content"> 
-    <picker mode="region" bindchange="selectRegionFilter" value="{{areaValues}}">
-        <view class="picker">{{areaValues}}</view>
-      </picker>
-  </view>
-
-  <view style="width: 750rpx; height: 20rpx;"></view>
-  <view class="filter__title"> 性别 </view>
-  <view class="filter__content"> 
-    <checkbox-group bindchange="selectGenderFilter">
-      <label class="checkbox_normal">
-        <checkbox value="0"/>
-        男生
-      </label>
-      <label class="checkbox_normal">
-        <checkbox value="1"/>
-        女生
-      </label>
-    </checkbox-group>
-  </view>
-
-  <view style="width: 750rpx; height: 20rpx;"></view>
-  <view class="filter__title"> 科目 </view>
-  <view class="filter__content"> 
-    <checkbox-group bindchange="selectSubjectFilter">
-      <label class="checkbox_small" wx:for="{{subjects}}">
-        <checkbox value="{{item.name}}" checked="{{item.checked}}"/>{{item.name}}
-      </label>
-    </checkbox-group>
-  </view>
-
-  <view style="width: 750rpx; height: 20rpx;"></view>
-  <view class="filter__title"> 学校 </view>
-  <view class="filter__content"> 
-    <checkbox-group bindchange="selectUniversityFilter">
-      <label class="checkbox_large">
-        <checkbox value="U0"/>985/211学校
-      </label>
-      <label class="checkbox_large" wx:for="{{universitys}}">
-        <checkbox value="U{{item.id}}"/>{{item.name}}
-      </label>
-    </checkbox-group>
-  </view>
-
-  <view style="width: 750rpx; height: 30rpx; padding-left: 500rpx; padding-top: 50rpx" bindtap="saveFilter">[保存修改]</view>
-</view>
-
-<view style="padding-top: 60rpx;" wx:if="{{!filterOpen}}">
-  <view wx:if="{{shownList.length == 0}}">啊呀，好像没有信息，换个城市试试？</view>
+<view>
+  <view wx:if="{{shownList.length == 0}}">啊呀，好像没有信息，放宽点要求试试？</view>
   <view wx:for="{{shownList}}" class="card-edge">
     <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
-        <image wx:if="{{item.isMale}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content" bindtap="openFilter">
+        <image wx:if="{{item.isMale}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
-        <image wx:if="{{!item.isMale}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content" bindtap="openFilter">
+        <image wx:if="{{!item.isMale}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content">
         </image>
         <view class="card-teacher-id">家教编号</view>
         <view class="card-teacher-id">{{item.id}}</view>
@@ -103,9 +22,9 @@
 
     <view wx:if="{{!item.isTeacher}}" class="card-student" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
-        <image wx:if="{{item.isMale}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content" bindtap="openFilter">
+        <image wx:if="{{item.isMale}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
-        <image wx:if="{{!item.isMale}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content" bindtap="openFilter">
+        <image wx:if="{{!item.isMale}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content">
         </image>
         <view class="card-student-id">学生编号</view>
         <view class="card-student-id">{{item.id}}</view>

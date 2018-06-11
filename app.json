@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/lib-selection/lib-selection",
     "pages/index/index",
     "pages/histories/histories",
     "pages/library/library",
@@ -25,7 +26,7 @@
       "text": "首页",
       "iconPath": "utils/imgs/icon_index.jpg"
     }, {
-      "pagePath": "pages/library/library",
+      "pagePath": "pages/lib-selection/lib-selection",
       "text": "资源库",
       "iconPath": "utils/imgs/icon_library.jpg"
     }, {
