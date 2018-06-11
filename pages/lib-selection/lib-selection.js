@@ -59,7 +59,9 @@ Page({
       case "other": shown_subjects = subjects.subjects.slice(42, 44); break;
       default: shown_subjects = subjects.subjects.slice(); break;
     }
-    that.setData({subjectClassSelected: true, selectAllSubject: ">>全选<<", shown_subjects: shown_subjects})
+    var selections = that.data.selections
+    selections.subjects = []
+    that.setData({subjectClassSelected: true, selectAllSubject: ">>全选<<", shown_subjects: shown_subjects, selections: selections})
   },
   selectSubjectFilter: function(e) {
     var selection = e.detail.value
