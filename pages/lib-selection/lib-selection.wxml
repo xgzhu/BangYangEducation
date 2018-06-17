@@ -1,3 +1,4 @@
+<view style="width: 750rpx; height: 20rpx;"></view>
 <view class="filter__title"> 类型 </view>
 <view class="filter__content"> 
 <radio-group bindchange="selectObjectFilter">
