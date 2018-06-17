@@ -21,7 +21,7 @@ Page({
   onLoad: function (e) {
     that = this
     if (e.info != undefined) {
-      that.setData({selections: {info: e.info}})
+      that.setData({selections: {info: e.info, showBtn: true}})
     } else {
       that.setData({selections: {info: "teacher"}})
     }

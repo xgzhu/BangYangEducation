@@ -62,9 +62,12 @@ Page({
       provinces: citys.provinces.slice(),
       citys: citys.citys
     })
-    if (options.region != "") {
+    if (options.region != undefined && options.region != "") {
       that.setData({
         addressValues: options.region.split(","),})
+    }
+    if (options.shouldReturn != undefined) {
+      that.setData({shouldReturn: options.shouldReturn})
     }
     // prepare grade
     var gradelist = grades.grades[0].name
@@ -428,9 +431,10 @@ Page({
           page: that.data.page+1
         })
       } else {
+        var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
         wx.showModal({
-          title: '确定提交？',
-          content: '提交之后可以在<登记历史>中查看表单信息以及表单状态',
+          title: '确定提交？=',
+          content: content,
           success: function(res) {
             if (res.confirm) {
               wx.showLoading({
@@ -447,7 +451,6 @@ Page({
                 success: function (res) {
                   wx.hideLoading()
                   console.log(res);
-                  // TODO: 现在返回的result是true而不是tId了，需要进行调查一下
                   var res_id = res.data.result
                   if (res.data.errCode == undefined) {
                     var obj = JSON.parse(res.data);
@@ -461,9 +464,20 @@ Page({
                     })
                   }
                   that.uploadImage(res_id, e.detail.value)
-                  wx.redirectTo({
-                    url: '../histories/histories?update=true'
-                  })
+                  if (that.data.shouldReturn) {
+                    wx.showModal({
+                      title: '确定预约',
+                      content: '是否使用本次填写信息直接预约学生？',
+                      success: function(res) {
+                        wx.setStorageSync("reserveConfirm", res.confirm)
+                        wx.navigateBack()
+                      }
+                    })
+                  } else {
+                    wx.redirectTo({
+                      url: '../histories/histories?update=true'
+                    })
+                  }
                 },
                 fail: function(res) {
                   wx.hideLoading()

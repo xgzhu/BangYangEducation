@@ -48,11 +48,14 @@ Page({
       provinces: citys.provinces.slice(),
       citys: citys.citys
     })
-    if (options.region != "") {
+    if (options.region != undefined && options.region != "") {
       that.setData({
         areaInfo: options.region,
         areaValues: options.region.split(","),
       })
+    }
+    if (options.shouldReturn != undefined) {
+      that.setData({shouldReturn: options.shouldReturn})
     }
     console.log(that.data)
   },
@@ -266,9 +269,10 @@ Page({
       }
       var formDataStr = JSON.stringify(formData)
       console.log(formDataStr)
+      var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
       wx.showModal({
-        title: '确定提交？',
-        content: '提交之后可以在<登记历史>中查看表单信息以及表单状态',
+        title: '确定提交',
+        content: content,
         success: function(res) {
           if (res.confirm) {
             wx.showLoading({
@@ -285,9 +289,20 @@ Page({
               success: function (res) {
                 wx.hideLoading()
                 console.log(res);
-                wx.redirectTo({
-                  url: '../histories/histories?update=true'
-                })
+                if (that.data.shouldReturn) {
+                  wx.showModal({
+                    title: '确定预约',
+                    content: '是否使用本次填写信息直接预约家教？',
+                    success: function(res) {
+                      wx.setStorageSync("reserveConfirm", res.confirm)
+                      wx.navigateBack()
+                    }
+                  })
+                } else {
+                  wx.redirectTo({
+                    url: '../histories/histories?update=true'
+                  })
+                }
               },
               fail: function(res) {
                 wx.hideLoading()

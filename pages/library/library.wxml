@@ -41,3 +41,8 @@
     </view>
   </view>
 </view>
+<view wx:if="{{showBtn}}" class="fixed_btns" >
+  <button class="fixed_btn" bindtap="navToForm">填写表格</button>
+  <button class="fixed_btn" bindtap="navToFilter">资源库</button>
+  <button class="fixed_btn" bindtap="returnToMainPage">回到首页</button>
+</view>

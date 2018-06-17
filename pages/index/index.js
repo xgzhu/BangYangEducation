@@ -63,24 +63,23 @@ Page({
     }
   },
   navToFind: function () {
+    var selections = {info: "teacher", showBtn: true}
+    var selectionString = JSON.stringify(selections)
     wx.navigateTo({
-      url: '../find/find?region='+that.data.region
+      url: '../library/library?selections='+selectionString
+      //url: '../find/find?region='+that.data.region
     })
   },
   navToApply: function () {
+    var selections = {info: "student", showBtn: true}
+    var selectionString = JSON.stringify(selections)
     wx.navigateTo({
-      url: '../apply/apply?region='+that.data.region
-    })
-  },
-  navToHistories: function () {
-    wx.navigateTo({
-      url: '../histories/histories'
+      url: '../library/library?selections='+selectionString
+      //url: '../apply/apply?region='+that.data.region
     })
   },
   navToSubject: function (e) {
-    var selections = {}
-    selections.info = "teacher"
-    selections.subjects = [e.currentTarget.dataset.subject]
+    var selections = {info: "teacher", subjects: [e.currentTarget.dataset.subject]}
     wx.navigateTo({
       url: '../library/library?selections=' + JSON.stringify(selections)
     })

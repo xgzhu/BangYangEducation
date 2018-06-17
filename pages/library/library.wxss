@@ -28,6 +28,19 @@
   text-align: right;
 }
 
+.fixed_btns {
+  position: fixed;
+  bottom: 30rpx;
+  right: 30rpx;
+  height: 300rpx;
+  width: 270rpx;
+}
+.fixed_btn {
+  height: 90rpx;
+  width: 250rpx;
+  opacity: 0.8;
+}
+
 .checkbox_small {
   width: 33%;
   display: inline-block;

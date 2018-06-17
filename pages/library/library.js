@@ -38,11 +38,17 @@ Page({
     console.log("librarySelection", selections)
     var areaValues = app.globalData.userCustomInfo.region
     var cityId = app.getCityId(areaValues)
+    var showBtn = false
+    if (selections.showBtn != undefined) {
+      showBtn = selections.showBtn
+    }
     that.setData({
       idToTeacherIdentity: teachers.reversedGrade.slice(),
       idToUniversitys: universitys.idToUniversitys,
       areaValues: areaValues,
       cityId: cityId,
+      selections: selections,
+      showBtn: showBtn,
     })
     that.setupList(selections)
     console.log(that.data)
@@ -168,6 +174,23 @@ Page({
       url: url
     })
   },
+  navToForm: function() {
+    var url = that.data.selections.info=="teacher" ? '../find/find' : '../apply/apply';
+    wx.navigateTo({
+      url: url + '?region='+app.globalData.userCustomInfo.region
+    })
+  },
+  navToFilter: function() {
+    // lib-selection cannot be navTo because it is tab
+    wx.navigateTo({
+      url: '../lib-selection-bp/lib-selection-bp?info='+that.data.selections.info
+    })
+  },
+  returnToMainPage: function() {
+    wx.reLaunch({
+      url: '../index/index'
+    })
+  },
   onPullDownRefresh: function() {
     console.log("REFRESH!!")
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -176,14 +199,14 @@ Page({
     })
     app.studentLibraryReadyCallback = function() {
       if (that.data.selectedObject == "student") {
-        that.setupList()
+        that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
       }
     }
     app.teacherLibraryReadyCallback = function() {
       if (that.data.selectedObject == "teacher") {
-        that.setupList()
+        that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
       }

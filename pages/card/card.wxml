@@ -181,4 +181,6 @@
   </view>
 </view>
 
-<view class="reserve_button" wx:if="{{!isHistory}}"> <button>申请预约</button> </view>
+<view class="reserve_button" wx:if="{{!isHistory}}">
+  <button bindtap="makeReverservation">申请预约</button> 
+</view>

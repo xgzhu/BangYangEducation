@@ -1,11 +1,12 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/lib-selection/lib-selection",
-    "pages/histories/histories",
     "pages/library/library",
-    "pages/apply/apply",
     "pages/selectionlist/selectionlist",
+    "pages/lib-selection/lib-selection",
+    "pages/lib-selection-bp/lib-selection-bp",
+    "pages/histories/histories",
+    "pages/apply/apply",
     "pages/internship/internship",
     "pages/card/card",
     "pages/personal/personal",
