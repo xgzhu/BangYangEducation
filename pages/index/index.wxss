@@ -64,3 +64,46 @@
   color: #aaa;
   font-size: 30rpx;
 }
+
+.button-img {
+  width: 375rpx;
+  height: 180rpx;
+  display: inline-block;
+  vertical-align:top;
+}
+
+.button-img-background {
+  position: relative;
+  width: 750rpx;
+  height: 394rpx;
+}
+
+.button-img-background-small {
+  position: relative;
+  width: 750rpx;
+  height: 251rpx;
+}
+
+.button-detail-block {
+  position: absolute;
+}
+
+.button-detail {
+  position: absolute;
+  font-size: 37rpx;
+  background-color: #eee;
+  text-align: center;
+  width: 130rpx;
+  height: 57rpx;
+  padding-top: 7rpx
+}
+
+.button-detail-large {
+  position: absolute;
+  font-size: 37rpx;
+  background-color: #eee;
+  text-align: center;
+  width: 400rpx;
+  height: 57rpx;
+  padding-top: 7rpx
+}

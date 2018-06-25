@@ -26,20 +26,40 @@
       </view>
     </view>
   </view>
-  <image src="../../utils/imgs/button_find_teacher_c.png" class="button-img" bindtap="navToFind"> </image>
+<!--   <image src="../../utils/imgs/button_find_teacher_c.png" class="button-img" bindtap="navToFind"> </image>
   <image src="../../utils/imgs/button_apply_teacher_c.png" class="button-img" bindtap="navToApply"> </image>
-  <image src="../../utils/imgs/button_find_internship_c.png" class="button-img" bindtap="navToInternship"> </image>
+  <image src="../../utils/imgs/button_find_internship_c.png" class="button-img" bindtap="navToInternship"> </image> -->
+  <image src="../../utils/imgs/find_new.png" class="button-img" bindtap="navToFind"> </image>
+  <image src="../../utils/imgs/apply_new.png" class="button-img" bindtap="navToApply"> </image>
+  <image src="../../utils/imgs/internship_new.png" class="button-img" bindtap="navToInternship"> </image>
+  <image src="../../utils/imgs/subjob_new.png" class="button-img" bindtap="navToParttime"> </image>
+
   <index class="button-img-background">
-    <image src="../../utils/imgs/button_subjects_c.png" class="button-img-background"> </image>
+    <image src="../../utils/imgs/subjects_new.png" class="button-img-background"> </image>
     <view class="button-detail-block" wx:for="{{subjects}}">
       <view class="button-detail" 
-      style="bottom: {{index-3>=0 ? 68 : 145}}rpx; left: {{250 + 145 * (index%3)}}rpx;">
+      style="bottom: {{72*4-(index-(index%3))/3*72}}rpx; left: {{250 + 145 * (index%3)}}rpx;">
       <view bindtap="navToSubject" data-subject="{{item}}"> {{item}} </view>
       </view>
     </view>
   </index>
-<!--   <index class="button-img-background">
-    <image src="../../utils/imgs/button_schools_c.png" class="button-img-background"> </image>
-  </index> -->
+  <index class="button-img-background-small" wx:if="{{universities.length == 2}}">
+    <image src="../../utils/imgs/schools_small_new.png" class="button-img-background-small"> </image>
+    <view class="button-detail-block" wx:for="{{universities}}">
+      <view class="button-detail-large" 
+      style="bottom: {{72*2-index*72}}rpx; left: 250rpx;">
+      <view bindtap="navToUniversity" data-uid="U{{item.id}}"> {{item.name}} </view>
+      </view>
+    </view>
+  </index>
+  <index class="button-img-background" wx:if="{{universities.length == 4}}">
+    <image src="../../utils/imgs/schools_large_new.png" class="button-img-background"> </image>
+    <view class="button-detail-block" wx:for="{{universities}}">
+      <view class="button-detail-large" 
+      style="bottom: {{72*4-index*72}}rpx; left: 250rpx;">
+      <view bindtap="navToUniversity" data-uid="U{{item.id}}"> {{item.name}} </view>
+      </view>
+    </view>
+  </index>
 </view>
 

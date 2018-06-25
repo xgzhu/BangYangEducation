@@ -1,4 +1,4 @@
-<image src="../../utils/imgs/title_find_internship_c.png" class="button-img"> </image>
+<image src="../../utils/imgs/title_find_parttimejob_c.png" class="button-img"> </image>
 <view>本页面正在施工中，敬请期待</view>
 <view>
   <view wx:for="{{shownList}}" class="card-edge">

@@ -1,6 +1,7 @@
 //app.js
 const grades = require('utils/js/grade.js')
 const citys = require('utils/js/city.js')
+const universitys = require('utils/js/university.js')
 const idLength = 8
 var that
 
@@ -104,6 +105,14 @@ App({
     }
     console.log(cityId)
     return cityId
+  },
+  getProvinceUniversityId: function(provinceName) {
+    for (var i = 0; i < universitys.provinces.length; i++) {
+      if (universitys.provinces[i].name == provinceName) {
+        return universitys.provinces[i].id
+      }
+    }
+    return "0"
   },
   getLibraryData: function(cityId) {
     var bsurl = "https://api.zhexiankeji.com/education/baseStudent/search"

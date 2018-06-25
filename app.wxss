@@ -109,23 +109,3 @@
   width: 750rpx;
   height: 20rpx;
 }
-
-.button-img-background {
-  position: relative;
-  width: 750rpx;
-  height: 251rpx;
-}
-
-.button-detail-block {
-  position: absolute;
-}
-
-.button-detail {
-  position: absolute;
-  font-size: 37rpx;
-  background-color: #eee;
-  text-align: center;
-  width: 130rpx;
-  height: 57rpx;
-  padding-top: 7rpx
-}

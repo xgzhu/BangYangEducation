@@ -2,6 +2,7 @@
   "pages":[
     "pages/index/index",
     "pages/library/library",
+    "pages/parttime/parttime",
     "pages/selectionlist/selectionlist",
     "pages/lib-selection/lib-selection",
     "pages/lib-selection-bp/lib-selection-bp",
