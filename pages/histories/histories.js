@@ -26,7 +26,9 @@ Page({
       // teacherList: wx.getStorageSync('myTeacherHistory'),
       // studentList: wx.getStorageSync('myStudentHistory')
       teacherList: app.globalData.myTeacherHistory,
-      studentList: app.globalData.myStudentHistory
+      studentList: app.globalData.myStudentHistory,
+      onlyTeacher: e.onlyTeacher,
+      onlyStudent: e.onlyStudent
     })
     that.setupList()
     console.log(that.data)
@@ -41,8 +43,14 @@ Page({
     studentList.sort(function(a, b) {
       return a.updateTime < b.updateTime;
     });
-    var shownList = that.combineTwoListByUpdateTime(teacherList, studentList)
-    that.setData({shownList: shownList})
+    if (that.data.onlyStudent) {
+      that.setData({shownList: studentList})
+    } else if (that.data.onlyTeacher) {
+      that.setData({shownList: teacherList})
+    } else {
+      var shownList = that.combineTwoListByUpdateTime(teacherList, studentList)
+      that.setData({shownList: shownList})
+    }
   },
   modifyTeacherIdentityInfo: function(element) {
     if (element.identity == "2") {
@@ -91,9 +99,15 @@ Page({
     }
     return result
   },
-  navToNamecard: function (e) {
+  namecardClicked: function (e) {
     var idx = e.currentTarget.dataset.index
     var item = that.data.shownList[idx]
+    if (that.data.onlyTeacher || that.data.onlyStudent) {
+      // wx.setStorageSync("selectedNamecard", JSON.stringify(item))
+      wx.setStorageSync("reserveConfirm", true)
+      wx.navigateBack()
+      return
+    }
     var url = '../card/card?type=' + item.type
     url += "&id=" + item.id
     url += "&description=" + item.description

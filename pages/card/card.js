@@ -28,6 +28,13 @@ Page({
       url: url + '?region='+app.globalData.userCustomInfo.region + '&shouldReturn=true'
     })
   },
+  navToHistory: function(type) {
+    var url = '../histories/histories'
+    url += type=="teacher" ? '?onlyStudent=true' : '?onlyTeacher=true'
+    wx.navigateTo({
+      url: url
+    })
+  },
   makeReverservation: function() {
     var type = that.data.type
     var shownList = []
@@ -35,15 +42,15 @@ Page({
       // 找家教，所以要学员信息
       var studentList = app.globalData.myStudentHistory
       for (var i = 0; i < studentList.length && i < 5; i++) {
-        shownList.push("学生 " + studentList[i].sName)
+        shownList.push("学员 " + studentList[i].sName)
       }
       if (studentList.length > 5) {
         shownList.pop()
         shownList.push("更多学员信息")
       }
       shownList.push("填写新的学员信息")
-    } else if (type == 'student') {
-      // 找学生，所以要教员信息
+    } else {
+      // 找学生或者兼职或者实习，所以要教员信息
       var teacherList = app.globalData.myTeacherHistory
       for (var i = 0; i < teacherList.length && i < 5; i++) {
         shownList.push("教员 " + teacherList[i].tName)
@@ -53,17 +60,19 @@ Page({
         shownList.push("更多教员信息")
       }
       shownList.push("填写新的教员信息")
-    }
+    } 
     // TODO: we ignore the intern now.
     wx.showActionSheet({
       itemList: shownList,
       success: function(res) {
         if (shownList[res.tapIndex].includes("更多")) {
-          wx.showToast({
-            title: 'TODO: 这里应该导向namelist',
-            icon: 'success',
-            duration: 1000
-          })
+          // wx.showToast({
+          //   title: 'TODO: 这里应该导向namelist',
+          //   icon: 'success',
+          //   duration: 1000
+          // })
+          wx.setStorageSync("reserveConfirm", false)
+          that.navToHistory(type)
         } else if (shownList[res.tapIndex].includes("填写新的")) {
           wx.setStorageSync("reserveConfirm", false)
           that.navToForm(type)

@@ -1,6 +1,8 @@
-<view style="padding-top: 60rpx;">
+<view class="padding_top">
+  <view wx:if="{{onlyTeacher}}">请选择进行预约的教员资料</view>
+  <view wx:if="{{onlyStudent}}">请选择进行预约的学员资料</view>
   <view wx:for="{{shownList}}" class="card-edge">
-    <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
+    <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="namecardClicked">
       <view class="card-avatar-edge">
         <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content" bindtap="openFilter">
         </image>
@@ -19,7 +21,7 @@
       </view>
     </view>
 
-    <view wx:if="{{!item.isTeacher}}" class="card-student" data-index="{{index}}" bindtap="navToNamecard">
+    <view wx:if="{{!item.isTeacher}}" class="card-student" data-index="{{index}}" bindtap="namecardClicked">
       <view class="card-avatar-edge">
         <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content" bindtap="openFilter">
         </image>

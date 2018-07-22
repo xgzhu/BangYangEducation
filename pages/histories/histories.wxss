@@ -6,6 +6,10 @@
   color: #444;
 }
 
+.padding_top {
+  padding-top: 60rpx;
+}
+
 .filter__title {
   display: inline-block;
   vertical-align:top;
