@@ -6,6 +6,11 @@
   color: #444;
 }
 
+.missing_info {
+  margin: 80rpx;
+  align-items: center;
+}
+
 .icon {
   width: 50rpx;
   height: 50rpx;

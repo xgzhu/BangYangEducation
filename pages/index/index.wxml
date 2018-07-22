@@ -1,5 +1,10 @@
 <!--index.wxml-->
-<button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 请登陆您的账号 </button>
+<view wx:if="{{!hasUserInfo}}" class="warning">
+    <text class="warning_section">亲爱的同学们，本应用需要您先用微信登录后才能进行后续操作，如未登录请登陆，谢谢！</text>
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录账号 </button>
+    <text class="warning_section" wx:if="{{!canIUse}}">您的微信版本过低，不能登陆。请您更新。如有问题请联系我们的管理员。谢谢！</text>
+</view>
+
 <view wx:if="{{hasUserInfo}}">
   <view class="userinfo">
     <view class="userinfo-left">

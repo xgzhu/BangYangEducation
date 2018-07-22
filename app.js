@@ -1,5 +1,6 @@
 //app.js
 const grades = require('utils/js/grade.js')
+const teachers = require('utils/js/teacher.js')
 const citys = require('utils/js/city.js')
 const universitys = require('utils/js/university.js')
 const idLength = 8
@@ -20,12 +21,14 @@ App({
     // if (addressValues == undefined) {
     //   addressValues = ["山东省", "济南市", "市中区"]
     // }
-    that.getUserCustomInfo()
+    that.setupUserCustomInfo()
   },
-  getUserCustomInfo: function() {
+  setupUserCustomInfo: function() {
     // These data should be stored in the cloud later.
     that.globalData.userCustomInfo = {region: ["山东省", "济南市", "市中区"]}
-    that.getLibraryData(that.getCityId(that.globalData.userCustomInfo.region))
+    var cityId = that.getCityId(that.globalData.userCustomInfo.region)
+    that.getLibraryData(cityId)
+    that.getInternshipData(cityId)
   },
   getUserInfo: function() {
     // 获取用户信息
@@ -284,8 +287,7 @@ App({
         bt.description = "未填写描述"
         if (bt.tDescribe != "")
           bt.description = bt.tDescribe
-        var id = "00000000000" + bt.id
-        bt.id = id.substr(id.length - idLength)
+        bt.id = that.formatId(bt.id)
         bt.time = wt.tDirection
         bt.identity = bt.tType
         bt.gender = bt.tSex
@@ -325,8 +327,7 @@ App({
         bs.description = "未填写描述"
         if (bs.sDescribe != "")
           bs.description = bs.sDescribe
-        var id = "00000000000" + bs.id
-        bs.id = id.substr(id.length - idLength)
+        bs.id = that.formatId(bs.id)
         bs.time = w.wType
         bs.grade = grades.idToGrades[w.wGrade]
         bs.subjects = ""
@@ -364,35 +365,71 @@ App({
     }
     return result
   },
-  // getMockLibraryData: function() {
-  //   var t1 = {type:"teacher", id:"00000001", sName:"王元鹏", sSex:1,  hourly_pay:"200",
-  //     sDescribe:"快学教育创始人，著名教育家，山东省实验中学优秀学子。", sDirection: 0,
-  //     subjects:["语文", "体育"], 
-  //     university:"74", universityMaster:"75", identity:3, targetGrade:["初中", "高中"],
-  //     postDate:"2018-04-20"}
-  //   var t2 = {type:"teacher", id:"00000003", name:"邢宽", gender:"male",  hourly_pay:"200",
-  //     description:"很聪明的程序猿，很喜欢教育小朋友们。", subjects:["数学", "英语", "计算机"], 
-  //     university:"46", universityMaster:"1", universityPhd:"1", identity:4, targetGrade:["高中"],
-  //     postDate:"2018-04-21"}
-  //   var s1 = {type:"student", id:"00000002", name:"徐艺唯", gender:"female", 
-  //     description:"爱哭的小女生。但是很聪明。", hourly_pay:"150",
-  //     subjects:["数学"], point:"成绩保密", grade:"小学一年级",
-  //     postDate:"2018-04-21"}
-  //   var t3 = {type:"teacher", id:"00000005", name:"佟丽娅", gender:"female", 
-  //     description:"明星。", subjects:["数学", "英语", "物理", "化学"],  hourly_pay:"1000",
-  //     university:"24", identity:5, targetGrade:["高中"],
-  //     postDate:"2018-04-21"}
-  //   var library = [t1, t2, s1, t3]
-  //   wx.setStorageSync('fakelibrary', library)
-  //   var i1 = {id:"00000666", institute: "新东方", subjects:["数学", "英语", "物理", "化学"], 
-  //     hourly_pay:"75", flexible_pay: false, week_length: 24, address: ["山东省", "济南市", "槐荫区"],
-  //     description:"新东方招募老师啦，一次课两小时，要求一周至少上2次课，时长半年。"}
-  //   var i2 = {id:"00000888", institute: "蓝翔", subjects:["其他"], 
-  //     hourly_pay:"40", flexible_pay: true, week_length: 50, address: ["山东省", "济南市", "市中区"],
-  //     description:"学厨师，挖掘机，找蓝翔。蓝翔高级技工学校招聘实习老师。工资可议。"}
-  //   var internship = [i1, i2]
-  //   wx.setStorageSync('fakeInternship', internship)
-  // },
+  /** getInternshipData
+   *
+   * Get data from message lib, including internship & part-time job, maybe system messages in the future.
+   * 
+   * id: Id of poster.
+   * mClass: 1 - verified; 2 - self-posted.
+   * mType: 1 - internship; 2 - part-time.
+   * mLevel: Minimal Reuirement (map to teacher.js id 1-7)
+   * mId: Message Id.
+   * mName: Name of the poster.
+   * mTitle: Name of the position.
+   * mContent: Must include "start_time", "end_time", "hourly_pay", "flexible_pay", "subjects", "worktime"
+   * mDescribe: description to show.
+   * mSource: Picture url
+   * mStatus: 0 - soon; 1 - open; 2 - almost full
+   */
+  getInternshipData: function(cityId) {
+    var murl = "https://api.zhexiankeji.com/education/message/search"
+    wx.request({
+      url: murl,
+      data:  {"cityId":cityId},
+      header: {
+        'content-type': 'application/json' 
+      },
+      method: "POST",
+      success: function (res) {
+        var result = res.data.result
+        var localInternshipInfo = []
+        var localParttimeInfo = []
+        for (var i = 0; i < result.length; i++) {
+          var cur = result[i]
+          if (cur.mType == 1) {
+            localInternshipInfo.push(that.buildInternshipMessage(cur))
+          } else if (cur.mType == 2) {
+            localParttimeInfo.push(that.buildInternshipMessage(cur))
+          }
+        }
+        that.globalData.localInternshipInfo[cityId] = localInternshipInfo
+        that.globalData.localParttimeInfo[cityId] = localParttimeInfo
+      },
+      fail: function (res) {
+        console.log("fail to get Internship Message.", res)
+      }
+    })
+  },
+  buildInternshipMessage: function(message) {
+    var status_pool = ["长期有效", "报名中", "即将报满", "已结束"]
+    var content = JSON.parse(message.mContent)
+    content.id = that.formatId(message.mId)
+    content.institute = message.mName
+    content.title = message.mTitle
+    content.description = message.mDescribe
+    content.picLink = message.mSource
+    if (message.level >= 1 && message.level <= 7)
+      content.minimal_level = teachers.grades[message.level-1].name // message.level = minimal_requirement.id
+    else
+      content.minimal_level = "无要求"
+    content.status = status_pool[message.mStatus]
+    console.log("buildInternshipMessage", content)
+    return content
+  },
+  formatId: function (id) {
+    var formattedId = "00000000000" + id
+    return formattedId.substr(formattedId.length - idLength)
+  },
   globalData: {
     needAuth: false,
     userInfo: null,
@@ -402,6 +439,8 @@ App({
     myTeacherHistory: [],
     localStudentLibrary: {},
     localTeacherLibrary: {},
-    librarySelection: ""
+    localInternshipInfo: [],
+    localParttimeInfo: [],
+    librarySelection: "", // For lib-selection part
   }
 })

@@ -4,11 +4,11 @@
 <radio-group bindchange="selectObjectFilter">
   <label class="checkbox_normal">
     <radio value="student"/>
-    学生信息
+    学员信息
   </label>
   <label class="checkbox_normal">
     <radio value="teacher" checked="true"/>
-    教员信息
+    教师信息
   </label>
 </radio-group>
 </view>

@@ -1,8 +1,13 @@
 /**index.wxss**/
-.userinfo-old {
+.warning {
   display: flex;
   flex-direction: column;
+  margin: 80rpx;
   align-items: center;
+}
+
+.warning_section{
+  padding: 100rpx;
 }
 
 .userinfo {

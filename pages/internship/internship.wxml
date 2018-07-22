@@ -1,10 +1,12 @@
 <image src="../../utils/imgs/title_find_internship_c.png" class="button-img"> </image>
-<view>本页面正在施工中，敬请期待</view>
+<view wx:if="{{shownList.length == 0}}" class="missing_info">呜呜，{{areaValues[1]}}没有实习岗位放出来，请再等一段时间，或者换个城市试试？</view>
 <view>
   <view wx:for="{{shownList}}" class="card-edge">
     <view class="card-internship" data-index="{{index}}" bindtap="navToInternCard">
       <view class="card-avatar-edge">
-        <image src="../../utils/imgs/icon_main.png" class="card-picture" bindtap="openFilter">
+        <image wx:if="{{item.picLink == ''}}" src="../../utils/imgs/icon_main.png" class="card-picture" bindtap="openFilter">
+        </image>
+        <image wx:else src="{{item.picLink}}" class="card-picture" bindtap="openFilter">
         </image>
         <view class="card-id">编号</view>
         <view class="card-id">{{item.id}}</view>

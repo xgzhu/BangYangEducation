@@ -15,7 +15,7 @@
     <view class="section__title">需求科目</view>
     <view class="section__big_content_noline">
       <view wx:for="{{subjects}}">
-        {{item.name}}
+        {{item}}
       </view>
     </view>
   </view>
@@ -29,12 +29,21 @@
     </view>
   </view>
   <view class="display_show">
-    <view class="section__title">工作时长</view>
-    <view class="section__big_content_noline" wx:if="{{flexible_time}}">
-      {{week_length}}周, 每周{{time_per_week}}小时 (可议)
+    <view class="section__title">开始日期</view>
+    <view class="section__big_content_noline">
+      {{start_time}}
     </view>
-    <view class="section__big_content_noline" wx:if="{{!flexible_time}}">
-      {{week_length}}周, 每周{{time_per_week}}小时 (固定)
+  </view>
+  <view class="display_show">
+    <view class="section__title">结束日期</view>
+    <view class="section__big_content_noline">
+      {{end_time}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">工作时间</view>
+    <view class="section__big_content_noline">
+      {{worktime}}
     </view>
   </view>
   <view class="display_show">

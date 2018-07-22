@@ -143,6 +143,7 @@ Page({
     var cityId = app.getCityId(e.detail.value)
     if (cityId != that.data.cityId) {
       app.getLibraryData(cityId)
+      app.getInternshipData(cityId)
     }
     // wx.setStorageSync('userCustomerInfo', {region: e.detail.value})
     app.globalData.userCustomInfo = {region: e.detail.value}

@@ -1,5 +1,5 @@
 <image src="../../utils/imgs/title_find_parttimejob_c.png" class="button-img"> </image>
-<view>本页面正在施工中，敬请期待</view>
+<view wx:if="{{shownList.length == 0}}" class="missing_info">啊呀，好像暂时没有兼职工作呢，请再等一段时间，或者换个城市试试？</view>
 <view>
   <view wx:for="{{shownList}}" class="card-edge">
     <view class="card-internship" data-index="{{index}}" bindtap="navToInternCard">
