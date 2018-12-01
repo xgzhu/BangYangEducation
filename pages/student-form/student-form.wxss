@@ -1,4 +1,4 @@
-/* pages/apply/apply.wxss */
+/* pages/student-form/student-form.wxss */
 
 .display_show{
   display: block;

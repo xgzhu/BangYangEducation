@@ -1,6 +1,6 @@
 <!--logs.wxml-->
-页面尚在建设之中，请稍候。
 <view class="container log-list">
+  本页面尚未完成。
   <block wx:for="{{logs}}" wx:for-item="log">
     <text class="log-item">{{index + 1}}. {{log}}</text>
   </block>

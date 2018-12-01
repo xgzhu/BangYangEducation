@@ -1,25 +1,16 @@
-/* pages/apply/apply.wxss */
-
-.name{
-  display: inline-block;
-  vertical-align:top;
-  font-size: 50rpx;
-  padding: 50rpx;
-}
-.title{
-  display: inline-block;
-  vertical-align:bottom;
-  font-size: 45rpx;
-  padding: 50rpx;
-}
-.reserve_button {
-  padding: 50rpx;
-}
+/* pages/teacher-form/teacher-form.wxss */
 
 .display_show{
   display: block;
   padding: 10rpx;
   padding-top: 10rpx;
+}
+
+.section__overall {
+  font-size: 45rpx;
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+  text-align: center;
+  padding-bottom: 15rpx;
 }
 
 .selection {
@@ -40,21 +31,15 @@
   border-bottom: 1rpx dotted blue;
   width: 60%;
 }
-.section__big_content_noline {
+.section__big_content_2 {
   display: inline-block;
   vertical-align:top;
-  width: 60%;
-  font-weight: bold;
-}
-.section__median_content {
-  display: inline-block;
-  vertical-align:top;
-  width: 35%;
+  width: 55%;
 }
 .section__small_content {
   display: inline-block;
   vertical-align:top;
-  width: 30%;
+  width: 40%;
 }
 .section__content {
   display: inline-block;
@@ -169,4 +154,11 @@
   border: 2rpx solid;
   border-color: #ff8719;
   background-color: white;
+}
+
+.section__avatar {
+  width: 450rpx;
+  height: 450rpx;
+  margin: 10rpx;
+  background-size: cover;
 }

@@ -1,8 +1,7 @@
-// pages/apply/apply.js
+// pages/student-form/student-form.js
 const app = getApp()
 const grades = require('../../utils/js/grade.js')
 const subjects = require('../../utils/js/subject.js')
-const characters = require('../../utils/js/character.js')
 const teachers = require('../../utils/js/teacher.js')
 const citys = require('../../utils/js/city.js')
 var that
@@ -19,9 +18,9 @@ Page({
     areaValues: ["", "", ""],
     areaInfo: "请选择上课地点",
     subjectValues: [],
-    characterValue: invalid,
+    //characterValue: invalid,
     teacherValue: ["", ""],
-    characterInfo: "请选择性格类型",
+    //characterInfo: "请选择性格类型",
     teacherInfo: "请选择教员要求",
     teacherGenderValue: invalid,
     teacherGradeValue: invalid,
@@ -41,7 +40,7 @@ Page({
       grades: grades.grades.slice(),
       subjects: subjects.subjects.slice(),
       points: subjects.points.slice(),
-      characters: characters.characters.slice(),
+      //characters: characters.characters.slice(),
       subjectAndPoints: [subjects.subjects.slice(), subjects.points.slice()],
       teacherRequirements: [teachers.grades.slice(), teachers.genders.slice()],
       provinceToId: citys.provinceToId,
@@ -111,13 +110,13 @@ Page({
   finishTime: function(e) {
     that.setData({error_time: ""})
   },
-  finishCharacter: function(e) {
-    var idx = e.detail.value
-    that.setData({
-      characterInfo: that.data.characters[idx].name,
-      characterValue: that.data.characters[idx].id,
-    })
-  },
+  // finishCharacter: function(e) {
+  //   var idx = e.detail.value
+  //   that.setData({
+  //     characterInfo: that.data.characters[idx].name,
+  //     characterValue: that.data.characters[idx].id,
+  //   })
+  // },
   finishTeacher: function(e) {
     var idxs = e.detail.value
     var teacherGrade = that.data.teacherRequirements[0][idxs[0]]
@@ -221,7 +220,7 @@ Page({
     e.detail.value.sProvince = that.data.areaValues[0]
     e.detail.value.sCity = that.data.areaValues[1]
     e.detail.value.sArea = that.data.areaValues[2]
-    e.detail.value.sCharacter = that.data.character
+    //e.detail.value.sCharacter = that.data.character
     e.detail.value.sLevel = that.data.point
     e.detail.value.wSex = that.data.teacherGenderValue
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
@@ -259,8 +258,8 @@ Page({
         formData.sDescribe = e.detail.value.sDescribe
       if (e.detail.value.wPrice != "")
         formData.wPrice = parseInt(e.detail.value.wPrice)
-      if (that.data.characterInfo != "请选择性格类型")
-        formData.sDescribe = e.detail.value.sDescribe + " ("+that.data.characterInfo+")"
+      // if (that.data.characterInfo != "请选择性格类型")
+      //   formData.sDescribe = e.detail.value.sDescribe + " ("+that.data.characterInfo+")"
       if (that.data.teacherInfo != "请选择教员要求") {
         if (that.data.teacherGradeValue > 1)
           formData.wTtype = that.data.teacherGradeValue.toString()

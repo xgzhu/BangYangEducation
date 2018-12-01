@@ -1,8 +1,7 @@
-// pages/apply/apply.js
+// pages/teacher-form/teacher-form.js
 const app = getApp()
 const grades = require('../../utils/js/grade.js')
 const subjects = require('../../utils/js/subject.js')
-const characters = require('../../utils/js/character.js')
 const teachers = require('../../utils/js/teacher.js')
 const universitys = require('../../utils/js/university.js')
 const citys = require('../../utils/js/city.js')

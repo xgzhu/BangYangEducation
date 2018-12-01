@@ -81,7 +81,8 @@
 <view wx:if="{{moreFilter}}">
 
   <view style="width: 750rpx; height: 20rpx;"></view>
-  <view class="filter__title"> 学历要求 </view>
+  <view wx:if="{{selectTeacherEnabled}}" class="filter__title"> 最低学历 </view>
+  <view wx:else class="filter__title"> 要求学历 </view>
   <view class="filter__content"> 
   <checkbox-group bindchange="selectIdentityFilter">
     <label class="checkbox_normal" wx:for="{{identities}}">
@@ -95,7 +96,7 @@
 
   <view wx:if="{{selectTeacherEnabled}}">
   <view style="width: 750rpx; height: 20rpx;"></view>
-  <view class="filter__title"> 学校要求 </view>
+  <view class="filter__title"> 毕业院校 </view>
   <view class="filter__content"> 
   <checkbox-group bindchange="selectUniversityFilter">
     <label class="checkbox_large">
@@ -106,6 +107,21 @@
     </label>
     <view class="checkbox_large" bindtap="selectAllUniversities">
       {{selectAllUniversities}}
+    </view>
+  </checkbox-group>
+  </view>
+  </view>
+
+  <view wx:if="{{!selectTeacherEnabled}}">
+  <view style="width: 750rpx; height: 20rpx;"></view>
+  <view class="filter__title"> 当前成绩 </view>
+  <view class="filter__content"> 
+  <checkbox-group bindchange="selectUniversityFilter">
+    <label class="checkbox_normal" wx:for="{{points}}">
+      <checkbox value="U{{item.id}}" checked="{{item.checked}}"/>{{item.name}}
+    </label>
+    <view class="checkbox_normal" bindtap="selectAllPoints">
+      {{selectAllPoints}}
     </view>
   </checkbox-group>
   </view>

@@ -10,6 +10,14 @@
 
 当前进度
 ------------
+- UI is changed completely.
+- RPC-insert is broken.
+- Merged pages: index, student-form, teacher-form, lib-selection
+- Pending pages: library
+
+
+当前进度 [deprecated]
+------------
 ###已完成
 - 请家教表格申请与数据库联网
 - 做家教基本信息表格申请与数据库联网
@@ -39,6 +47,9 @@
 
 更新历史
 ------------
+
+2018.11.17
+- 全面设计改变
 
 2018.07.21
 - 稍稍改善一下首页未登录时的画面（如果有一张图片就更好啦！）

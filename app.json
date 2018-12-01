@@ -1,26 +1,17 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/library/library",
-    "pages/parttime/parttime",
-    "pages/selectionlist/selectionlist",
+    "pages/teacher-form/teacher-form",
+    "pages/student-form/student-form",
     "pages/lib-selection/lib-selection",
-    "pages/lib-selection-bp/lib-selection-bp",
-    "pages/histories/histories",
-    "pages/apply/apply",
-    "pages/internship/internship",
-    "pages/card/card",
-    "pages/personal/personal",
-    "pages/find/find",
     "pages/logs/logs"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "backgroundColor": "#eeeeee",
-    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor":"#eeeeee",
+    "navigationBarBackgroundColor":"#fff",
     "navigationBarTextStyle":"black",
-    "navigationBarTitleText": "985大学生教育平台",
-    "enablePullDownRefresh": true
+    "navigationBarTitleText":"985大学生教育平台"
   },
   "tabBar": {
     "list": [{
@@ -32,7 +23,7 @@
       "text": "资源库",
       "iconPath": "utils/imgs/icon_library.jpg"
     }, {
-      "pagePath": "pages/personal/personal",
+      "pagePath": "pages/logs/logs",
       "text": "我的",
       "iconPath": "utils/imgs/icon_self.jpg"
     }]

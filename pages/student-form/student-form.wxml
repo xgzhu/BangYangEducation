@@ -1,6 +1,6 @@
-<form bindsubmit="formSubmit">
+<view class="student-title"> 注册学员表 </view>
 
-  <image src="../../utils/imgs/title_find_teacher_c.png" class="button-img"> </image>
+<form bindsubmit="formSubmit">
 
   <view class="display_show">
     <view class="section__title">姓名</view>
@@ -85,7 +85,7 @@
     bindblur="finishPhone"/></view>
   </view>
   
-  <image src="../../utils/imgs/content_line_optional.png" class="line-img" wx:if="{{submitMore}}"> </image>
+  <image src="../../utils/imgs/content_line_optional.png" class="content-line" wx:if="{{submitMore}}"> </image>
 
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">具体地址</view>
@@ -105,16 +105,6 @@
     <view class="section__title">目标专业</view>
     <view class="section__big_content">
     <input name="sMajor" placeholder="比如外语、计算机等（选填）" maxlength="40"/>
-    </view>
-  </view>
-  <view class="display_show" wx:if="{{submitMore}}">
-    <view class="section__title">性格</view>
-    <view class="section__big_content">
-      <picker bindchange="finishCharacter" value="{{characterValue}}" range="{{characters}}" range-key="name">
-        <view class="picker">
-          {{characterInfo}}
-        </view>
-      </picker>
     </view>
   </view>
   <view class="display_show" wx:if="{{submitMore}}">

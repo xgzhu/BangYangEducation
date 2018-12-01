@@ -15,6 +15,7 @@ Page({
     selectAllSubjects: ">>全选<<",
     selectAllUniversities: ">>全选<<",
     selectAllIdentities: ">>全选<<",
+    selectAllPoints: ">>全选<<",
   },
   onHide: function (e) {
   },
@@ -37,6 +38,7 @@ Page({
     that.setData({
       identities: teachers.grades.slice(),
       uProvince: universitys.provinces.slice(),
+      points: subjects.points.slice(),
     })
     console.log(that.data)
   },
@@ -158,6 +160,31 @@ Page({
       var selections = that.data.selections
       selections.universities = []
       that.setData({selectAllUniversities: ">>全选<<", universities: universities, selections: selections, U0checked: false})
+    }
+  },
+  selectAllPoints: function() {
+    if (that.data.selectAllPoints == ">>全选<<") {
+      var points = that.data.points
+      var selection = []
+      for (var i = 0; i < points.length; i++) {
+        var point = points[i]
+        point.checked = true
+        selection.push(point.id)
+      }
+      var selections = that.data.selections
+      selections.points = selection
+      that.setData({selectAllPoints: ">>全不选<<", points: points, selections: selections})
+    }
+    else if (that.data.selectAllPoints == ">>全不选<<") {
+      var points = that.data.points
+      var selection = []
+      for (var i = 0; i < points.length; i++) {
+        var point = points[i]
+        point.checked = false
+      }
+      var selections = that.data.selections
+      selections.points = []
+      that.setData({selectAllPoints: ">>全选<<", points: points, selections: selections})
     }
   },
   showMoreFilter: function() {
