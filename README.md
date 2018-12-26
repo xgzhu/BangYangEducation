@@ -12,8 +12,9 @@
 ------------
 - UI is changed completely.
 - RPC-insert is broken.
-- Merged pages: index, student-form, teacher-form, lib-selection
-- Pending pages: library
+- Added more links in index.
+- Merged pages: index, student-form, teacher-form, lib-selection, library
+- Pending pages: 
 
 
 当前进度 [deprecated]

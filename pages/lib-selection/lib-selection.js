@@ -10,12 +10,13 @@ var that
 Page({
   data: {
     subjectClassSelected: false,
-    moreFilter: false,
+    moreFilter: true,
     selectTeacherEnabled: true,
     selectAllSubjects: ">>全选<<",
     selectAllUniversities: ">>全选<<",
     selectAllIdentities: ">>全选<<",
     selectAllPoints: ">>全选<<",
+    selectAllGrades: ">>全选<<",
   },
   onHide: function (e) {
   },
@@ -36,9 +37,10 @@ Page({
       that.setData({universities: universitys.universitys[foundProvince.id].slice()})
     }
     that.setData({
-      identities: teachers.grades.slice(),
+      identities: teachers.grades.slice(1),
       uProvince: universitys.provinces.slice(),
-      points: subjects.points.slice(),
+      points: subjects.points.slice(1),
+      grades: grades.grades.slice(),
     })
     console.log(that.data)
   },
@@ -76,6 +78,13 @@ Page({
     selections.subjects = selection
     that.setData({selections: selections})
   },
+  selectGradeFilter: function(e) {
+    var selection = e.detail.value
+    console.log(selection)
+    var selections = that.data.selections
+    selections.grades = selection
+    that.setData({selections: selections})
+  },
   selectIdentityFilter: function(e) {
     var selection = e.detail.value
     console.log(selection)
@@ -93,14 +102,12 @@ Page({
   selectAllSubjects: function() {
     if (that.data.selectAllSubjects == ">>全选<<") {
       var shown_subjects = that.data.shown_subjects
-      var selection = []
       for (var i = 0; i < shown_subjects.length; i++) {
         var subject = shown_subjects[i]
         subject.checked = true
-        selection.push(subject.name)
       }
       var selections = that.data.selections
-      selections.subjects = selection
+      selections.subjects = []
       that.setData({selectAllSubjects: ">>全不选<<", shown_subjects: shown_subjects, selections: selections})
     }
     else if (that.data.selectAllSubjects == ">>全不选<<") {
@@ -114,17 +121,37 @@ Page({
       that.setData({selectAllSubjects: ">>全选<<", shown_subjects: shown_subjects, selections: selections})
     }
   },
+  selectAllGrades: function() {
+    if (that.data.selectAllGrades == ">>全选<<") {
+      var grades = that.data.grades
+      for (var i = 0; i < grades.length; i++) {
+        var grade = grades[i]
+        grade.checked = true
+      }
+      var selections = that.data.selections
+      selections.grades = []
+      that.setData({selectAllGrades: ">>全不选<<", grades: grades, selections: selections})
+    }
+    else if (that.data.selectAllGrades == ">>全不选<<") {
+      var grades = that.data.grades
+      for (var i = 0; i < grades.length; i++) {
+        var grade = grades[i]
+        grade.checked = false
+      }
+      var selections = that.data.selections
+      selections.grades = []
+      that.setData({selectAllGrades: ">>全选<<", grades: grades, selections: selections})
+    }
+  },
   selectAllIdentities: function() {
     if (that.data.selectAllIdentities == ">>全选<<") {
       var identities = that.data.identities
-      var selection = []
       for (var i = 0; i < identities.length; i++) {
         var identity = identities[i]
         identity.checked = true
-        selection.push(identity.id)
       }
       var selections = that.data.selections
-      selections.identities = selection
+      selections.subjects = []
       that.setData({selectAllIdentities: ">>全不选<<", identities: identities, selections: selections})
     }
     else if (that.data.selectAllIdentities == ">>全不选<<") {
@@ -165,14 +192,12 @@ Page({
   selectAllPoints: function() {
     if (that.data.selectAllPoints == ">>全选<<") {
       var points = that.data.points
-      var selection = []
       for (var i = 0; i < points.length; i++) {
         var point = points[i]
         point.checked = true
-        selection.push(point.id)
       }
       var selections = that.data.selections
-      selections.points = selection
+      selections.points = []
       that.setData({selectAllPoints: ">>全不选<<", points: points, selections: selections})
     }
     else if (that.data.selectAllPoints == ">>全不选<<") {
@@ -196,7 +221,7 @@ Page({
     if (selections.subjects == undefined || selections.subjects == []) {
       wx.showModal({
         title: '确认查找信息',
-        content: '您未选择具体科目，默认显示全部，是否进行查询？',
+        content: '所有未选选项，默认显示全部，是否进行查询？',
         success: function(res) {
           if (res.confirm) {
             wx.navigateTo({

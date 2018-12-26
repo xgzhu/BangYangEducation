@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/library/library",
     "pages/teacher-form/teacher-form",
     "pages/student-form/student-form",
     "pages/lib-selection/lib-selection",

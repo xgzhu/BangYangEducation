@@ -1,6 +1,8 @@
+// DO NOT CHANGE NAMES.
+// OR please change index.js also.
 var grades = [
   {
-    name: "学龄前兴趣班",
+    name: "学龄前",
     id: 0
   }, {
     name: "小学一年级",

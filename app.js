@@ -81,9 +81,19 @@ App({
               var obj = JSON.parse(res.data.result);
               wxId = obj.openid
             }
-            console.log('openId', wxId)
-            //that.getUserHistories(wxId)
             that.globalData.openId = wxId
+
+            var studentInfoCallback = function(studentInfo) {
+              that.globalData.myStudentHistory = studentInfo
+              console.log('myStudentHistory', studentInfo)
+            }
+            that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
+            
+            var teacherInfoCallback = function(teacherInfo) {
+              that.globalData.myTeacherHistory = teacherInfo
+              console.log('myTeacherHistory', teacherInfo)
+            }
+            that.getTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
           },
           fail: function (res) {
             console.log("fail to get openId")
@@ -125,10 +135,167 @@ App({
   setGlobalRegion: function(region) {
     that.globalData.userCustomInfo = {region: region}
   },
-  // Not ready
   getLibraryData: function() {
     var cityId = that.getCityId()
+    var studentInfoCallback = function(studentInfo) {
+      that.globalData.localStudentLibrary[cityId] = studentInfo
+      console.log('studentLibData', studentInfo)
+    }
+    that.getStudentInfo({"cityId":cityId}, studentInfoCallback)
+    
+    var teacherInfoCallback = function(teacherInfo) {
+      that.globalData.localTeacherLibrary[cityId] = teacherInfo
+      console.log('teacherLibData', teacherInfo)
+    }
+    that.getTeacherInfo({"cityId":cityId}, teacherInfoCallback)
   },
+  getStudentInfo: function(searchData, callback) {
+    var basic_student_url = "https://api.zhexiankeji.com/education/baseStudent/search"
+    wx.request({
+      url: basic_student_url,
+      data:  searchData,
+      header: {'content-type': 'application/json'},
+      method: "POST",
+      success: function (res) {
+        var basic_student_result = res.data.result
+        var work_student_url = "https://api.zhexiankeji.com/education/work/search"
+        wx.request({
+          url: work_student_url,
+          data:  searchData,
+          header: {'content-type': 'application/json'},
+          method: "POST",
+          success: function (res) {
+            var studentInfo = that.constructStudentInfo(basic_student_result, res.data.result)
+            callback(studentInfo)
+          },
+          fail: function (res) {console.log("failed", res)}
+        })
+      },
+      fail: function (res) {console.log("failed", res)}
+    })
+  },
+  getTeacherInfo: function(searchData, callback) {
+    var basic_teacher_url = "https://api.zhexiankeji.com/education/baseTeacher/search"
+    wx.request({
+      url: basic_teacher_url,
+      data:  searchData,
+      header: {'content-type': 'application/json'},
+      method: "POST",
+      success: function (res) {
+        var basic_teacher_result = res.data.result
+        var work_teacher_url = "https://api.zhexiankeji.com/education/workTeacher/search"
+        wx.request({
+          url: work_teacher_url,
+          data:  searchData,
+          header: {'content-type': 'application/json'},
+          method: "POST",
+          success: function (res) {
+            var teacherInfo = that.constructTeacherInfo(basic_teacher_result, res.data.result)
+            callback(teacherInfo);
+          },
+          fail: function (res) {console.log("failed", res)}
+        })
+      },
+      fail: function (res) {console.log("failed", res)}
+    })
+  },
+  constructTeacherInfo: function(btresult, wtresult) {
+    var result = []
+    for (var i = 0; i < btresult.length; i++) {
+      var bt = btresult[i]
+      for (var j = 0; j < wtresult.length; j++) {
+        var wt = wtresult[j]
+        if (bt.id != wt.tId) {
+          continue
+        }
+        bt.type = "teacher"
+        bt.name = bt.tName
+        bt.description = "未填写描述"
+        if (bt.tDescribe != "")
+          bt.description = bt.tDescribe
+        bt.id = that.formatId(bt.id)
+        bt.time = wt.tDirection
+        bt.identity = bt.tType
+        bt.gender = bt.tSex
+        bt.subjects = ""
+        bt.subjectsList = []
+        bt.hourly_pay = wt.tPrice
+        bt.targetGrade = wt.tAim.split("+")
+        bt.isTeacher = true
+        var subjectsList = wt.tSubject.split("+")
+        for (var k = 0; k < subjectsList.length; k++) {
+          bt.subjectsList.push({name: subjectsList[k]})
+          if (k == 4) {
+            bt.subjects += "等"
+          } else if (k < 4) {
+            bt.subjects += subjectsList[k] + " "
+          }
+        }
+        result.push(bt)
+        // console.log(bt)
+        break;
+      }
+    }
+    return result
+  },
+  formatId: function (id) {
+    var formattedId = "00000000000" + id
+    return formattedId.substr(formattedId.length - idLength)
+  },
+  constructStudentInfo: function(bsresult, wresult) {
+    var result = []
+    for (var i = 0; i < bsresult.length; i++) {
+      var bs = bsresult[i]
+      for (var j = 0; j < wresult.length; j++) {
+        var w = wresult[j]
+        // console.log(i + " " + j + " : " + bs.id + " " +w.sId)
+        if (bs.id != w.sId) {
+          continue;
+        }
+        bs.type = "student"
+        bs.name = bs.sName
+        bs.description = "未填写描述"
+        if (bs.sDescribe != "")
+          bs.description = bs.sDescribe
+        bs.id = that.formatId(bs.id)
+        bs.time = w.wType
+        bs.grade = grades.idToGrades[w.wGrade]
+        bs.subjects = ""
+        bs.subjectsList = []
+        bs.gender = bs.sSex
+        bs.isTeacher = false
+        var subjectsAndPoints = w.wSubject.split("+")
+        for (var k = 0; k < subjectsAndPoints.length; k++) {
+          var sap = subjectsAndPoints[k].split(",")
+          bs.subjectsList.push({name: sap[0], point: sap[1]})
+          if (k == 4) {
+            bs.subjects += "等"
+          } else if (k < 4) {
+            bs.subjects += sap[0] + " "
+          }
+        }
+        bs.hourly_pay = w.wPrice
+        bs.education = w.wEducation
+        var demand
+        if (w.wSex == 2 && w.wEducation == "") {
+          demand = "无要求"
+        } else if (w.wEducation == "") {
+          demand = w.wSex == 0 ? "男教员" : "女教员"
+        } else if (w.wSex == 2) {
+          demand = w.wEducation
+        } else {
+          demand = w.wEducation + ", "
+          demand += w.wSex == 0 ? "男教员" : "女教员"
+        }
+        bs.demand = demand
+        result.push(bs)
+        // console.log(bs)
+        break;
+      }
+    }
+    return result
+  },
+  // Not ready
   getInternshipData: function() {
     var cityId = that.getCityId()
   },

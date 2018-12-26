@@ -49,7 +49,7 @@
             请家教
           </view>
           <view class="block-80">
-            <view class="block-ab font-AB-horizontal">
+            <view class="block-ab font-AB-horizontal" bindtap="navToTeacherLib">
               教员库
             </view>
             <view class="block-ab font-AB-horizontal" bindtap="navToStudentForm">
@@ -66,7 +66,7 @@
             做家教
           </view>
           <view class="block-80">
-            <view class="block-ab font-AB-horizontal">
+            <view class="block-ab font-AB-horizontal" bindtap="navToStudentLib">
               学员库
             </view>
             <view class="block-ab font-AB-horizontal" bindtap="navToTeacherForm">
@@ -112,10 +112,33 @@
     </view>
   </view>
 
-  <view class="padding-border-vertical">
+<!--   <view class="padding-border-vertical">
     <view class="block-E">
       <view class="border">
         公益信息分享栏（应该从服务器端读取）
+      </view>
+    </view>
+  </view> -->
+
+  <view class="padding-border-vertical">
+    <view class="block-grade">
+      <view class="color-grade-1" bindtap="navToPreSchoolTeacherLib">
+        学前
+      </view>
+    </view>
+    <view class="block-grade">
+      <view class="color-grade-2" bindtap="navToPrimarySchoolTeacherLib">
+        小学
+      </view>
+    </view>
+    <view class="block-grade">
+      <view class="color-grade-1" bindtap="navToJuniorHighSchoolTeacherLib">
+        初中
+      </view>
+    </view>
+    <view class="block-grade">
+      <view class="color-grade-2" bindtap="navToSeniorHighSchoolTeacherLib">
+        高中
       </view>
     </view>
   </view>
@@ -147,15 +170,17 @@
   <view class="padding-border-vertical">
     <view class="block-half">咨询微信: sddxjj</view>
     <view class="block-half">QQ: 601254922</view>
-    <view class="block-whole">咨询热线: 18366111700 15910087856</view>
+    <view class="block-whole" bindtap="makeCall1">咨询热线1: 18366111700</view>
+    <view class="block-whole" bindtap="makeCall2">咨询热线2: 15910087856</view>
   </view>
 
-  <view class="padding-border-vertical">
+<!--   <view class="padding-border-vertical">
     <view class="bottom-ad">
       点击关注微信号: 985大学生教育平台
     </view>
-  </view>
+  </view> -->
 
+  <official-account></official-account>
 
   <view class="padding-border-vertical">
     <!-- 为了美观 -->

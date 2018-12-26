@@ -61,17 +61,14 @@ Page({
     } else if (selections.info == "student") {
       allList = app.globalData.localStudentLibrary[that.data.cityId]
     }
+    console.log("allList", allList)
     if (allList == null) {
       that.setData({shownList: []})
       return;
     }
-    console.log("allList", allList)
     var shownList = []
     for (var i = 0; i < allList.length; i++) {
       var element = allList[i]
-      if (selections.info != element.type) {
-        continue
-      }
       // Gender Filter
       if (selections.gender != undefined && selections.gender != "2"
         && selections.gender != element.gender.toString()) {
@@ -89,6 +86,23 @@ Page({
         }
         if (invalid) {
           continue
+        }
+      }
+      // Grade Filter
+      if (selections.grades != undefined && selections.grades.length > 0) {
+        if (element.isTeacher) {
+          // teacher: targetGrade
+          if (!that.listAContainsAtLeastOneFromListB(selections.grades, element.targetGrade)) {
+            continue;
+          }
+        } else {
+          // student: grade
+          if (!that.listAContainsAtLeastOneFromListB(selections.grades, [element.grade])) {
+            console.log(selections.grades, element.grade, "failed")
+            continue;
+          } else {
+            console.log(selections.grades, element.grade, "passed")
+          }
         }
       }
       // Identities(tType) Filter
@@ -213,4 +227,15 @@ Page({
     }
     app.getLibraryData(that.data.cityId)
   },
+  /** Local Functions: listAContainsAtLeastOneFromListB
+   */
+  listAContainsAtLeastOneFromListB: function(listA, listB) {
+    for (var j = 0; j < listA.length; j++) {
+      var a = listA[j]
+      if (listB.includes(a)) {
+        return true
+      }
+    }
+    return false
+  }
 })

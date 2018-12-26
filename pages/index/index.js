@@ -74,14 +74,70 @@ Page({
     })
   },
   navToTeacherForm: function() {
+    var selections = {}
+    selections.info = "teacher"
     wx.navigateTo({
       url: '../teacher-form/teacher-form'
     })
   },
-  tapDebug: function() {
-    console.log("TAPED 1")
+  navToStudentLib: function() {
+    that.navToLib({info: "student"})
   },
-  tapDebug2: function() {
-    console.log("TAPED 2")
+  navToTeacherLib: function() {
+    that.navToLib({info: "teacher"})
+  },
+  navToPreSchoolTeacherLib: function() {
+    that.navToLib({
+      info: "teacher",
+      grades: ["学龄前", "学龄前兴趣班"], 
+    })
+  },
+  navToPrimarySchoolTeacherLib: function() {
+    that.navToLib({
+      info: "teacher",
+      grades: ["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"], 
+    })
+  },
+  navToJuniorHighSchoolTeacherLib: function() {
+    that.navToLib({
+      info: "teacher",
+      grades: ["初中一年级", "初中二年级", "初中三年级"], 
+    })
+  },
+  navToSeniorHighSchoolTeacherLib: function() {
+    that.navToLib({
+      info: "teacher",
+      grades: ["高中一年级", "高中二年级", "高中三年级", "高中复读"], 
+    })
+  },
+  navToSubject: function(e) {
+    //console.log(e.currentTarget.dataset.subject)
+    that.navToLib({
+      info: "teacher",
+      subjects: [e.currentTarget.dataset.subject], 
+    })
+  },
+  navToUniversity: function(e) {
+    console.log(e.currentTarget.dataset.uid)
+    that.navToLib({
+      info: "teacher",
+      universities: [e.currentTarget.dataset.uid], 
+    })
+  },
+  navToLib: function(selections) {
+    var selectionString = JSON.stringify(selections)
+    wx.navigateTo({
+      url: '../library/library?selections='+selectionString
+    })
+  },
+  makeCall1: function() {
+    wx.makePhoneCall({
+      phoneNumber: '18366111700'
+    })
+  },
+  makeCall2: function() {
+    wx.makePhoneCall({
+      phoneNumber: '15910087856'
+    })
   },
 })
