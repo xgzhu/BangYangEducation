@@ -7,9 +7,15 @@ Page({
   onLoad: function(e) {
     that = this
     console.log(e)
-    var item = JSON.parse(e.item)
-    console.log(item)
-    that.setData(item)
+    if (e.personal == "student") {
+      that.setData(app.globalData.myStudentRegister)
+    } else if (e.personal == "teacher") {
+      that.setData(app.globalData.myTeacherRegister)
+    } else {
+      var item = JSON.parse(e.item)
+      that.setData(item)
+      that.setData({canRegister: true})
+    }
   },
   onShow: function() {
     var reserveConfirm = wx.getStorageSync("reserveConfirm")
@@ -17,7 +23,7 @@ Page({
     console.log("reserveConfirm", reserveConfirm)
     if (reserveConfirm) {
       wx.showToast({
-        title: 'TODO: 剩下就是后台的事情啦',
+        title: 'TODO: 尚未实现',
         icon: 'success',
         duration: 1000
       })
@@ -38,57 +44,81 @@ Page({
   },
   makeReverservation: function() {
     var type = that.data.type
-    var shownList = []
+    var data = {
+      cityId: app.getCityId(),
+      sIds: [],
+      tIds: [],
+    }
     if (type == 'teacher') {
       // 找家教，所以要学员信息
-      var studentList = app.globalData.myStudentHistory
-      for (var i = 0; i < studentList.length && i < 5; i++) {
-        shownList.push("学员 " + studentList[i].sName)
+      if (app.globalData.myStudentRegister == null) {
+        wx.showModal({
+          title: '学员信息未注册',
+          content: '后台显示你尚未注册过学员信息，请你先注册（只需两分钟）再预约。谢谢您的合作。',
+          success: function(res) {
+            wx.setStorageSync("reserveConfirm", res.confirm)
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '../student-form/student-form'
+              })
+            }
+          },
+          fail: function(res) {
+            console.log("checkExisting fail")
+          },
+        })
+        return
       }
-      if (studentList.length > 5) {
-        shownList.pop()
-        shownList.push("更多学员信息")
-      }
-      shownList.push("填写新的学员信息")
+      data.sIds.push(app.globalData.myStudentRegister.sId)
+      data.tIds.push(that.data.tId)
+      data.iType = 2
     } else {
       // 找学生或者兼职或者实习，所以要教员信息
-      var teacherList = app.globalData.myTeacherHistory
-      for (var i = 0; i < teacherList.length && i < 5; i++) {
-        shownList.push("教员 " + teacherList[i].tName)
+      if (app.globalData.myTeacherRegister == null) {
+        wx.showModal({
+          title: '教员信息未注册',
+          content: '后台显示你尚未注册过教员信息，请你先注册并上传相关材料再进行预约。谢谢您的合作。',
+          success: function(res) {
+            wx.setStorageSync("reserveConfirm", res.confirm)
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '../teacher-form/teacher-form'
+              })
+            }
+          },
+          fail: function(res) {
+            console.log("checkExisting fail")
+          },
+        })
+        return
       }
-      if (teacherList.length > 5) {
-        shownList.pop()
-        shownList.push("更多教员信息")
-      }
-      shownList.push("填写新的教员信息")
-    } 
-    // TODO: we ignore the intern now.
-    wx.showActionSheet({
-      itemList: shownList,
-      success: function(res) {
-        if (shownList[res.tapIndex].includes("更多")) {
-          // wx.showToast({
-          //   title: 'TODO: 这里应该导向namelist',
-          //   icon: 'success',
-          //   duration: 1000
-          // })
-          wx.setStorageSync("reserveConfirm", false)
-          that.navToHistory(type)
-        } else if (shownList[res.tapIndex].includes("填写新的")) {
-          wx.setStorageSync("reserveConfirm", false)
-          that.navToForm(type)
-        } else {
-          console.log(shownList[res.tapIndex])
-          wx.showToast({
-            title: 'TODO: 剩下就是后台的事情啦',
-            icon: 'success',
-            duration: 1000
-          })
-        }
+      data.tIds.push(app.globalData.myTeacherRegister.tId)
+      data.sIds.push(that.data.sId)
+      data.iType = 1
+    }
+    console.log(JSON.stringify(data))
+    var url = "https://api.zhexiankeji.com/education/intention/insert"
+    wx.request({
+      url: url,
+      data: JSON.stringify(data),
+      method: "POST",
+      header: {
+        'content-type': 'application/json'
       },
-      fail: function(res) {
-        console.log(res.errMsg)
-      }
+      success: function (res) {
+        wx.showToast({
+          title: '已预约',
+          icon: 'success',
+          duration: 1000
+        })
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '出现了问题',
+          icon: 'fail',
+          duration: 1000
+        })
+      },
     })
   }
 })

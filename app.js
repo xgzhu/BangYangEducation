@@ -85,13 +85,15 @@ App({
 
             var studentInfoCallback = function(studentInfo) {
               that.globalData.myStudentHistory = studentInfo
-              console.log('myStudentHistory', studentInfo)
+              that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
+              console.log('myStudentRegister', that.globalData.myStudentRegister)
             }
             that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
             
             var teacherInfoCallback = function(teacherInfo) {
               that.globalData.myTeacherHistory = teacherInfo
-              console.log('myTeacherHistory', teacherInfo)
+              that.globalData.myTeacherRegister = that.selectNewestData(teacherInfo)
+              console.log('myTeacherRegister', that.globalData.myTeacherRegister)
             }
             that.getTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
           },
@@ -213,6 +215,7 @@ App({
         bt.description = "未填写描述"
         if (bt.tDescribe != "")
           bt.description = bt.tDescribe
+        bt.tId = bt.id
         bt.id = that.formatId(bt.id)
         bt.time = wt.tDirection
         bt.identity = bt.tType
@@ -271,6 +274,7 @@ App({
         bs.description = "未填写描述"
         if (bs.sDescribe != "")
           bs.description = bs.sDescribe
+        bs.sId = bs.id
         bs.id = that.formatId(bs.id)
         bs.time = w.wType
         bs.grade = grades.idToGrades[w.wGrade]
@@ -356,6 +360,17 @@ App({
     }
     return targetGradeReadable
   },
+  selectNewestData: function(lst) {
+    if (lst == null || lst.length <= 0) {
+      return null
+    }
+    lst.sort(function(a, b) {
+      if (a.updateTime < b.updateTime) return 1;
+      if (a.updateTime > b.updateTime) return -1;
+      return 0
+    });
+    return lst[0]
+  },
   // Not ready
   getInternshipData: function() {
     var cityId = that.getCityId()
@@ -367,6 +382,8 @@ App({
     openId: null,
     myStudentHistory: [],
     myTeacherHistory: [],
+    myStudentRegister: null,
+    myTeacherRegister: null,
     localStudentLibrary: {},
     localTeacherLibrary: {},
     localInternshipInfo: [],

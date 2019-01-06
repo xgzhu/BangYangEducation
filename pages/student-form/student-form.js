@@ -36,6 +36,7 @@ Page({
    */
   onLoad: function (options) {
     that = this
+    that.checkExisting()
     that.setData({
       grades: grades.grades.slice(),
       subjects: subjects.subjects.slice(),
@@ -57,6 +58,23 @@ Page({
       that.setData({shouldReturn: options.shouldReturn})
     }
     console.log(that.data)
+  },
+  checkExisting: function () {
+    if (app.globalData.myStudentRegister == null) {
+      return
+    }
+    wx.showModal({
+      title: '注册信息已存在',
+      content: '后台显示你已经注册过信息，是否要重新填写？',
+      success: function(res) {
+        wx.setStorageSync("reserveConfirm", res.confirm)
+        if (!res.confirm)
+          wx.navigateBack()
+      },
+      fail: function(res) {
+        console.log("checkExisting fail")
+      },
+    })
   },
 
   // 输入结束后的检查
@@ -299,7 +317,7 @@ Page({
                   })
                 } else {
                   wx.redirectTo({
-                    url: '../histories/histories?update=true'
+                    url: '../card/card?personal=student'
                   })
                 }
               },

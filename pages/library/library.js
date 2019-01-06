@@ -48,28 +48,13 @@ Page({
       areaValues: areaValues,
       cityId: cityId,
       selections: selections,
+      emptyInfo: "啊呀，好像没有信息，放宽点要求试试？"
       // showBtn: showBtn,
     })
-    if (selections.showPersonalHistory == undefined || selections.showPersonalHistory == false) {
-      that.setupGeneralList(selections)
-    } else {
-      that.setupPersonalHistory(selections)
-    }
+    that.setupList(selections)
     console.log(that.data)
   },
-  setupPersonalHistory: function(selections) {
-    var shownList = null
-    if (selections.info == "teacher") {
-      shownList = app.globalData.myTeacherHistory
-    } else if (selections.info == "student") {
-      shownList = app.globalData.myStudentHistory
-    } 
-    that.setData({
-      emptyInfo: "您好像还没有登记任何信息，快点击首页报名表登记吧！",
-      shownList: shownList
-    })
-  },
-  setupGeneralList: function(selections) {
+  setupList: function(selections) {
     var allList = null
     // Object Filter
     if (selections.info == "teacher") {
@@ -181,10 +166,7 @@ Page({
       }
       shownList.push(element)
     }
-    that.setData({
-      emptyInfo: "啊呀，好像没有信息，放宽点要求试试？",
-      shownList: shownList
-    })
+    that.setData({shownList: shownList})
   },
   navToNamecard: function (e) {
     var idx = e.currentTarget.dataset.index
@@ -233,14 +215,14 @@ Page({
     })
     app.studentLibraryReadyCallback = function() {
       if (that.data.selectedObject == "student") {
-        that.setupGeneralList(that.data.selections)
+        that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
       }
     }
     app.teacherLibraryReadyCallback = function() {
       if (that.data.selectedObject == "teacher") {
-        that.setupGeneralList(that.data.selections)
+        that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
       }

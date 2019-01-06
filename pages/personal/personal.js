@@ -17,13 +17,13 @@ Page({
       // console.log(wx.getStorageSync('userCustomerInfo'))
     }
   },
-  navToPersonalHistory: function (e) {
-    var selections = {}
-    selections.showPersonalHistory = true
-    selections.info = e.currentTarget.dataset.type
-    var selectionString = JSON.stringify(selections)
+  navToPersonalCard: function (e) {
+    // var selections = {}
+    // selections.showPersonalHistory = true
+    // selections.info = e.currentTarget.dataset.type
+    // var selectionString = JSON.stringify(selections)
     wx.navigateTo({
-      url: '../library/library?selections='+selectionString
+      url: '../card/card?personal='+e.currentTarget.dataset.type
     })
   },
   navToPersonalData: function() {

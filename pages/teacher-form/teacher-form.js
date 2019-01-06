@@ -43,6 +43,7 @@ Page({
    */
   onLoad: function (options) {
     that = this
+    that.checkExisting()
     var identitys = teachers.grades.slice()
     identitys.splice(0, 1)
     that.setData({
@@ -98,6 +99,24 @@ Page({
       that.setData({subjectInfo:subjectInfo, error_subject: ""})
     }
   },
+  checkExisting: function () {
+    if (app.globalData.myTeacherRegister == null) {
+      return
+    }
+    wx.showModal({
+      title: '注册信息已存在',
+      content: '后台显示你已经注册过信息，是否要重新填写？',
+      success: function(res) {
+        wx.setStorageSync("reserveConfirm", res.confirm)
+        if (!res.confirm)
+          wx.navigateBack()
+      },
+      fail: function(res) {
+        console.log("checkExisting fail")
+      },
+    })
+  },
+
   // 输入结束后的检查
   finishTime: function(e) {
     that.setData({error_time: ""})
@@ -474,7 +493,7 @@ Page({
                     })
                   } else {
                     wx.redirectTo({
-                      url: '../histories/histories?update=true'
+                      url: '../card/card?personal=teacher'
                     })
                   }
                 },

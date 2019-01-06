@@ -28,18 +28,18 @@
 </view>
 <!-- 
 <view class="button-img-edge"><image src="../../utils/imgs/personal_userdata.png" class="button-img" bindtap="navToPersonalData"> </image></view> -->
-<!-- <view class="button-img-edge"><image src="../../utils/imgs/personal_history.png" class="button-img" bindtap="navToPersonalHistory"> </image></view>
+<!-- <view class="button-img-edge"><image src="../../utils/imgs/personal_history.png" class="button-img" bindtap="navToPersonalCard"> </image></view>
 <view class="button-img-edge"><image src="../../utils/imgs/personal_information.png" class="button-img" bindtap="navToPersonalInformation"> </image></view>
 <view class="button-img-edge"><image src="../../utils/imgs/personal_legal.png" class="button-img" bindtap="navToPersonalLegal"> </image></view>
 <view class="button-img-edge"><image src="../../utils/imgs/personal_contact.png" class="button-img" bindtap="navToPersonalContact"> </image></view> -->
 <view class="block">
-  <view class="color-1" bindtap="navToPersonalHistory" data-type="teacher">
-    我登记的教员
+  <view class="color-1" bindtap="navToPersonalCard" data-type="teacher">
+    我注册的教员
   </view>
 </view>
 <view class="block">
-  <view class="color-2" bindtap="navToPersonalHistory" data-type="student">
-    我登记的学员
+  <view class="color-2" bindtap="navToPersonalCard" data-type="student">
+    我注册的学员
   </view>
 </view>
 <view class="block">

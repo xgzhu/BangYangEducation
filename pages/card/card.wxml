@@ -144,7 +144,7 @@
   <view class="display_show">
     <view class="section__title">求教科目</view>
     <view class="section__big_content_noline">
-      <view wx:for="{{subjects}}">
+      <view wx:for="{{subjectsList}}">
         {{item.name}}: {{item.point}}
       </view>
     </view>
@@ -190,6 +190,6 @@
   </view>
 </view>
 
-<view class="reserve_button" wx:if="{{!isHistory}}">
+<view class="reserve_button" wx:if="{{canRegister}}">
   <button bindtap="makeReverservation">申请预约</button> 
 </view>
