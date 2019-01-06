@@ -1,0 +1,195 @@
+<view wx:if="{{type=='institute'}}">
+  <view class="name">
+    {{name}}
+  </view>
+  <view class="title">
+    {{title}}
+  </view>
+  <view class="display_show">
+    <view class="section__title">简介</view>
+    <view class="section__big_content_noline">
+      {{description}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">需求科目</view>
+    <view class="section__big_content_noline">
+      <view wx:for="{{subjects}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">时薪</view>
+    <view class="section__big_content_noline" wx:if="{{flexible_pay}}">
+      {{hourly_pay}}元 (可议)
+    </view>
+    <view class="section__big_content_noline" wx:if="{{!flexible_pay}}">
+      {{hourly_pay}}元 (固定)
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">开始日期</view>
+    <view class="section__big_content_noline">
+      {{start_time}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">结束日期</view>
+    <view class="section__big_content_noline">
+      {{end_time}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">工作时间</view>
+    <view class="section__big_content_noline">
+      {{worktime}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">工作市区</view>
+    <view class="section__big_content_noline">
+      {{address}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{address_detail!=undefined}}">
+    <view class="section__title">具体地址</view>
+    <view class="section__big_content_noline">
+      {{address_detail}}
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{type=='teacher'}}">
+  <view class="name">
+    {{name}}
+  </view>
+  <view class="title">
+    {{title}}
+  </view>
+  <view class="display_show">
+    <view class="section__title">可授科目</view>
+    <view class="section__big_content_noline">
+      <view wx:for="{{subjects}}">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">可授年级</view>
+    <view class="section__big_content_noline">
+      {{targetGradeReadable}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">工作时间</view>
+    <view class="section__big_content_noline">
+      {{work_time}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{address_detail!=undefined}}">
+    <view class="section__title">可达区域</view>
+    <view class="section__big_content_noline">
+      {{address_detail}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">期望时薪</view>
+    <view class="section__big_content_noline" wx:if="{{hourly_pay > 0}}">
+      {{hourly_pay}}元
+    </view>
+    <view class="section__big_content_noline" wx:if="{{hourly_pay == 0}}">
+      面议
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">个人简介</view>
+    <view class="section__big_content_noline">
+      {{description}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{university!=undefined}}">
+    <view class="section__title">本科学校</view>
+    <view class="section__big_content_noline">
+      {{university}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{universityMaster!=undefined}}">
+    <view class="section__title">硕士学校</view>
+    <view class="section__big_content_noline">
+      {{universityMaster}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{universityPhd!=undefined}}">
+    <view class="section__title">博士学校</view>
+    <view class="section__big_content_noline">
+      {{universityPhd}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">家教编号</view>
+    <view class="section__big_content_noline">
+      {{id}}
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{type=='student'}}">
+  <view class="name">
+    {{name}}
+  </view>
+  <view class="title">
+    {{title}}
+  </view>
+  <view class="display_show">
+    <view class="section__title">求教科目</view>
+    <view class="section__big_content_noline">
+      <view wx:for="{{subjects}}">
+        {{item.name}}: {{item.point}}
+      </view>
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">年级</view>
+    <view class="section__big_content_noline">
+      {{grade}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">上课时间</view>
+    <view class="section__big_content_noline">
+      {{work_time}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{address_detail!=undefined}}">
+    <view class="section__title">上课区域</view>
+    <view class="section__big_content_noline">
+      {{address_detail}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">可付时薪</view>
+    <view class="section__big_content_noline" wx:if="{{hourly_pay > 0}}">
+      {{hourly_pay}}元
+    </view>
+    <view class="section__big_content_noline" wx:if="{{!hourly_pay == 0}}">
+      面议
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">个人简介</view>
+    <view class="section__big_content_noline">
+      {{description}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">学生编号</view>
+    <view class="section__big_content_noline">
+      {{id}}
+    </view>
+  </view>
+</view>
+
+<view class="reserve_button" wx:if="{{!isHistory}}">
+  <button bindtap="makeReverservation">申请预约</button> 
+</view>

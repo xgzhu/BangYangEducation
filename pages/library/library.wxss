@@ -59,18 +59,18 @@
 .card-edge{
   padding: 10rpx;
   width: 750rpx;
-  height: 260rpx;
+  height: 300rpx;
 }
 .card-teacher{
   padding: 10rpx;
   background-color: #9ee;
-  height: 250rpx;
+  height: 280rpx;
   width: 710rpx;
 }
 .card-student{
   padding: 10rpx;
   background-color: #eea;
-  height: 250rpx;
+  height: 280rpx;
   width: 710rpx;
 }
 .card-avatar-edge{
@@ -86,11 +86,11 @@
   height: 140rpx;
 }
 .card-student-id {
-  font-size: 27rpx;
+  font-size: 24rpx;
   color: #fa5;
 }
 .card-teacher-id {
-  font-size: 27rpx;
+  font-size: 23rpx;
   color: #55f;
 }
 .card-content-edge{
@@ -100,18 +100,22 @@
   height: 240rpx;
 }
 .card-content-name{
-  font-size: 30rpx;
+  font-size: 28rpx;
   font-weight: bold;
 }
+.card-content-title {
+  font-size: 23rpx;
+  color: #a90;
+}
 .card-content-subject{
-  font-size: 30rpx;
+  font-size: 24rpx;
   color: #233;
 }
 .card-content-description{
-  font-size: 30rpx;
+  font-size: 24rpx;
   color: #233;
 }
 .card-content-salary{
-  font-size: 30rpx;
+  font-size: 24rpx;
   color: #233;
 }

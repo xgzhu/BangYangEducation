@@ -1,10 +1,11 @@
 // DO NOT CHANGE NAMES.
 // OR please change index.js also.
 var grades = [
+  // {
+  //   name: "学龄前",
+  //   id: 0
+  // }, 
   {
-    name: "学龄前",
-    id: 0
-  }, {
     name: "小学一年级",
     id: 1
   }, {
@@ -47,7 +48,7 @@ var grades = [
 ]
 
 var idToGrades = {
-  "G0" : "学龄前兴趣班",
+//  "G0" : "学龄前兴趣班",
   "G1" : "小学一年级",
   "G2" : "小学二年级",
   "G3" : "小学三年级",
@@ -63,7 +64,25 @@ var idToGrades = {
   "G13" : "高中复读"
 }
 
+var gradesToId = {
+//  "学龄前兴趣班" : "G0" ,
+  "小学一年级" : "G1" ,
+  "小学二年级" : "G2" ,
+  "小学三年级" : "G3" ,
+  "小学四年级" : "G4" ,
+  "小学五年级" : "G5" ,
+  "小学六年级" : "G6" ,
+  "初中一年级" : "G7" ,
+  "初中二年级" : "G8" ,
+  "初中三年级" : "G9" ,
+  "高中一年级" : "G10",
+  "高中二年级" : "G11",
+  "高中三年级" : "G12",
+  "高中复读" : "G13"
+}
+
 module.exports = {
   grades,
-  idToGrades
+  idToGrades,
+  gradesToId
 }

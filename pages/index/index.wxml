@@ -122,11 +122,6 @@
 
   <view class="padding-border-vertical">
     <view class="block-grade">
-      <view class="color-grade-1" bindtap="navToPreSchoolTeacherLib">
-        学前
-      </view>
-    </view>
-    <view class="block-grade">
       <view class="color-grade-2" bindtap="navToPrimarySchoolTeacherLib">
         小学
       </view>
@@ -139,6 +134,11 @@
     <view class="block-grade">
       <view class="color-grade-2" bindtap="navToSeniorHighSchoolTeacherLib">
         高中
+      </view>
+    </view>
+    <view class="block-grade">
+      <view class="color-grade-1" bindtap="navToOtherTeacherLib">
+        其他
       </view>
     </view>
   </view>

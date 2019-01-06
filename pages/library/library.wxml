@@ -9,11 +9,13 @@
         </image>
         <view class="card-teacher-id">家教编号</view>
         <view class="card-teacher-id">{{item.id}}</view>
+        <view class="card-content-title">{{item.title}}</view>
       </view>
       <view class="card-content-edge">
         <view wx:if="{{item.isMale}}" class="card-content-name">{{item.nickname}} (男) {{item.identityInfo}}</view>
         <view wx:if="{{!item.isMale}}" class="card-content-name">{{item.nickname}} (女) {{item.identityInfo}}</view>
         <view class="card-content-subject">可教科目: {{item.subjects}}</view>
+        <view class="card-content-subject">可教年级: {{item.targetGradeReadable}}</view>
         <view class="card-content-description">个人简介: {{item.description}}</view>
         <view class="card-content-salary" wx:if="{{item.hourly_pay > 0}}">目标工资: {{item.hourly_pay}}元／小时</view>
         <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">目标工资: 面议</view>

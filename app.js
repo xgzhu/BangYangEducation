@@ -221,7 +221,21 @@ App({
         bt.subjectsList = []
         bt.hourly_pay = wt.tPrice
         bt.targetGrade = wt.tAim.split("+")
+        bt.targetGradeReadable = that.getTargetGradeReadable(bt.targetGrade)
         bt.isTeacher = true
+        bt.title = "未审核教师"
+        if (bt.tTitle != "") {
+          bt.title = bt.tTitle
+        }
+        if (bt.tUniversity != "") {
+          bt.university = that.getUniversityName(bt.tUniversity)
+        }
+        if (bt.tGraduate != "") {
+          bt.universityMaster = that.getUniversityName(bt.tGraduate)
+        }
+        if (bt.tDoctoral != "") {
+          bt.universityPhd = that.getUniversityName(bt.tDoctoral)
+        }
         var subjectsList = wt.tSubject.split("+")
         for (var k = 0; k < subjectsList.length; k++) {
           bt.subjectsList.push({name: subjectsList[k]})
@@ -294,6 +308,53 @@ App({
       }
     }
     return result
+  },
+  getUniversityName: function(uid) {
+    return universitys.idToUniversitys[uid]
+  },
+  getTargetGradeReadable: function(gradeList) {
+    // Construct targetGrade String
+    var targetGradeReadable = []
+    var schoolBitMap = [false, false, false, false, false, false, false, 
+                        false, false, false, false, false, false, false]
+    var numToChar = ["", "一", "二", "三", "四", "五", "六", "一", "二", "三", "一", "二", "三"]
+    for (var i = 0; i < gradeList.length; i++) {
+      var grade = grades.gradesToId[gradeList[i]]
+      if (grade == undefined) {
+        continue 
+      }
+      var idx = parseInt(grade.substring(1))
+      schoolBitMap[idx] = true
+    }
+    var start = 0
+    var end = 0
+    for (var i = 1; i <= 12; i++) {
+      if (schoolBitMap[i]) {
+        if (start == 0) {
+          start = i
+        }
+        end = i
+      } 
+      if (!schoolBitMap[i] || i == 6 || i == 9 || i == 12) {
+        if (start == 0) {
+          continue
+        }
+        var lvl = "小"
+        if (i > 6 && i <= 9) {
+          lvl = "初"
+        } else if (i > 9 && i <= 12) {
+          lvl = "高"
+        }
+        if (start == end) {
+          targetGradeReadable.push(lvl + numToChar[start])
+        } else {
+          targetGradeReadable.push(lvl + numToChar[start] + "到" + lvl + numToChar[end])
+        }
+        start = 0
+        end = 0
+      }
+    }
+    return targetGradeReadable
   },
   // Not ready
   getInternshipData: function() {

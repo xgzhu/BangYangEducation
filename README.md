@@ -13,7 +13,7 @@
 - UI is changed completely.
 - RPC-insert is broken.
 - Added more links in index.
-- Merged pages: index, student-form, teacher-form, lib-selection, library
+- Merged pages: index, student-form, teacher-form, lib-selection, library, card
 - Pending pages: 
 
 

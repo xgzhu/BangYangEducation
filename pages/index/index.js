@@ -86,7 +86,7 @@ Page({
   navToTeacherLib: function() {
     that.navToLib({info: "teacher"})
   },
-  navToPreSchoolTeacherLib: function() {
+  navToOtherTeacherLib: function() {
     that.navToLib({
       info: "teacher",
       grades: ["学龄前", "学龄前兴趣班"], 

@@ -170,19 +170,20 @@ Page({
   navToNamecard: function (e) {
     var idx = e.currentTarget.dataset.index
     var item = that.data.shownList[idx]
-    var url = '../card/card?type=' + item.type
-    url += "&id=" + item.id
-    url += "&description=" + item.description
-    url += "&name=" + item.nickname
-    url += "&hourly_pay=" + item.hourly_pay
-    url += "&subjects=" + JSON.stringify(item.subjectsList)
-    if (item.type == "teacher") {
-      url += "&title=" + that.data.idToTeacherIdentity[parseInt(item.identity)]
-      url += item.isMale ? "(男)" : "(女)"
-      url += "&targetGrade=" + item.targetGrade
-    } else {
-      url += "&grade=" + item.grade
-    }
+    var url = '../card/card?item=' + JSON.stringify(item)
+    // + item.type
+    // url += "&id=" + item.id
+    // url += "&description=" + item.description
+    // url += "&name=" + item.nickname
+    // url += "&hourly_pay=" + item.hourly_pay
+    // url += "&subjects=" + JSON.stringify(item.subjectsList)
+    // if (item.type == "teacher") {
+    //   url += "&title=" + that.data.idToTeacherIdentity[parseInt(item.identity)]
+    //   url += item.isMale ? "(男)" : "(女)"
+    //   url += "&targetGrade=" + item.targetGrade
+    // } else {
+    //   url += "&grade=" + item.grade
+    // }
     // var url = '../card/card?data=' + JSON.stringify(item)
     wx.navigateTo({
       url: url
