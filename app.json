@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/personal/personal",
     "pages/card/card",
     "pages/library/library",
     "pages/teacher-form/teacher-form",
@@ -25,7 +26,7 @@
       "text": "资源库",
       "iconPath": "utils/imgs/icon_library.jpg"
     }, {
-      "pagePath": "pages/logs/logs",
+      "pagePath": "pages/personal/personal",
       "text": "我的",
       "iconPath": "utils/imgs/icon_self.jpg"
     }]

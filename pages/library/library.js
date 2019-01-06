@@ -38,22 +38,38 @@ Page({
     console.log("librarySelection", selections)
     var areaValues = app.globalData.userCustomInfo.region
     var cityId = app.getCityId(areaValues)
-    var showBtn = false
-    if (selections.showBtn != undefined) {
-      showBtn = selections.showBtn
-    }
+    // var showBtn = false
+    // if (selections.showBtn != undefined) {
+    //   showBtn = selections.showBtn
+    // }
     that.setData({
       idToTeacherIdentity: teachers.reversedGrade.slice(),
       idToUniversitys: universitys.idToUniversitys,
       areaValues: areaValues,
       cityId: cityId,
       selections: selections,
-      showBtn: showBtn,
+      // showBtn: showBtn,
     })
-    that.setupList(selections)
+    if (selections.showPersonalHistory == undefined || selections.showPersonalHistory == false) {
+      that.setupGeneralList(selections)
+    } else {
+      that.setupPersonalHistory(selections)
+    }
     console.log(that.data)
   },
-  setupList: function(selections) {
+  setupPersonalHistory: function(selections) {
+    var shownList = null
+    if (selections.info == "teacher") {
+      shownList = app.globalData.myTeacherHistory
+    } else if (selections.info == "student") {
+      shownList = app.globalData.myStudentHistory
+    } 
+    that.setData({
+      emptyInfo: "您好像还没有登记任何信息，快点击首页报名表登记吧！",
+      shownList: shownList
+    })
+  },
+  setupGeneralList: function(selections) {
     var allList = null
     // Object Filter
     if (selections.info == "teacher") {
@@ -165,7 +181,10 @@ Page({
       }
       shownList.push(element)
     }
-    that.setData({shownList: shownList})
+    that.setData({
+      emptyInfo: "啊呀，好像没有信息，放宽点要求试试？",
+      shownList: shownList
+    })
   },
   navToNamecard: function (e) {
     var idx = e.currentTarget.dataset.index
@@ -214,14 +233,14 @@ Page({
     })
     app.studentLibraryReadyCallback = function() {
       if (that.data.selectedObject == "student") {
-        that.setupList(that.data.selections)
+        that.setupGeneralList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
       }
     }
     app.teacherLibraryReadyCallback = function() {
       if (that.data.selectedObject == "teacher") {
-        that.setupList(that.data.selections)
+        that.setupGeneralList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
       }

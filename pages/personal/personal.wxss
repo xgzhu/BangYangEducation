@@ -1,0 +1,79 @@
+.block{
+  height: 50px;
+  width: 86%;
+  padding-top: 20px;
+  padding-right: 7%;
+  padding-left: 7%;
+}
+
+.color-1{
+  height: 50px;
+  text-align:center;
+  line-height:50px;
+  font-size: 20px;
+  background-color: #ffddbb;
+}
+
+.color-2{
+  height: 50px;
+  text-align:center;
+  line-height:50px;
+  font-size: 20px;
+  background-color: #eeccaa;
+}
+
+.userinfo {
+  width: 750rpx;
+  height: 270rpx;
+}
+
+.userinfo-left {
+  display: inline-block;
+  vertical-align:top;
+  width: 265rpx;
+  height: 220rpx;
+}
+
+.userinfo-middle {
+  display: inline-block;
+  vertical-align:top;
+  width: 220rpx;
+  height: 220rpx;
+}
+
+.userinfo-right {
+  display: inline-block;
+  vertical-align:top;
+  width: 265rpx;
+  height: 220rpx;
+}
+
+.userinfo-right-up {
+  height: 170rpx;
+}
+
+/*这个线也可以用absolute position来解决*/
+.userinfo-right-middle {
+  background-color: black;
+  margin-left: -5rpx;
+  height: 6rpx;
+}
+
+.userinfo-left-middle{
+  background-color: black;
+  margin-right: -15rpx;
+  height: 6rpx;
+}
+
+.userinfo-avatar {
+  width: 220rpx;
+  height: 220rpx;
+  border-style: solid;
+  border-width: 6rpx;
+  border-radius: 50%;
+}
+
+.button-img-edge {
+  width: 750rpx;
+  height: 155rpx;
+}

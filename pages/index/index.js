@@ -74,8 +74,6 @@ Page({
     })
   },
   navToTeacherForm: function() {
-    var selections = {}
-    selections.info = "teacher"
     wx.navigateTo({
       url: '../teacher-form/teacher-form'
     })

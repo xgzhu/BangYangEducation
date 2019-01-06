@@ -1,5 +1,5 @@
 <view>
-  <view wx:if="{{shownList.length == 0}}">啊呀，好像没有信息，放宽点要求试试？</view>
+  <view wx:if="{{shownList.length == 0}}">{{emptyInfo}}</view>
   <view wx:for="{{shownList}}" class="card-edge">
     <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
