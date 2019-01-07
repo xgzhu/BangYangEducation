@@ -81,8 +81,16 @@ var gradesToId = {
   "高中复读" : "G13"
 }
 
+// For selection list
+var categories = [
+  { name: "小学", range: [1, 6]},
+  { name: "初中", range: [7, 9]},
+  { name: "高中", range: [10, 12]},
+]
+
 module.exports = {
   grades,
   idToGrades,
-  gradesToId
+  gradesToId,
+  categories
 }

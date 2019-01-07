@@ -22,7 +22,7 @@
 
 2019.01.06
 - BUG：student/teacher的更新有问题，baseStudent没有成功更新，宽哥在做综合接口中
-- BUG：需要写一个list page来支持多选（teacher-form里的可教年级科目）
+- 用selection-list来支持多选（teacher-form里的可教年级科目），但是不够美观，可效仿lib-selection
 - 可以读取intention表了，但是本地做join不靠谱，与宽哥交流中
 
 2019.01.05

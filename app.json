@@ -7,6 +7,7 @@
     "pages/teacher-form/teacher-form",
     "pages/student-form/student-form",
     "pages/lib-selection/lib-selection",
+    "pages/selection-list/selection-list",
     "pages/logs/logs"
   ],
   "window":{

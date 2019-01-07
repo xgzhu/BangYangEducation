@@ -69,16 +69,6 @@ Page({
     if (options.shouldReturn != undefined) {
       that.setData({shouldReturn: options.shouldReturn})
     }
-    // prepare grade
-    var gradelist = grades.grades[0].name
-    for (var i = 1; i < grades.grades.length; i++) {
-      gradelist += "+" + grades.grades[i].name
-    }
-    var subjectList = subjects.subjects[0].name
-    for (var i = 1; i < subjects.subjects.length; i++) {
-      subjectList += "+" + subjects.subjects[i].name
-    }
-    that.setData({gradelist:gradelist, subjectList:subjectList})
     wx.setStorageSync("tAim", "")
     wx.setStorageSync("tSubject", "")
     console.log(that.data)
@@ -86,16 +76,10 @@ Page({
   onShow: function () {
     var gradeInfo = wx.getStorageSync("tAim")
     if (gradeInfo != undefined && gradeInfo != "") {
-      // if (gradeInfo > 10) {
-
-      // }
       that.setData({gradeInfo:gradeInfo, error_grade: ""})
     }
     var subjectInfo = wx.getStorageSync("tSubject")
     if (subjectInfo != undefined && subjectInfo != "") {
-      // if (subjectInfo > 10) {
-
-      // }
       that.setData({subjectInfo:subjectInfo, error_subject: ""})
     }
   },
@@ -267,13 +251,16 @@ Page({
       that.setData({error_detail_address: ""})
   },
   selectGrade: function() {
-    wx.navigateTo({
-      url: '../selectionlist/selectionlist?name=tAim&list='+that.data.gradelist
-    });
+    var options = {name:"tAim", list:grades.grades, categories: grades.categories}
+    that.navToSelectionList(options)
   },
   selectSubject: function() {
+    var options = {name:"tSubject", list:subjects.subjects, categories: subjects.categories}
+    that.navToSelectionList(options)
+  },
+  navToSelectionList: function(options) {
     wx.navigateTo({
-      url: '../selectionlist/selectionlist?name=tSubject&list='+that.data.subjectList
+      url: '../selection-list/selection-list?options='+JSON.stringify(options)
     });
   },
   chooseImageTap: function(e){
@@ -308,7 +295,7 @@ Page({
     })
   },
   validateInput: function (data, page) {
-    console.log(data)
+    return true
     var success = true
     if (page >= 1) {
       if (data.tName == "") {
@@ -383,14 +370,14 @@ Page({
         that.setData({error_time: "error"})
         success = false
       }
-      // if (that.data.gradeInfo == "请选择目标年级") {
-      //   that.setData({error_grade: "error"})
-      //   success = false
-      // }
-      // if (that.data.subjectInfo == "请选择目标科目") {
-      //   that.setData({error_subject: "error"})
-      //   success = false
-      // }
+      if (that.data.gradeInfo == "请选择目标年级") {
+        that.setData({error_grade: "error"})
+        success = false
+      }
+      if (that.data.subjectInfo == "请选择目标科目") {
+        that.setData({error_subject: "error"})
+        success = false
+      }
     }
     if (page >= 4) {
       if (data.tAddress == "") {

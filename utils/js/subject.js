@@ -59,7 +59,17 @@ var points = [
   { name: "不及格", id: 5 }
 ]
 
+// For selection list
+var categories = [
+  { name: "基础学科", range: [1, 12]},
+  { name: "艺术专项", range: [13, 20]},
+  { name: "体育专项", range: [21, 30]},
+  { name: "语言专项", range: [31, 42]},
+  { name: "其他", range: [43, 44]},
+]
+
 module.exports = {
   subjects,
-  points
+  points,
+  categories
 }
