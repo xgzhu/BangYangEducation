@@ -86,6 +86,7 @@ App({
             var studentInfoCallback = function(studentInfo) {
               that.globalData.myStudentHistory = studentInfo
               that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
+              that.getReservationInfo({sId: that.globalData.myStudentRegister.sId, iType: 2})
               console.log('myStudentRegister', that.globalData.myStudentRegister)
             }
             that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
@@ -93,6 +94,7 @@ App({
             var teacherInfoCallback = function(teacherInfo) {
               that.globalData.myTeacherHistory = teacherInfo
               that.globalData.myTeacherRegister = that.selectNewestData(teacherInfo)
+              that.getReservationInfo({tId: that.globalData.myTeacherRegister.tId, iType: 1})
               console.log('myTeacherRegister', that.globalData.myTeacherRegister)
             }
             that.getTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
@@ -150,6 +152,19 @@ App({
       console.log('teacherLibData', teacherInfo)
     }
     that.getTeacherInfo({"cityId":cityId}, teacherInfoCallback)
+  },
+  getReservationInfo: function(searchData) {
+    var intention_url = "https://api.zhexiankeji.com/education/intention/search"
+    wx.request({
+      url: intention_url,
+      data:  searchData,
+      header: {'content-type': 'application/json'},
+      method: "POST",
+      success: function (res) {
+        console.log("xiaoguang debug", searchData, res)
+      },
+      fail: function (res) {console.log("failed", res)}
+    })
   },
   getStudentInfo: function(searchData, callback) {
     var basic_student_url = "https://api.zhexiankeji.com/education/baseStudent/search"

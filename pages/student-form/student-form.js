@@ -284,6 +284,7 @@ Page({
         if (that.data.teacherGenderValue < 2)
           formData.wSex = that.data.teacherGenderValue
       }
+      formData.id = app.globalData.myStudentRegister.sId
       var formDataStr = JSON.stringify(formData)
       console.log(formDataStr)
       var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
@@ -295,7 +296,7 @@ Page({
             wx.showLoading({
               title: '正在提交...'
             })
-            var url = "https://api.zhexiankeji.com/education/student/insert"
+            var url = "https://api.zhexiankeji.com/education/baseStudent/update"
             wx.request({
               url: url,
               data: formDataStr,

@@ -383,14 +383,14 @@ Page({
         that.setData({error_time: "error"})
         success = false
       }
-      if (that.data.gradeInfo == "请选择目标年级") {
-        that.setData({error_grade: "error"})
-        success = false
-      }
-      if (that.data.subjectInfo == "请选择目标科目") {
-        that.setData({error_subject: "error"})
-        success = false
-      }
+      // if (that.data.gradeInfo == "请选择目标年级") {
+      //   that.setData({error_grade: "error"})
+      //   success = false
+      // }
+      // if (that.data.subjectInfo == "请选择目标科目") {
+      //   that.setData({error_subject: "error"})
+      //   success = false
+      // }
     }
     if (page >= 4) {
       if (data.tAddress == "") {
@@ -421,6 +421,7 @@ Page({
     return wType
   },
   nextStep: function (e) {
+
     e.detail.value.tType = that.data.identityValue
     e.detail.value.tSex = parseInt(e.detail.value.tSex)
     e.detail.value.tEducation = that.data.tEducation
@@ -440,6 +441,7 @@ Page({
     e.detail.value.tWxid = app.globalData.openId
     e.detail.value.tAim = wx.getStorageSync('tAim')
     e.detail.value.tSubject = wx.getStorageSync('tSubject')
+    e.detail.value.id = app.globalData.myTeacherRegister.tId
     var formDataStr = JSON.stringify(e.detail.value)
     console.log('form发生了submit事件，携带数据为：', formDataStr)
     if (that.validateInput(e.detail.value, that.data.page)) {
@@ -451,14 +453,14 @@ Page({
       } else {
         var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
         wx.showModal({
-          title: '确定提交？=',
+          title: '确定提交',
           content: content,
           success: function(res) {
             if (res.confirm) {
               wx.showLoading({
                 title: '正在提交...'
               })
-              var url = "https://api.zhexiankeji.com/education/teacher/insert"
+              var url = "https://api.zhexiankeji.com/education/baseTeacher/update"
               wx.request({
                 url: url,
                 data: formDataStr,
@@ -522,7 +524,7 @@ Page({
   },
   uploadImage: function(id, metadata) {
     var img_url = "https://api.zhexiankeji.com/education/image/upload"
-    console.log(id, id+"_teacher__0")
+    // 个人照片
     wx.uploadFile({
       url: img_url,
       filePath:that.data.images[0],
@@ -541,6 +543,7 @@ Page({
         that.completeImageInfo(res_id, id, 0, metadata)
       }
     })
+    // 学生证
     wx.uploadFile({
       url: img_url,
       filePath:that.data.images[1],
@@ -559,6 +562,7 @@ Page({
         that.completeImageInfo(res_id, id, 1, metadata)
       }
     })
+    // 校园卡
     wx.uploadFile({
       url: img_url,
       filePath:that.data.images[2],

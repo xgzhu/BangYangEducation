@@ -8,8 +8,15 @@ Page({
     that = this
     console.log(e)
     if (e.personal == "student") {
+      if (app.globalData.myStudentRegister == null) {
+        //todo
+        return
+      }
       that.setData(app.globalData.myStudentRegister)
     } else if (e.personal == "teacher") {
+      if (app.globalData.myTeacherRegister == null) {
+        return
+      }
       that.setData(app.globalData.myTeacherRegister)
     } else {
       var item = JSON.parse(e.item)
@@ -22,11 +29,7 @@ Page({
     wx.setStorageSync("reserveConfirm", false)
     console.log("reserveConfirm", reserveConfirm)
     if (reserveConfirm) {
-      wx.showToast({
-        title: 'TODO: 尚未实现',
-        icon: 'success',
-        duration: 1000
-      })
+      that.makeReverservation()
     }
   },
   navToForm: function(type) {
