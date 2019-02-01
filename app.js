@@ -83,19 +83,32 @@ App({
             }
             that.globalData.openId = wxId
 
+            // Will be used in studentInfoCallback
+            var teacherReservationCallback = function(teacherReservations) {
+              console.log("myTeacherReservations", teacherReservations)
+              that.globalData.myTeacherReservations = teacherReservations
+            }
+
+            // Will be used in teacherInfoCallback
+            var studentReservationCallback = function(studentReservations) {
+              console.log("myStudentReservations", studentReservations)
+              that.globalData.myStudentReservations = studentReservations
+            }
+
             var studentInfoCallback = function(studentInfo) {
               that.globalData.myStudentHistory = studentInfo
-              that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
-              that.getReservationInfo({sId: that.globalData.myStudentRegister.sId, iType: 2})
               console.log('myStudentRegister', that.globalData.myStudentRegister)
+              that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
+              console.log('myStudentRegister', that.globalData.myStudentRegister)
+              that.getReservationInfo({sId: that.globalData.myStudentRegister.sId, iType: 2, searchType:2}, teacherReservationCallback)
             }
-            that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
+            that.getStudentInfo({"sWxid":wxId}, /* select= */ false, studentInfoCallback)
             
             var teacherInfoCallback = function(teacherInfo) {
               that.globalData.myTeacherHistory = teacherInfo
               that.globalData.myTeacherRegister = that.selectNewestData(teacherInfo)
-              that.getReservationInfo({tId: that.globalData.myTeacherRegister.tId, iType: 1})
               console.log('myTeacherRegister', that.globalData.myTeacherRegister)
+              that.getReservationInfo({tId: that.globalData.myTeacherRegister.tId, iType: 1, searchType:1}, studentReservationCallback)
             }
             that.getTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
           },
@@ -145,7 +158,7 @@ App({
       that.globalData.localStudentLibrary[cityId] = studentInfo
       console.log('studentLibData', studentInfo)
     }
-    that.getStudentInfo({"cityId":cityId}, studentInfoCallback)
+    that.getStudentInfo({"cityId":cityId}, /* select= */false, studentInfoCallback)
     
     var teacherInfoCallback = function(teacherInfo) {
       that.globalData.localTeacherLibrary[cityId] = teacherInfo
@@ -153,21 +166,26 @@ App({
     }
     that.getTeacherInfo({"cityId":cityId}, teacherInfoCallback)
   },
-  getReservationInfo: function(searchData) {
+  getReservationInfo: function(searchData, callback) {
     var intention_url = "https://api.zhexiankeji.com/education/intention/search"
+    console.log("getReservationInfo", searchData)
     wx.request({
       url: intention_url,
       data:  searchData,
       header: {'content-type': 'application/json'},
       method: "POST",
       success: function (res) {
-        console.log("xiaoguang debug", searchData, res)
+        // console.log("xiaoguang debug", searchData, res)
+        callback(res.data.result)
       },
       fail: function (res) {console.log("failed", res)}
     })
   },
-  getStudentInfo: function(searchData, callback) {
+  getStudentInfo: function(searchData, select, callback) {
     var basic_student_url = "https://api.zhexiankeji.com/education/baseStudent/search"
+    if (select) {
+      basic_student_url = "https://api.zhexiankeji.com/education/student/select"
+    }
     wx.request({
       url: basic_student_url,
       data:  searchData,
@@ -395,10 +413,14 @@ App({
     userInfo: null,
     systemInfo: null,
     openId: null,
+    // Deprecated: 全部注册信息
     myStudentHistory: [],
     myTeacherHistory: [],
+    // 唯一注册信息
     myStudentRegister: null,
     myTeacherRegister: null,
+    myStudentReservations: [],
+    myTeacherReservations: [],
     localStudentLibrary: {},
     localTeacherLibrary: {},
     localInternshipInfo: [],

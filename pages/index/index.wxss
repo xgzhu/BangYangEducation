@@ -1,7 +1,7 @@
 /**index.wxss**/
 .padding-border {
-  padding-left: 25rpx;
-  padding-right: 25rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
 }
 
 .padding-border-vertical {
@@ -103,9 +103,14 @@
   background-color: white;
 }
 
-.swiper-item{
+.swiper-item {
   display: block;
   height: 150px;
+}
+
+.swiper-item-img {
+  height: 150px;
+  width: 100%;
 }
 
 .block-A{

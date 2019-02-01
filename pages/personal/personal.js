@@ -31,4 +31,10 @@ Page({
       url: '../personaldata/personaldata'
     })
   },
+  navToReservation: function(e) {
+    console.log(e)
+    wx.navigateTo({
+      url: '../reservation/reservation?type=' + e.currentTarget.dataset.type
+    })
+  }
 })

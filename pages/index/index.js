@@ -8,7 +8,10 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    swiperItems: ['demo-text-1', 'demo-text-2', 'demo-text-3', 'demo-text-4'],
+    swiperItems: [{default:'demo-text-1', img:'../../utils/imgs/ToTeacherList.jpeg', imgReady: true, function:"navToTeacherLib"},
+                  {default:'demo-text-2', img:'../../utils/imgs/ToTeacherList2.jpeg', imgReady: true, function:"navToTeacherLib"},
+                  {default:'demo-text-3', img:'../../utils/imgs/ToTeacherForm.jpeg', imgReady: true, function:"navToTeacherForm"},
+                  {default:'demo-text-4', img:'../../utils/imgs/ToEduInfo.jpeg', imgReady: true, function:"navToTeacherLib"}],
   },
   //事件处理函数
   bindViewTap: function() {

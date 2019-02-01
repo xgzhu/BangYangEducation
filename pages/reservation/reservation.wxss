@@ -1,0 +1,121 @@
+.section__title {
+  display: inline-block;
+  vertical-align:top;
+  padding-left: 25rpx;
+  padding-right: 10rpx;
+  color: #444;
+}
+
+.filter__title {
+  display: inline-block;
+  vertical-align:top;
+  padding-left: 40rpx;
+  color: #444;
+  width: 10%;
+}
+
+.filter__content {
+  display: inline-block;
+  vertical-align:top;
+  padding-left: 35rpx;
+  color: #444;
+  width: 70%;
+}
+
+.icon {
+  width: 50rpx;
+  height: 50rpx;
+  text-align: right;
+}
+
+.fixed_btns {
+  position: fixed;
+  bottom: 30rpx;
+  right: 30rpx;
+  height: 300rpx;
+  width: 270rpx;
+}
+.fixed_btn {
+  height: 90rpx;
+  width: 250rpx;
+  opacity: 0.8;
+}
+
+.checkbox_small {
+  width: 33%;
+  display: inline-block;
+  vertical-align:top;
+}
+.checkbox_normal{
+  width: 50%;
+  display: inline-block;
+  vertical-align:top;
+}
+.checkbox_large{
+  width: 100%;
+  display: inline-block;
+  vertical-align:top;
+}
+.card-edge{
+  padding: 10rpx;
+  width: 750rpx;
+  height: 300rpx;
+}
+.card-teacher{
+  padding: 10rpx;
+  background-color: #9ee;
+  height: 280rpx;
+  width: 710rpx;
+}
+.card-student{
+  padding: 10rpx;
+  background-color: #eea;
+  height: 280rpx;
+  width: 710rpx;
+}
+.card-avatar-edge{
+  display: inline-block;
+  vertical-align:top;
+  width: 160rpx;
+  height: 240rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+.card-avatar-content{
+  width: 140rpx;
+  height: 140rpx;
+}
+.card-student-id {
+  font-size: 24rpx;
+  color: #fa5;
+}
+.card-teacher-id {
+  font-size: 23rpx;
+  color: #55f;
+}
+.card-content-edge{
+  display: inline-block;
+  vertical-align:top;
+  width: 530rpx;
+  height: 240rpx;
+}
+.card-content-name{
+  font-size: 28rpx;
+  font-weight: bold;
+}
+.card-content-title {
+  font-size: 23rpx;
+  color: #a90;
+}
+.card-content-subject{
+  font-size: 24rpx;
+  color: #233;
+}
+.card-content-description{
+  font-size: 24rpx;
+  color: #233;
+}
+.card-content-salary{
+  font-size: 24rpx;
+  color: #233;
+}

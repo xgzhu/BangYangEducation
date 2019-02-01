@@ -35,7 +35,8 @@
       interval="3000" duration="500" previous-margin="0px" next-margin="0px">
       <block wx:for="{{swiperItems}}" wx:key="*this">
         <swiper-item>
-          <view class="swiper-item {{item}}"></view>
+          <view wx:if="{{!item.imgReady}}" class="swiper-item {{item.default}}"></view>
+          <image wx:else class="swiper-item-img" src="{{item.img}}" bindtap="{{item.function}}"></image>
         </swiper-item>
       </block>
     </swiper>

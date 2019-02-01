@@ -6,7 +6,6 @@ Page({
   },
   onLoad: function(e) {
     that = this
-    console.log(e)
     if (e.personal == "student") {
       if (app.globalData.myStudentRegister == null) {
         //todo
@@ -22,6 +21,8 @@ Page({
       var item = JSON.parse(e.item)
       that.setData(item)
       that.setData({canRegister: true})
+      that.initReservationInfo()
+      console.log(that.data)
     }
   },
   onShow: function() {
@@ -44,6 +45,29 @@ Page({
     wx.navigateTo({
       url: url
     })
+  },
+  initReservationInfo: function() {
+    if (that.data.type == "teacher") {
+      for (var i = 0; i < app.globalData.myTeacherReservations.length; i++) {
+        if (app.globalData.myTeacherReservations[i].tId == that.data.tId) {
+          that.setData({
+            canRegister: false,
+            reservationStatus: app.globalData.myTeacherReservations[i].iStatus,
+            currentReservation: app.globalData.myTeacherReservations[i]
+          })
+        }
+      }
+    } else {
+      for (var i = 0; i < app.globalData.myStudentReservations.length; i++) {
+        if (app.globalData.myStudentReservations[i].sId == that.data.sId) {
+          that.setData({
+            canRegister: false,
+            reservationStatus: app.globalData.myStudentReservations[i].iStatus,
+            currentReservation: app.globalData.myTeacherReservations[i]
+          })
+        }
+      }
+    }
   },
   makeReverservation: function() {
     var type = that.data.type
@@ -99,8 +123,12 @@ Page({
       data.sIds.push(that.data.sId)
       data.iType = 1
     }
-    console.log(JSON.stringify(data))
+    console.log("data", JSON.stringify(data))
     var url = "https://api.zhexiankeji.com/education/intention/insert"
+    var modifiedData = data
+    modifiedData.tId = data.tIds[0]
+    modifiedData.sId = data.sIds[0]
+    modifiedData.iStatus = 0
     wx.request({
       url: url,
       data: JSON.stringify(data),
@@ -109,15 +137,78 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
+        // 这不是真的成功，需要 res.data.errInfo == "success" 才是成功
+        // {errCode: "000000", errInfo: "success", result: Array(1)}
+        console.log(res)
         wx.showToast({
           title: '已预约',
           icon: 'success',
           duration: 1000
         })
+        that.setData({
+          canRegister: false,
+          reservationStatus: 0
+        })
+        if (that.data.type == "teacher") {
+          app.globalData.myTeacherReservations.push(data)
+        } else {
+          app.globalData.myStudentReservations.push(data)
+        }
       },
       fail: function (res) {
         wx.showToast({
-          title: '出现了问题',
+          title: '网络出现了问题',
+          icon: 'fail',
+          duration: 1000
+        })
+      },
+    })
+  },
+  cancelReverservation: function() {
+    that.data.currentReservation.iStatus = 3
+    var data = {}
+    data.id = that.data.currentReservation.id
+    data.sIds = [that.data.currentReservation.sId]
+    data.tIds = [that.data.currentReservation.tId]
+    data.iType = that.data.currentReservation.iType
+    data.iStatus = 3
+    console.log("data", JSON.stringify(data))
+    var url = "https://api.zhexiankeji.com/education/intention/update"
+    wx.request({
+      url: url,
+      data: JSON.stringify(data),
+      method: "POST",
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res)
+        wx.showToast({
+          title: '已取消预约',
+          icon: 'success',
+          duration: 1000
+        })
+        that.setData({
+          canRegister: false,
+          reservationStatus: 3
+        })
+        if (that.data.type == "teacher") {
+          for (var i = 0; i < app.globalData.myTeacherReservations.length; i++) {
+            if (app.globalData.myTeacherReservations[i].tId == that.data.tId) {
+              app.globalData.myTeacherReservations[i].iStatus = 3
+            }
+          }
+        } else {
+          for (var i = 0; i < app.globalData.myStudentReservations.length; i++) {
+            if (app.globalData.myStudentReservations[i].sId == that.data.sId) {
+              app.globalData.myStudentReservations[i].iStatus = 3
+            }
+          }
+        }
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '网络出现了问题',
           icon: 'fail',
           duration: 1000
         })
