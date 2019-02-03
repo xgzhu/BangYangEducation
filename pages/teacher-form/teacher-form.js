@@ -447,7 +447,7 @@ Page({
               wx.showLoading({
                 title: '正在提交...'
               })
-              var url = "https://api.zhexiankeji.com/education/baseTeacher/update"
+              var url = "https://api.zhexiankeji.com/education/teacher/update"
               wx.request({
                 url: url,
                 data: formDataStr,

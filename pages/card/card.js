@@ -12,11 +12,13 @@ Page({
         return
       }
       that.setData(app.globalData.myStudentRegister)
+      that.setData({nickname: app.globalData.myStudentRegister.name})
     } else if (e.personal == "teacher") {
       if (app.globalData.myTeacherRegister == null) {
         return
       }
       that.setData(app.globalData.myTeacherRegister)
+      that.setData({nickname: app.globalData.myTeacherRegister.name})
     } else {
       var item = JSON.parse(e.item)
       that.setData(item)
@@ -63,7 +65,7 @@ Page({
           that.setData({
             canRegister: false,
             reservationStatus: app.globalData.myStudentReservations[i].iStatus,
-            currentReservation: app.globalData.myTeacherReservations[i]
+            currentReservation: app.globalData.myStudentReservations[i]
           })
         }
       }
@@ -123,12 +125,12 @@ Page({
       data.sIds.push(that.data.sId)
       data.iType = 1
     }
-    console.log("data", JSON.stringify(data))
     var url = "https://api.zhexiankeji.com/education/intention/insert"
-    var modifiedData = data
-    modifiedData.tId = data.tIds[0]
-    modifiedData.sId = data.sIds[0]
-    modifiedData.iStatus = 0
+    if (that.data.reservationStatus == 3) {
+      data.iStatus = 0
+      url = "https://api.zhexiankeji.com/education/intention/update"
+    }
+    console.log("data", JSON.stringify(data))
     wx.request({
       url: url,
       data: JSON.stringify(data),
@@ -145,15 +147,32 @@ Page({
           icon: 'success',
           duration: 1000
         })
+        if (that.data.reservationStatus != 3) {
+          if (that.data.type == "teacher") {
+            app.globalData.myTeacherReservations.push(data)
+          } else {
+            app.globalData.myStudentReservations.push(data)
+          }
+        } else {
+          if (that.data.type == "teacher") {
+            for (var i = 0; i < app.globalData.myTeacherReservations.length; i++) {
+              if (app.globalData.myTeacherReservations[i].tId == that.data.tId) {
+                app.globalData.myTeacherReservations[i].iStatus = 0
+              }
+            }
+          } else {
+            for (var i = 0; i < app.globalData.myStudentReservations.length; i++) {
+              if (app.globalData.myStudentReservations[i].sId == that.data.sId) {
+                app.globalData.myStudentReservations[i].iStatus = 0
+              }
+            }
+          }
+        }
         that.setData({
           canRegister: false,
           reservationStatus: 0
         })
-        if (that.data.type == "teacher") {
-          app.globalData.myTeacherReservations.push(data)
-        } else {
-          app.globalData.myStudentReservations.push(data)
-        }
+        
       },
       fail: function (res) {
         wx.showToast({

@@ -296,7 +296,7 @@ Page({
             wx.showLoading({
               title: '正在提交...'
             })
-            var url = "https://api.zhexiankeji.com/education/baseStudent/update"
+            var url = "https://api.zhexiankeji.com/education/student/update"
             wx.request({
               url: url,
               data: formDataStr,
@@ -317,9 +317,14 @@ Page({
                     }
                   })
                 } else {
-                  wx.redirectTo({
-                    url: '../card/card?personal=student'
-                  })
+                  var studentInfoCallback = function(studentInfo) {
+                    var myStudentHistory = studentInfo
+                    app.globalData.myStudentRegister = app.selectNewestData(studentInfo)
+                    wx.redirectTo({
+                      url: '../card/card?personal=student'
+                    })
+                  }
+                  app.getStudentInfo({"sWxid":app.globalData.openId}, studentInfoCallback)
                 }
               },
               fail: function(res) {

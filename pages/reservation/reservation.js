@@ -56,12 +56,18 @@ Page({
       for (var i = 0; i < list.length; i++) {
         var shownItem = app.constructTeacherInfo([list[i].generalTeacher.teacher], list[i].generalTeacher.teacherWorks)
         shownItem = shownItem[0]
+        if (list[i].iStatus == 3) {
+          continue
+        }
         shownList.push(shownItem)
       }
     } else {
       for (var i = 0; i < list.length; i++) {
         var shownItem = app.constructStudentInfo([list[i].generalStudent.student], list[i].generalStudent.works)
         shownItem = shownItem[0]
+        if (list[i].iStatus == 3) {
+          continue
+        }
         shownList.push(shownItem)
       }
     }
