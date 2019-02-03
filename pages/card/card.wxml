@@ -70,8 +70,8 @@
   <view class="display_show">
     <view class="section__title">可授科目</view>
     <view class="section__big_content_noline">
-      <view wx:for="{{subjects}}">
-        {{item.name}}
+      <view wx:for="{{subjectsList}}">
+        {{item.name}}, 
       </view>
     </view>
   </view>

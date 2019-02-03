@@ -1,18 +1,18 @@
 <view>
   <view wx:if="{{shownList.length == 0}}">{{emptyInfo}}</view>
-  <view wx:if="{{type == 'teacher'}}" data-index="{{index}}" bindtap="navToNamecard">
-    <view wx:for="{{shownList}}" class="card-edge card-teacher">
+  <view wx:if="{{type == 'teacher'}}">
+    <view wx:for="{{shownList}}" class="card-edge card-teacher" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
-        <image wx:if="{{item.generalTeacher.teacher.tSex == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
+        <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
         <image wx:else src="../../utils/imgs/icon_girl.png" class="card-avatar-content">
         </image>
         <view class="card-teacher-id">家教编号</view>
-        <view class="card-teacher-id">{{item.idString}}</view>
+        <view class="card-teacher-id">{{item.id}}</view>
         <view class="card-content-title">{{item.title}}</view>
       </view>
       <view class="card-content-edge">
-        <view wx:if="{{item.generalTeacher.teacher.tSex == 0}}" class="card-content-name">{{item.nickname}} (男) {{item.identityInfo}}</view>
+        <view wx:if="{{item.gender == 0}}" class="card-content-name">{{item.nickname}} (男) {{item.identityInfo}}</view>
         <view wx:else class="card-content-name">{{item.nickname}} (女) {{item.identityInfo}}</view>
         <view class="card-content-subject">可教科目: {{item.subjects}}</view>
         <view class="card-content-subject">可教年级: {{item.targetGradeReadable}}</view>
@@ -22,18 +22,18 @@
       </view>
     </view>
   </view>
-  <view wx:else data-index="{{index}}" bindtap="navToNamecard">
-    <view wx:for="{{shownList}}" class="card-edge card-student">
+  <view wx:else>
+    <view wx:for="{{shownList}}" class="card-edge card-student" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
-        <image wx:if="{{item.generalStudent.student.sSex == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
+        <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
         <image wx:else src="../../utils/imgs/icon_girl.png" class="card-avatar-content">
         </image>
         <view class="card-student-id">学生编号</view>
-        <view class="card-student-id">{{item.idString}}</view>
+        <view class="card-student-id">{{item.id}}</view>
       </view>
       <view class="card-content-edge">
-        <view wx:if="{{item.generalStudent.student.sSex == 0}}" class="card-content-name">{{item.nickname}} (男) {{item.grade}}</view>
+        <view wx:if="{{item.gender == 0}}" class="card-content-name">{{item.nickname}} (男) {{item.grade}}</view>
         <view wx:else class="card-content-name">{{item.nickname}} (女) {{item.grade}}</view>
         <view class="card-content-subject">求教科目: {{item.subjects}}</view>
         <view class="card-content-description">学员情况: {{item.description}}</view>

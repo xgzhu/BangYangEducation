@@ -97,12 +97,12 @@ App({
 
             var studentInfoCallback = function(studentInfo) {
               that.globalData.myStudentHistory = studentInfo
-              console.log('myStudentRegister', that.globalData.myStudentRegister)
+              console.log('myStudentHistory', that.globalData.myStudentHistory)
               that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
               console.log('myStudentRegister', that.globalData.myStudentRegister)
               that.getReservationInfo({sId: that.globalData.myStudentRegister.sId, iType: 2, searchType:2}, teacherReservationCallback)
             }
-            that.getStudentInfo({"sWxid":wxId}, /* select= */ false, studentInfoCallback)
+            that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
             
             var teacherInfoCallback = function(teacherInfo) {
               that.globalData.myTeacherHistory = teacherInfo
@@ -158,7 +158,7 @@ App({
       that.globalData.localStudentLibrary[cityId] = studentInfo
       console.log('studentLibData', studentInfo)
     }
-    that.getStudentInfo({"cityId":cityId}, /* select= */false, studentInfoCallback)
+    that.getStudentInfo({"cityId":cityId}, studentInfoCallback)
     
     var teacherInfoCallback = function(teacherInfo) {
       that.globalData.localTeacherLibrary[cityId] = teacherInfo
@@ -181,11 +181,11 @@ App({
       fail: function (res) {console.log("failed", res)}
     })
   },
-  getStudentInfo: function(searchData, select, callback) {
+  getStudentInfo: function(searchData, callback) {
     var basic_student_url = "https://api.zhexiankeji.com/education/baseStudent/search"
-    if (select) {
-      basic_student_url = "https://api.zhexiankeji.com/education/student/select"
-    }
+    // if (select) {
+    //   basic_student_url = "https://api.zhexiankeji.com/education/student/select"
+    // }
     wx.request({
       url: basic_student_url,
       data:  searchData,
@@ -200,6 +200,7 @@ App({
           header: {'content-type': 'application/json'},
           method: "POST",
           success: function (res) {
+            console.log(res)
             var studentInfo = that.constructStudentInfo(basic_student_result, res.data.result)
             callback(studentInfo)
           },
@@ -235,6 +236,7 @@ App({
     })
   },
   constructTeacherInfo: function(btresult, wtresult) {
+    console.log("constructTeacherInfo", btresult, wtresult)
     var result = []
     for (var i = 0; i < btresult.length; i++) {
       var bt = btresult[i]
@@ -245,6 +247,7 @@ App({
         }
         bt.type = "teacher"
         bt.name = bt.tName
+        bt.nickname = bt.tName.substring(0, 1)+"老师";
         bt.description = "未填写描述"
         if (bt.tDescribe != "")
           bt.description = bt.tDescribe
@@ -282,10 +285,10 @@ App({
           }
         }
         result.push(bt)
-        // console.log(bt)
         break;
       }
     }
+    console.log("result", result)
     return result
   },
   formatId: function (id) {
@@ -304,6 +307,7 @@ App({
         }
         bs.type = "student"
         bs.name = bs.sName
+        bs.nickname = bs.sName.substring(0, 1)+"同学";
         bs.description = "未填写描述"
         if (bs.sDescribe != "")
           bs.description = bs.sDescribe
