@@ -94,10 +94,21 @@ Page({
         wx.setStorageSync("reserveConfirm", res.confirm)
         if (!res.confirm)
           wx.navigateBack()
+        else
+          that.prepareForm()
       },
       fail: function(res) {
         console.log("checkExisting fail")
       },
+    })
+  },
+  // prepare existing info.
+  prepareForm: function() {
+    var myData = app.globalData.myTeacherRegister
+    that.setData({
+      defaultName: myData.name,
+      defaultBoy: myData.gender == 0,
+      defaultGirl: myData.gender == 1,
     })
   },
 

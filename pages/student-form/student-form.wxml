@@ -5,7 +5,7 @@
   <view class="display_show">
     <view class="section__title">姓名</view>
     <view class="section__big_content {{error_name}}">
-    <input name="sName" placeholder="请输入学生姓名" maxlength="20" 
+    <input name="sName" placeholder="请输入学生姓名" maxlength="20" value="{{defaultName}}"
     bindblur="finishSName"/>
     </view>
   </view>
@@ -13,8 +13,8 @@
     <view class="section__title">性别</view>
     <view class="section__big_content {{error_gender}}">
     <radio-group name="sSex" bindtap="finishGender">
-      <view class="selection"><label><radio value="0"/>男生</label></view>
-      <view class="selection"><label><radio value="1"/>女生</label></view>
+      <view class="selection"><label><radio value="0" checked="{{defaultBoy}}"/>男生</label></view>
+      <view class="selection"><label><radio value="1" checked="{{defaultGirl}}"/>女生</label></view>
     </radio-group>
     </view>
   </view>

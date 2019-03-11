@@ -70,6 +70,10 @@ Page({
     var shownList = []
     for (var i = 0; i < allList.length; i++) {
       var element = allList[i]
+      // Self Filter
+      if (element.sWxid == app.globalData.openId || element.tWxid == app.globalData.openId) {
+        continue
+      }
       // Gender Filter
       if (selections.gender != undefined && selections.gender != "2"
         && selections.gender != element.gender.toString()) {
