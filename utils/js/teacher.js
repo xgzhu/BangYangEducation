@@ -41,8 +41,17 @@ var reversedGrade = [
     "外籍教师", "海归人员",
 ]
 
+var identityToDatabaseId = {
+    "专科" : 1001,
+    "本科" : 1002,
+    "硕士" : 1003,
+    "博士" : 1004,
+    "博士后" : 1005
+}
+
 module.exports = {
   grades,
   genders,
-  reversedGrade
+  reversedGrade,
+  identityToDatabaseId
 }

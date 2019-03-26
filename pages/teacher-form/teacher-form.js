@@ -137,18 +137,19 @@ Page({
     that.setData({error_gender: ""})
   },
   finishIdentity: function (e) {
-    var idx = e.detail.value
+    var idx = parseInt(e.detail.value)
     that.setData({
       identityInfo: that.data.identitys[idx].name,
       identityValue: that.data.identitys[idx].id,
       error_identity: "",
     })
     switch (idx) {
-      case 2: that.setData({tEducation: "本科"}); break;
-      case 3: that.setData({tEducation: "硕士"}); break;
-      case 4: that.setData({tEducation: "博士"}); break;
+      case 0: that.setData({tEducation: "本科"}); break;
+      case 1: that.setData({tEducation: "硕士"}); break;
+      case 2: that.setData({tEducation: "博士"}); break;
       default: break;
     }
+    console.log("finishIdentity tEducation", that.data.tEducation, that.data, e)
   },
   finishEntranceYear: function (e) {
     var idx = e.detail.value
@@ -307,7 +308,7 @@ Page({
     })
   },
   validateInput: function (data, page) {
-    return true
+    //return true
     var success = true
     if (page >= 1) {
       if (data.tName == "") {
@@ -423,7 +424,7 @@ Page({
 
     e.detail.value.tType = that.data.identityValue
     e.detail.value.tSex = parseInt(e.detail.value.tSex)
-    e.detail.value.tEducation = that.data.tEducation
+    e.detail.value.tEducation = teachers.identityToDatabaseId[that.data.tEducation]
     if (e.detail.value.tUniversity != undefined && that.data.collegeInfo != "请选择本科学校")
       e.detail.value.tUniversity = "U"+that.data.provinceAndUniversitys[1][e.detail.value.tUniversity[1]].id.toString()
     if (e.detail.value.tGraduate != undefined && that.data.collegeInfoMaster != "请选择硕士学校")
@@ -440,6 +441,7 @@ Page({
     e.detail.value.tWxid = app.globalData.openId
     e.detail.value.tAim = wx.getStorageSync('tAim')
     e.detail.value.tSubject = wx.getStorageSync('tSubject')
+    console.log("e.detail.value", e.detail.value)
     if (that.validateInput(e.detail.value, that.data.page)) {
     // if (true) {
       if (that.data.page < 4) {
