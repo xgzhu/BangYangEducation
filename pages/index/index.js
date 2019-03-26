@@ -90,7 +90,7 @@ Page({
   navToOtherTeacherLib: function() {
     that.navToLib({
       info: "teacher",
-      grades: ["学龄前", "学龄前兴趣班"], 
+      grades: ["高中复读"], 
     })
   },
   navToPrimarySchoolTeacherLib: function() {

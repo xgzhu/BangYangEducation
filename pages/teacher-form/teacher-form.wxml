@@ -198,7 +198,7 @@
   </view>
 </view>
 
-<view wx:if="{{page>=3}}">
+<view wx:if="{{page>=-3}}">
   <image src="../../utils/imgs/content_line.png" class="content-line"> </image>
 
   <view class="display_show">
@@ -225,7 +225,7 @@
     <view class="section__title">目标年级</view>
     <view class="section__big_content {{error_grade}}">
       <view class="picker" bindtap="selectGrade">
-          {{gradeInfo}}
+          {{gradeInfoReadable}}
       </view>
     </view>
   </view>
@@ -234,7 +234,7 @@
     <view class="section__title">目标科目</view>
     <view class="section__big_content {{error_subject}}">
       <view class="picker" bindtap="selectSubject">
-          {{subjectInfo}}
+          {{subjectInfoReadable}}
       </view>
     </view>
   </view>

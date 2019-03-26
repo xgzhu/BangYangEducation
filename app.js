@@ -20,6 +20,8 @@ App({
     that.getUserInfo()
     that.getSystemInfo()
     that.setupUserCustomInfo()
+
+    console.log("globalData", that.globalData)
   },
   setupUserCustomInfo: function() {
     // These data should be stored in the cloud later.
@@ -100,6 +102,9 @@ App({
               console.log('myStudentHistory', that.globalData.myStudentHistory)
               that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
               console.log('myStudentRegister', that.globalData.myStudentRegister)
+              if (that.globalData.myStudentRegister == null) {
+                return
+              }
               that.getReservationInfo({sId: that.globalData.myStudentRegister.sId, iType: 2, searchType:2}, teacherReservationCallback)
             }
             that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
@@ -108,6 +113,9 @@ App({
               that.globalData.myTeacherHistory = teacherInfo
               that.globalData.myTeacherRegister = that.selectNewestData(teacherInfo)
               console.log('myTeacherRegister', that.globalData.myTeacherRegister)
+              if (that.globalData.myTeacherRegister == null) {
+                return
+              }
               that.getReservationInfo({tId: that.globalData.myTeacherRegister.tId, iType: 1, searchType:1}, studentReservationCallback)
             }
             that.getTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
@@ -200,7 +208,7 @@ App({
           header: {'content-type': 'application/json'},
           method: "POST",
           success: function (res) {
-            console.log(res)
+            
             var studentInfo = that.constructStudentInfo(basic_student_result, res.data.result)
             callback(studentInfo)
           },

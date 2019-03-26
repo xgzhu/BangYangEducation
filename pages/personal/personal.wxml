@@ -52,20 +52,20 @@
     我预约的学员
   </view>
 </view>
-<view class="block">
+<!-- <view class="block">
   <view class="color-1" bindtap="">
     请家教流程
   </view>
-</view>
+</view> -->
 <!-- <view class="block">
   <view class="color-2" bindtap="navToPrimarySchoolTeacherLib">
     家教收费标准
   </view>
 </view> -->
-<view class="block">
+<!-- <view class="block">
   <view class="color-2" bindtap="">
     查看最新通知
   </view>
-</view>
+</view> -->
 
 </view>

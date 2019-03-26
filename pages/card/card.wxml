@@ -1,4 +1,4 @@
-<view wx:if="{{type=='institute'}}">
+<!-- <view wx:if="{{type=='institute'}}">
   <view class="name">
     {{nickname}}
   </view>
@@ -58,7 +58,7 @@
       {{address_detail}}
     </view>
   </view>
-</view>
+</view> -->
 
 <view wx:if="{{type=='teacher'}}">
   <view class="name">
@@ -70,9 +70,10 @@
   <view class="display_show">
     <view class="section__title">可授科目</view>
     <view class="section__big_content_noline">
-      <view wx:for="{{subjectsList}}">
+ <!--      <view wx:for="{{subjectsList}}">
         {{item.name}}, 
-      </view>
+      </view> -->
+      {{subjectsListReadable}}
     </view>
   </view>
   <view class="display_show">
@@ -81,12 +82,12 @@
       {{targetGradeReadable}}
     </view>
   </view>
-  <view class="display_show">
+<!--   <view class="display_show">
     <view class="section__title">工作时间</view>
     <view class="section__big_content_noline">
       {{work_time}}
     </view>
-  </view>
+  </view> -->
   <view class="display_show" wx:if="{{address_detail!=undefined}}">
     <view class="section__title">可达区域</view>
     <view class="section__big_content_noline">
@@ -98,7 +99,7 @@
     <view class="section__big_content_noline" wx:if="{{hourly_pay > 0}}">
       {{hourly_pay}}元
     </view>
-    <view class="section__big_content_noline" wx:if="{{hourly_pay == 0}}">
+    <view class="section__big_content_noline" wx:else>
       面议
     </view>
   </view>
@@ -172,7 +173,7 @@
     <view class="section__big_content_noline" wx:if="{{hourly_pay > 0}}">
       {{hourly_pay}}元
     </view>
-    <view class="section__big_content_noline" wx:if="{{!hourly_pay == 0}}">
+    <view class="section__big_content_noline" wx:else>
       面议
     </view>
   </view>

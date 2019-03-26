@@ -11,21 +11,43 @@ Page({
         //todo
         return
       }
-      that.setData(app.globalData.myStudentRegister)
-      that.setData({nickname: app.globalData.myStudentRegister.name})
+      var myStudent = app.globalData.myStudentRegister
+      var work_time = myStudent.time&0x01 ? "平时 " : "" 
+      work_time = work_time + (myStudent.time&0x02 ? "周末 " : "")
+      work_time = work_time + (myStudent.time&0x04 ? "假期 " : "")
+      that.setData(myStudent)
+      that.setData({
+        nickname: myStudent.name,
+        title: myStudent.gender == 0 ? "男生":"女生",
+        address_detail: myStudent.sArea + " " + myStudent.sAddress,
+        work_time: work_time,
+        canRegister: false
+      })
     } else if (e.personal == "teacher") {
       if (app.globalData.myTeacherRegister == null) {
         return
       }
       that.setData(app.globalData.myTeacherRegister)
-      that.setData({nickname: app.globalData.myTeacherRegister.name})
+      that.setData({
+        nickname: app.globalData.myTeacherRegister.name,
+        canRegister: false
+      })
     } else {
       var item = JSON.parse(e.item)
       that.setData(item)
       that.setData({canRegister: true})
       that.initReservationInfo()
-      console.log(that.data)
     }
+    var subjectsList = that.data.subjectsList
+    var subjectsListReadable = ""
+    for (var i = 0; i < subjectsList.length; i++) {
+      if (i > 0) {
+        subjectsListReadable += ", "
+      }
+      subjectsListReadable += subjectsList[i].name
+    }
+    that.setData({subjectsListReadable: subjectsListReadable})
+    console.log(that.data)
   },
   onShow: function() {
     var reserveConfirm = wx.getStorageSync("reserveConfirm")

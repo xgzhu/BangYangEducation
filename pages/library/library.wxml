@@ -1,4 +1,11 @@
 <view>
+  <view class="filter_card_position filter_card_size">
+    <view class="filter_card_style" bindtap="navToFilter">
+      <view>资源类型：{{sourcePrint}}</view>
+      <view>当前选择：{{selectionPrint}}</view>
+    </view>
+  </view>
+  <view class="filter_card_padding_size"></view>
   <view wx:if="{{shownList.length == 0}}">{{emptyInfo}}</view>
   <view wx:for="{{shownList}}" class="card-edge">
     <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
@@ -43,8 +50,6 @@
     </view>
   </view>
 </view>
-<view wx:if="{{showBtn}}" class="fixed_btns" >
-  <button class="fixed_btn" bindtap="navToForm">填写表格</button>
-  <button class="fixed_btn" bindtap="navToFilter">资源库</button>
+<view class="fixed_btns" >
   <button class="fixed_btn" bindtap="returnToMainPage">回到首页</button>
 </view>

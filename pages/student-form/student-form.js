@@ -67,7 +67,6 @@ Page({
       title: '注册信息已存在',
       content: '后台显示你已经注册过信息，是否要重新填写？',
       success: function(res) {
-        wx.setStorageSync("reserveConfirm", res.confirm)
         if (!res.confirm)
           wx.navigateBack()
         else
@@ -295,7 +294,12 @@ Page({
         if (that.data.teacherGenderValue < 2)
           formData.wSex = that.data.teacherGenderValue
       }
-      formData.id = app.globalData.myStudentRegister.sId
+      var url = "https://api.zhexiankeji.com/education/student/insert"
+      if (app.globalData.myStudentRegister != null) {
+        formData.id = app.globalData.myStudentRegister.sId
+        url = "https://api.zhexiankeji.com/education/student/update"
+      }
+      
       var formDataStr = JSON.stringify(formData)
       console.log(formDataStr)
       var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
@@ -307,7 +311,6 @@ Page({
             wx.showLoading({
               title: '正在提交...'
             })
-            var url = "https://api.zhexiankeji.com/education/student/update"
             wx.request({
               url: url,
               data: formDataStr,

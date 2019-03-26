@@ -52,7 +52,72 @@ Page({
       // showBtn: showBtn,
     })
     that.setupList(selections)
+    if (selections.info == "teacher") {
+      that.setData({sourcePrint: "教师资源", selectionPrint: that.getSelectionPrint(selections)})
+    } else {
+      that.setData({sourcePrint: "学生资源", selectionPrint: that.getSelectionPrint(selections)})
+    }
     console.log(that.data)
+  },
+  getSelectionPrint: function(selections) {
+    var selectionPrint = "全部选择";
+    for(var key in selections) {
+      if (key != "info") {
+        console.log(key)
+        selectionPrint = ""
+        break;
+      }
+    }
+    if (selectionPrint == "全部选择") {
+      return selectionPrint
+    }
+    // Grade
+    if (selections.grades != undefined && selections.grades.length > 0) {
+      var gradeReadable = app.getTargetGradeReadable(selections.grades)
+      selectionPrint = selectionPrint + gradeReadable + "; "
+    }
+    // Gender
+    if (selections.gender != undefined && selections.gender != "2") {
+      selectionPrint = selectionPrint + (selections.gender == "0"? "男生; " : "女生; ")
+    }
+    // Subject
+    if (selections.subjects != undefined && selections.subjects.length > 0) {
+      for (var j = 0; j < selections.subjects.length; j++) {
+        if (j >= 2) {
+          selectionPrint = selectionPrint + "等"
+          break;
+        } else if (j > 0) {
+          selectionPrint = selectionPrint + ","
+        }
+        selectionPrint = selectionPrint + selections.subjects[j]
+      }
+      if (selections.subjects.length > 0) {
+        selectionPrint = selectionPrint + "; "
+      }
+    }
+    // University
+    if (selections.info == "teacher" && selections.universities != undefined && selections.universities.length > 0) {
+      for (var j = 0; j < selections.universities.length; j++) {
+        if (j >= 2) {
+          selectionPrint = selectionPrint + "等"
+          break;
+        } else if (j > 0) {
+          selectionPrint = selectionPrint + ","
+        }
+        selectionPrint = selectionPrint + universitys.idToUniversitys[selections.universities[j]]
+      }
+      if (selections.universities.length > 0) {
+        selectionPrint = selectionPrint + "; "
+      }
+    }
+    if (selectionPrint == "") {
+      selectionPrint = "自定义选择"
+    }
+    if (selectionPrint.length > 14) {
+      selectionPrint = selectionPrint.substr(0, 14) + ".."
+    }
+
+    return selectionPrint
   },
   setupList: function(selections) {
     var allList = null
@@ -201,9 +266,10 @@ Page({
     })
   },
   navToFilter: function() {
+    console.log("navToFilter")
     // lib-selection cannot be navTo because it is tab
     wx.navigateTo({
-      url: '../lib-selection-bp/lib-selection-bp?info='+that.data.selections.info
+      url: '../lib-selection-bp/lib-selection-bp?selections='+JSON.stringify(that.data.selections)
     })
   },
   returnToMainPage: function() {

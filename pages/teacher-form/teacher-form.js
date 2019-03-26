@@ -29,8 +29,8 @@ Page({
     birthInfo: '请选择出生日期',
     birthValue: '1995-01-01',
     examScoreDisabled: false,
-    gradeInfo: "请选择目标年级",
-    subjectInfo: "请选择目标科目",
+    gradeInfoReadable: "请选择目标年级",
+    subjectInfoReadable: "请选择目标科目",
     times:[
       { name: '平时', value: 1},
       { name: '周末', value: 2},
@@ -76,11 +76,12 @@ Page({
   onShow: function () {
     var gradeInfo = wx.getStorageSync("tAim")
     if (gradeInfo != undefined && gradeInfo != "") {
-      that.setData({gradeInfo:gradeInfo, error_grade: ""})
+      var gradeInfoReadable = app.getTargetGradeReadable(gradeInfo.split("+"))
+      that.setData({gradeInfo:gradeInfo, gradeInfoReadable:gradeInfoReadable, error_grade: ""})
     }
     var subjectInfo = wx.getStorageSync("tSubject")
     if (subjectInfo != undefined && subjectInfo != "") {
-      that.setData({subjectInfo:subjectInfo, error_subject: ""})
+      that.setData({subjectInfo:subjectInfo, subjectInfoReadable:subjectInfo.split("+"), error_subject: ""})
     }
   },
   checkExisting: function () {
@@ -91,7 +92,6 @@ Page({
       title: '注册信息已存在',
       content: '后台显示你已经注册过信息，是否要重新填写？',
       success: function(res) {
-        wx.setStorageSync("reserveConfirm", res.confirm)
         if (!res.confirm)
           wx.navigateBack()
         else
@@ -439,9 +439,6 @@ Page({
     e.detail.value.tWxid = app.globalData.openId
     e.detail.value.tAim = wx.getStorageSync('tAim')
     e.detail.value.tSubject = wx.getStorageSync('tSubject')
-    e.detail.value.id = app.globalData.myTeacherRegister.tId
-    var formDataStr = JSON.stringify(e.detail.value)
-    console.log('form发生了submit事件，携带数据为：', formDataStr)
     if (that.validateInput(e.detail.value, that.data.page)) {
     // if (true) {
       if (that.data.page < 4) {
@@ -449,7 +446,14 @@ Page({
           page: that.data.page+1
         })
       } else {
+        var url = "https://api.zhexiankeji.com/education/teacher/insert"
+        if (app.globalData.myTeacherRegister != null) {
+          e.detail.value.id = app.globalData.myTeacherRegister.tId
+          url = "https://api.zhexiankeji.com/education/teacher/update"
+        }
+        var formDataStr = JSON.stringify(e.detail.value)
         var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
+        console.log('form发生了submit事件，携带数据为：', formDataStr)
         wx.showModal({
           title: '确定提交',
           content: content,
@@ -458,7 +462,7 @@ Page({
               wx.showLoading({
                 title: '正在提交...'
               })
-              var url = "https://api.zhexiankeji.com/education/teacher/update"
+              
               wx.request({
                 url: url,
                 data: formDataStr,
@@ -470,7 +474,7 @@ Page({
                   wx.hideLoading()
                   console.log(res);
                   var res_id = res.data.result
-                  if (res.data.errCode == undefined) {
+                  if (res_id == null && res.data.errCode == undefined) {
                     var obj = JSON.parse(res.data);
                     res_id = obj.result
                   }
@@ -480,6 +484,7 @@ Page({
                       icon: 'none',
                       duration: 2000
                     })
+                    return
                   }
                   that.uploadImage(res_id, e.detail.value)
                   if (that.data.shouldReturn) {

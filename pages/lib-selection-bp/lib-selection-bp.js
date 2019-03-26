@@ -22,8 +22,15 @@ Page({
   },
   onLoad: function (e) {
     that = this
+    that.setData({
+      identities: teachers.grades.slice(1),
+      uProvince: universitys.provinces.slice(),
+      points: subjects.points.slice(1),
+      grades: grades.grades.slice(),
+    })
     if (e.selections != undefined) {
       that.setData({selections: JSON.parse(e.selections)})
+      that.preSelectionsSetup(JSON.parse(e.selections))
     } else if (e.info != undefined) {
       that.setData({selections: {info: e.info}})
     } else {
@@ -38,13 +45,28 @@ Page({
     if (foundProvince != undefined) {
       that.setData({universities: universitys.universitys[foundProvince.id].slice()})
     }
-    that.setData({
-      identities: teachers.grades.slice(1),
-      uProvince: universitys.provinces.slice(),
-      points: subjects.points.slice(1),
-      grades: grades.grades.slice(),
-    })
     console.log(that.data)
+  },
+  preSelectionsSetup: function (selections) {
+    if (selections == {}) {
+      return
+    }
+    that.setData({
+      infoTeacher: selections.info == "teacher",
+      infoStudent: selections.info == "student",
+      genderBoy: selections.gender == "0",
+      genderGirl: selections.gender == "1",
+      genderUnknown: selections.gender == undefined,
+    })
+    if (selections.grades != undefined && selections.grades.length > 0) {
+      var grades = that.data.grades
+      for (var i = 0; i < grades.length; i++) {
+        var grade = grades[i]
+        if (selections.grades.indexOf(grade.name) >= 0)
+          grade.checked = true
+      }
+      that.setData({grades: grades})
+    }
   },
   selectObjectFilter: function (e) {
     var selection = e.detail.value

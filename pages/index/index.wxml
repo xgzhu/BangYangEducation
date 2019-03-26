@@ -18,14 +18,14 @@
     </view>
     <view class="block-half">
       <!-- Section two: search and search icon -->
-      <view class="block-75">
+  <!--     <view class="block-75">
         <view class="border searchText">
         <input name="searchText" placeholder="科目/学校" maxlength="20"/>
         </view>
       </view>
       <view class="block-20-m3">
         <image src="../../utils/imgs/icon_search.png" class="search-icon-fit"></image>
-      </view>
+      </view> -->
     </view>
   </view>
 
@@ -77,7 +77,7 @@
         </view>
       </view>
     </view>
-    <view class="block-half">
+<!--     <view class="block-half">
       <view class="block-C">
         <view class="parttime-border">
           <view class="parttime font-AB-vertical block-20">
@@ -110,7 +110,7 @@
           </view>
         </view>
       </view>
-    </view>
+    </view> -->
   </view>
 
 <!--   <view class="padding-border-vertical">
@@ -135,11 +135,6 @@
     <view class="block-grade">
       <view class="color-grade-2" bindtap="navToSeniorHighSchoolTeacherLib">
         高中
-      </view>
-    </view>
-    <view class="block-grade">
-      <view class="color-grade-1" bindtap="navToOtherTeacherLib">
-        其他
       </view>
     </view>
   </view>

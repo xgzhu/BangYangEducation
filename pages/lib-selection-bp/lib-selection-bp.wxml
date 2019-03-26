@@ -3,11 +3,11 @@
 <view class="filter__content"> 
 <radio-group bindchange="selectObjectFilter">
   <label class="checkbox_normal">
-    <radio value="student"/>
+    <radio value="student" checked="{{infoStudent}}"/>
     学员信息
   </label>
   <label class="checkbox_normal">
-    <radio value="teacher" checked="true"/>
+    <radio value="teacher" checked="{{infoTeacher}}"/>
     教师信息
   </label>
 </radio-group>
@@ -18,15 +18,15 @@
 <view class="filter__content"> 
 <radio-group bindchange="selectGenderFilter">
   <label class="checkbox_small">
-    <radio value="0"/>
+    <radio value="0" checked="{{genderBoy}}"/>
     男生
   </label>
   <label class="checkbox_small">
-    <radio value="1"/>
+    <radio value="1" checked="{{genderGirl}}"/>
     女生
   </label>
   <label class="checkbox_small">
-    <radio value="2" checked="true"/>
+    <radio value="2" checked="{{genderUnknown}}"/>
     不限
   </label>
 </radio-group>

@@ -1,7 +1,8 @@
 <view>
   <view wx:if="{{shownList.length == 0}}">{{emptyInfo}}</view>
-  <view wx:if="{{type == 'teacher'}}">
-    <view wx:for="{{shownList}}" class="card-edge card-teacher" data-index="{{index}}" bindtap="navToNamecard">
+  <view wx:for="{{shownList}}" class="card-edge">
+
+    <view wx:if="{{type == 'teacher'}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
         <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
@@ -21,9 +22,8 @@
         <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">目标工资: 面议</view>
       </view>
     </view>
-  </view>
-  <view wx:else>
-    <view wx:for="{{shownList}}" class="card-edge card-student" data-index="{{index}}" bindtap="navToNamecard">
+    
+    <view wx:else class="card-edge" class="card-student" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
         <image wx:if="{{item.gender == 0}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
@@ -41,6 +41,6 @@
         <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">可付工资: 面议</view>
         <view class="card-content-salary">教员要求: {{item.demand}}</view>
       </view>
-    </view>
+  </view>
   </view>
 </view>
