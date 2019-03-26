@@ -198,7 +198,7 @@
   </view>
 </view>
 
-<view wx:if="{{page>=-3}}">
+<view wx:if="{{page>=3}}">
   <image src="../../utils/imgs/content_line.png" class="content-line"> </image>
 
   <view class="display_show">

@@ -92,6 +92,7 @@ Page({
       title: '注册信息已存在',
       content: '后台显示你已经注册过信息，是否要重新填写？',
       success: function(res) {
+        wx.setStorageSync("reserveConfirm", res.confirm)
         if (!res.confirm)
           wx.navigateBack()
         else
@@ -453,7 +454,7 @@ Page({
         }
         var formDataStr = JSON.stringify(e.detail.value)
         var content = '提交之后可以在<登记历史>中查看表单信息以及表单状态'
-        console.log('form发生了submit事件，携带数据为：', formDataStr)
+        console.log('form发生了submit事件，携带数据为：', formDataStr, url)
         wx.showModal({
           title: '确定提交',
           content: content,
