@@ -308,7 +308,7 @@ Page({
     })
   },
   validateInput: function (data, page) {
-    return true
+    //return true
     var success = true
     if (page >= 1) {
       if (data.tName == "") {
@@ -475,7 +475,7 @@ Page({
                 },
                 success: function (res) {
                   wx.hideLoading()
-                  console.log(res);
+                  console.log("res", res);
                   var res_id = res.data.result
                   if (res.statusCode != 200) {
                     wx.showToast({
@@ -485,10 +485,10 @@ Page({
                     })
                     return
                   }
-                  if (res_id == null && res.data.errCode == undefined) {
+                  if (res_id == undefined && res.data.errCode == undefined) {
                     var obj = JSON.parse(res.data);
                     res_id = obj.result
-                    if (res_id == null) {
+                    if (res_id == undefined) {
                       wx.showToast({
                         title: '请检查输入信息，或者反馈给客服',
                         icon: 'none',
@@ -497,8 +497,12 @@ Page({
                       return
                     }
                   }
-                  
-                  that.uploadImage(res_id, e.detail.value)
+                  // res_id is true if we are using update api.
+                  if (app.globalData.myTeacherRegister == null) {
+                    that.uploadImage(res_id, e.detail.value)
+                  } else {
+                    that.uploadImage(app.globalData.myTeacherRegister.tId, e.detail.value)
+                  }
                   if (that.data.shouldReturn) {
                     wx.showModal({
                       title: '确定预约',
@@ -546,6 +550,7 @@ Page({
   },
   uploadImage: function(id, metadata) {
     var img_url = "https://api.zhexiankeji.com/education/image/upload"
+    // console.log("upload img ", { name: id + "_teacher__2" }) -> ture_teacher__2, problem in id?
     // 个人照片
     wx.uploadFile({
       url: img_url,

@@ -10,9 +10,11 @@
   <view wx:for="{{shownList}}" class="card-edge">
     <view wx:if="{{item.isTeacher}}" class="card-teacher" data-index="{{index}}" bindtap="navToNamecard">
       <view class="card-avatar-edge">
-        <image wx:if="{{item.isMale}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
+        <!-- <image wx:if="{{item.isMale}}" src="../../utils/imgs/icon_boy.png" class="card-avatar-content">
         </image>
         <image wx:if="{{!item.isMale}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content">
+        </image> -->
+        <image src="https://api.zhexiankeji.com/image/{{item.tId}}_teacher__0.jpg" class="card-avatar-content" mode="aspectFit">
         </image>
         <view class="card-teacher-id">家教编号</view>
         <view class="card-teacher-id">{{item.id}}</view>

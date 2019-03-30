@@ -271,7 +271,7 @@
       <view bindtap="chooseImageTap" data-idx="0">上传个人照片</view>
     </view>
     <view wx:else class="section__big_content">
-      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[0]}}" data-idx="0"/>
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[0]}}" data-idx="0"  mode="aspectFit"/>
     </view>
   </view>
 
@@ -282,7 +282,7 @@
       <view bindtap="chooseImageTap" data-idx="1">上传学生证照片</view>
     </view>
     <view wx:else class="section__big_content">
-      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[1]}}" data-idx="1"/>
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[1]}}" data-idx="1"  mode="aspectFit"/>
     </view>
   </view>
 
@@ -293,7 +293,7 @@
       <view bindtap="chooseImageTap" data-idx="2">上传校园卡照片</view>
     </view>
     <view wx:else class="section__big_content">
-      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[2]}}" data-idx="2"/>
+      <image class="section__avatar" catchtap="chooseImageTap" src="{{images[2]}}" data-idx="2"  mode="aspectFit"/>
     </view>
   </view>
 
