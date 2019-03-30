@@ -1,0 +1,27 @@
+.checkbox_normal {
+  display: inline-block;
+  vertical-align:top;
+  width: 50%;
+  height: 100%;
+}
+
+.buttonFrame {
+  display: inline-block;
+  vertical-align:top;
+  width: 50%;
+  height: 100%;
+}
+
+.buttonFinishLeft {
+  color: white; 
+  background-color: #ff8719;
+  border: 2rpx solid;
+  border-color: #ff8719;
+}
+
+.buttonFinishRight {
+  color: #ff8719; 
+  border: 2rpx solid;
+  border-color: #ff8719;
+  background-color: white;
+}

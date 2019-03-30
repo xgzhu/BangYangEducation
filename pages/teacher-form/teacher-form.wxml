@@ -238,6 +238,20 @@
       </view>
     </view>
   </view>
+
+  <view class="display_show">
+    <view class="section__title">目标时薪</view>
+    <view class="section__big_content">
+      <input type="number" name="tPrice" placeholder="面议"  maxlength="5"/>
+    </view>
+  </view>
+
+  <view class="display_show">
+    <view class="section__title">个人简介</view>
+    <view class="section__big_content">
+      <textarea name="tDescribe" placeholder="建议填写性格，经历等" maxlength="500" auto-focus="true" auto-height="true"/>
+    </view>
+  </view>
 </view>
 
 <view class="display_show" wx:if="{{page==3}}">
@@ -286,7 +300,7 @@
   <view class="display_show">
     <view class="section__title">邮寄地址</view>
     <view class="section__big_content {{error_detail_address}}">
-    <input name="tAddress" placeholder="宿舍、家庭地址" maxlength="40" bindblur="finishDetailAddress"/>
+    <textarea name="tAddress" placeholder="宿舍、家庭地址" maxlength="40" bindblur="finishDetailAddress" auto-height="true"/>
     </view>
   </view>
 </view>

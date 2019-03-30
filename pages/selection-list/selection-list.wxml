@@ -10,10 +10,10 @@
 </checkbox-group>
 
 <view class="buttonFrame">
-<button formType="submit" class="buttonSelf buttonFinishLeft">保存选择</button>
+<button bindtap="selectAll" class="buttonSelf buttonFinishRight">{{selectAllBtn}}</button>
 </view>
 <view class="buttonFrame">
-<button bindtap="selectAll" class="buttonSelf buttonFinishRight">{{selectAllBtn}}</button>
+<button formType="submit" class="buttonSelf buttonFinishLeft">保存选择</button>
 </view>
 
 </view>

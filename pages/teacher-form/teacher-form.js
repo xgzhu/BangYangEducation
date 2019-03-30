@@ -308,7 +308,7 @@ Page({
     })
   },
   validateInput: function (data, page) {
-    //return true
+    return true
     var success = true
     if (page >= 1) {
       if (data.tName == "") {
@@ -424,7 +424,7 @@ Page({
 
     e.detail.value.tType = that.data.identityValue
     e.detail.value.tSex = parseInt(e.detail.value.tSex)
-    e.detail.value.tEducation = teachers.identityToDatabaseId[that.data.tEducation]
+    //e.detail.value.tEducation = teachers.identityToDatabaseId[that.data.tEducation]
     if (e.detail.value.tUniversity != undefined && that.data.collegeInfo != "请选择本科学校")
       e.detail.value.tUniversity = "U"+that.data.provinceAndUniversitys[1][e.detail.value.tUniversity[1]].id.toString()
     if (e.detail.value.tGraduate != undefined && that.data.collegeInfoMaster != "请选择硕士学校")
@@ -477,18 +477,27 @@ Page({
                   wx.hideLoading()
                   console.log(res);
                   var res_id = res.data.result
-                  if (res_id == null && res.data.errCode == undefined) {
-                    var obj = JSON.parse(res.data);
-                    res_id = obj.result
-                  }
-                  if (res_id == null) {
+                  if (res.statusCode != 200) {
                     wx.showToast({
-                      title: '请检查输入信息，或者反馈给客服',
+                      title: '内部错误，请反馈给客服',
                       icon: 'none',
                       duration: 2000
                     })
                     return
                   }
+                  if (res_id == null && res.data.errCode == undefined) {
+                    var obj = JSON.parse(res.data);
+                    res_id = obj.result
+                    if (res_id == null) {
+                      wx.showToast({
+                        title: '请检查输入信息，或者反馈给客服',
+                        icon: 'none',
+                        duration: 2000
+                      })
+                      return
+                    }
+                  }
+                  
                   that.uploadImage(res_id, e.detail.value)
                   if (that.data.shouldReturn) {
                     wx.showModal({
@@ -500,9 +509,16 @@ Page({
                       }
                     })
                   } else {
-                    wx.redirectTo({
-                      url: '../card/card?personal=teacher'
-                    })
+                    // 需要先更新 myTeacherRegister
+                    var teacherInfoCallback = function (teacherInfo) {
+                      app.globalData.myTeacherHistory = teacherInfo
+                      app.globalData.myTeacherRegister = app.selectNewestData(teacherInfo)
+                      console.log('myTeacherRegister updated', app.globalData.myTeacherRegister)
+                      wx.redirectTo({
+                        url: '../card/card?personal=teacher'
+                      })
+                    }
+                    app.getTeacherInfo({ "tWxid": app.globalData.openId }, teacherInfoCallback)
                   }
                 },
                 fail: function(res) {

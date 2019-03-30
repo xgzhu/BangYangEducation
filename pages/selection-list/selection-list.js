@@ -33,14 +33,9 @@ Page({
   saveAndReturn: function(e) {
     console.log(e)
     if (e.detail.value.checkedItem.length == 0) {
-      wx.showModal({
-        title: '全不选代表无限制。确定？',
-        success: function (res) {
-          if (res.confirm) {
-            wx.setStorageSync(that.data.name, that.data.input)
-            wx.navigateBack();
-          }
-        }
+      wx.showToast({
+        title: '请先选择',
+        duration: 1000
       })
     } else {
       var output = e.detail.value.checkedItem[0]

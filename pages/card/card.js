@@ -6,6 +6,7 @@ Page({
   },
   onLoad: function(e) {
     that = this
+    console.log("card",e.personal)
     if (e.personal == "student") {
       if (app.globalData.myStudentRegister == null) {
         //todo
@@ -21,7 +22,8 @@ Page({
         title: myStudent.gender == 0 ? "男生":"女生",
         address_detail: myStudent.sArea + " " + myStudent.sAddress,
         work_time: work_time,
-        canRegister: false
+        canRegister: false,
+        showReserveOption: false
       })
     } else if (e.personal == "teacher") {
       if (app.globalData.myTeacherRegister == null) {
@@ -30,12 +32,15 @@ Page({
       that.setData(app.globalData.myTeacherRegister)
       that.setData({
         nickname: app.globalData.myTeacherRegister.name,
-        canRegister: false
+        canRegister: false,
+        showReserveOption: false
       })
     } else {
       var item = JSON.parse(e.item)
       that.setData(item)
-      that.setData({canRegister: true})
+      that.setData({
+        canRegister: true,
+        showReserveOption: true})
       that.initReservationInfo()
     }
     var subjectsList = that.data.subjectsList

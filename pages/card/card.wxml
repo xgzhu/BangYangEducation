@@ -170,8 +170,8 @@
   </view>
   <view class="display_show">
     <view class="section__title">可付时薪</view>
-    <view class="section__big_content_noline" wx:if="{{hourly_pay > 0}}">
-      {{hourly_pay}}元
+    <view class="section__big_content_noline" wx:if="{{tPrice > 0}}">
+      {{tPrice}}元
     </view>
     <view class="section__big_content_noline" wx:else>
       面议
@@ -191,25 +191,27 @@
   </view>
 </view>
 
-<view class="reserve_button" wx:if="{{canRegister}}">
-  <button bindtap="makeReverservation">申请预约</button> 
-</view>
+<view wx:if="{{showReserveOption}}">
+  <view class="reserve_button" wx:if="{{canRegister}}">
+    <button bindtap="makeReverservation">申请预约</button> 
+  </view>
 
-<view class="reserve_button" wx:if="{{reservationStatus == 0}}">
-  <view>我们已经收到您的预约，我们的工作人员会近期联系您。如果不需要继续预约请选择取消。</view>
-  <button bindtap="cancelReverservation">取消预约</button> 
-</view>
+  <view class="reserve_button" wx:if="{{reservationStatus == 0}}">
+    <view>我们已经收到您的预约，我们的工作人员会近期联系您。如果不需要继续预约请选择取消。</view>
+    <button bindtap="cancelReverservation">取消预约</button> 
+  </view>
 
-<view class="reserve_button" wx:if="{{reservationStatus == 1}}">
-  <view>您的预约已经被处理，对方会联系您。如果不再需要请选择取消。</view>
-  <button bindtap="cancelReverservation">取消预约</button> 
-</view>
+  <view class="reserve_button" wx:if="{{reservationStatus == 1}}">
+    <view>您的预约已经被处理，对方会联系您。如果不再需要请选择取消。</view>
+    <button bindtap="cancelReverservation">取消预约</button> 
+  </view>
 
-<view class="reserve_button" wx:if="{{reservationStatus == 2}}">
-  <view>您已成功预约。 :)</view>
-</view>
+  <view class="reserve_button" wx:if="{{reservationStatus == 2}}">
+    <view>您已成功预约。 :)</view>
+  </view>
 
-<view class="reserve_button" wx:if="{{reservationStatus == 3}}">
-  <view>您在近期取消过此预约。是否要再次进行预约？</view>
-  <button bindtap="makeReverservation">再次预约</button> 
+  <view class="reserve_button" wx:if="{{reservationStatus == 3}}">
+    <view>您在近期取消过此预约。是否要再次进行预约？</view>
+    <button bindtap="makeReverservation">再次预约</button> 
+  </view>
 </view>

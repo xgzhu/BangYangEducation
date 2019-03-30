@@ -92,7 +92,6 @@
 </checkbox-group>
 </view>
 
-<!-- <view wx:if="{{moreFilter}}"> -->
 
   <view style="width: 750rpx; height: 20rpx;"></view>
   <view wx:if="{{selectTeacherEnabled}}" class="filter__title"> 最低学历 </view>
@@ -141,16 +140,10 @@
   </view>
   </view>
 
-<!-- </view> -->
 
 <view style="width: 750rpx; height: 40rpx;"></view>
-<!-- <view class="buttonFrame" wx:if="{{!moreFilter}}">
-<button bindtap="submitFilter" class="buttonSelf buttonFinishLeft">查找信息</button>
-</view>
-<view class="buttonFrame" wx:if="{{!moreFilter}}">
-<button bindtap="showMoreFilter" class="buttonSelf buttonFinishRight">更多选项</button>
-</view> -->
-<button bindtap="submitFilter" wx:if="{{moreFilter}}" class="buttonSelf buttonFinishLeft">查找信息</button>
+
+<button bindtap="submitFilter"  class="buttonSelf buttonFinishLeft">查找信息</button>
 <view style="width: 750rpx; height: 20rpx;"></view>
 
 
