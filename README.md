@@ -11,14 +11,18 @@
 当前进度
 ------------
 - UI is changed completely.
-- RPC-insert is broken.
 - Added more links in index.
 - Merged pages: index, student-form, teacher-form, lib-selection, library, card
-- Pending pages: 
 
 
 更新历史
 ------------
+
+2019.06.02
+- 图片server好像有点问题
+- 资源库里不显示未审核教师（重要）
+- 改善了一点点外观
+- 下一步骤可以加一个教师/学生的deactive（重要）
 
 2019.01.06
 - BUG：student/teacher的更新有问题，baseStudent没有成功更新，宽哥在做综合接口中
