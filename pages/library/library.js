@@ -139,6 +139,10 @@ Page({
       if (element.sWxid == app.globalData.openId || element.tWxid == app.globalData.openId) {
         continue
       }
+      // 去掉所有未审核教师
+      if (element.title == "未审核教师") {
+        continue
+      }
       // Gender Filter
       if (selections.gender != undefined && selections.gender != "2"
         && selections.gender != element.gender.toString()) {

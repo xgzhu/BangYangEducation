@@ -10,7 +10,6 @@ var that
 Page({
   data: {
     subjectClassSelected: false,
-    moreFilter: true,
     selectTeacherEnabled: true,
     selectAllSubjects: ">>全选<<",
     selectAllUniversities: ">>全选<<",
@@ -213,9 +212,6 @@ Page({
       selections.points = []
       that.setData({selectAllPoints: ">>全选<<", points: points, selections: selections})
     }
-  },
-  showMoreFilter: function() {
-    that.setData({moreFilter: true})
   },
   submitFilter: function() {
     var selections = that.data.selections

@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/reservation/reservation",
     "pages/personal/personal",
@@ -12,26 +12,31 @@
     "pages/selection-list/selection-list",
     "pages/logs/logs"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "backgroundColor":"#eeeeee",
-    "navigationBarBackgroundColor":"#fff",
-    "navigationBarTextStyle":"black",
-    "navigationBarTitleText":"985大学生教育平台"
+  "window": {
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#eeeeee",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "985大学生教育平台"
   },
   "tabBar": {
-    "list": [{
-      "pagePath": "pages/index/index",
-      "text": "首页",
-      "iconPath": "utils/imgs/icon_index.jpg"
-    }, {
-      "pagePath": "pages/lib-selection/lib-selection",
-      "text": "资源库",
-      "iconPath": "utils/imgs/icon_library.jpg"
-    }, {
-      "pagePath": "pages/personal/personal",
-      "text": "我的",
-      "iconPath": "utils/imgs/icon_self.jpg"
-    }]
-  }
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "utils/imgs/icon_index.png"
+      },
+      {
+        "pagePath": "pages/lib-selection/lib-selection",
+        "text": "资源库",
+        "iconPath": "utils/imgs/icon_library.png"
+      },
+      {
+        "pagePath": "pages/personal/personal",
+        "text": "我的",
+        "iconPath": "utils/imgs/icon_self.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
 }

@@ -3,6 +3,15 @@ var that
 
 Page({
   data: {
+    errorLoad1: false,
+    finishLoad1: false,
+    loadingInfo1: "正在加载图片",
+    errorLoad2: false,
+    finishLoad2: false,
+    loadingInfo2: "正在加载图片",
+    errorLoad3: false,
+    finishLoad3: false,
+    loadingInfo3: "正在加载图片"
   },
   onLoad: function(e) {
     that = this
@@ -33,7 +42,8 @@ Page({
       that.setData({
         nickname: app.globalData.myTeacherRegister.name,
         canRegister: false,
-        showReserveOption: false
+        showReserveOption: false,
+        showIdPic: true
       })
     } else {
       var item = JSON.parse(e.item)
@@ -260,5 +270,32 @@ Page({
         })
       },
     })
+  },
+  errorLoad1: function () {
+    that.setData({
+      errorLoad1: true,
+      loadingInfo1: "加载图片失败"
+    })
+  },
+  finishLoad1: function () {
+    that.setData({ finishLoad1: true })
+  },
+  errorLoad2: function () {
+    that.setData({
+      errorLoad2: true,
+      loadingInfo2: "加载图片失败"
+    })
+  },
+  finishLoad2: function () {
+    that.setData({ finishLoad2: true })
+  },
+  errorLoad3: function () {
+    that.setData({
+      errorLoad3: true,
+      loadingInfo3: "加载图片失败"
+    })
+  },
+  finishLoad3: function () {
+    that.setData({ finishLoad3: true })
   }
 })

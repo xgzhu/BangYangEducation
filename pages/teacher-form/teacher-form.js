@@ -424,7 +424,7 @@ Page({
 
     e.detail.value.tType = that.data.identityValue
     e.detail.value.tSex = parseInt(e.detail.value.tSex)
-    //e.detail.value.tEducation = teachers.identityToDatabaseId[that.data.tEducation]
+    e.detail.value.tEducation = teachers.identityToDatabaseId[that.data.tEducation]
     if (e.detail.value.tUniversity != undefined && that.data.collegeInfo != "请选择本科学校")
       e.detail.value.tUniversity = "U"+that.data.provinceAndUniversitys[1][e.detail.value.tUniversity[1]].id.toString()
     if (e.detail.value.tGraduate != undefined && that.data.collegeInfoMaster != "请选择硕士学校")
@@ -442,8 +442,8 @@ Page({
     e.detail.value.tAim = wx.getStorageSync('tAim')
     e.detail.value.tSubject = wx.getStorageSync('tSubject')
     console.log("e.detail.value", e.detail.value)
-    if (that.validateInput(e.detail.value, that.data.page)) {
-    // if (true) {
+    //if (that.validateInput(e.detail.value, that.data.page)) {
+    if (true) {
       if (that.data.page < 4) {
         that.setData({
           page: that.data.page+1

@@ -1,4 +1,6 @@
-//app.js
+// app.js
+// Contains onLaunch code and all common code.
+
 const grades = require('utils/js/grade.js')
 const teachers = require('utils/js/teacher.js')
 const citys = require('utils/js/city.js')
@@ -11,25 +13,32 @@ App({
   onLaunch: function () {
     that = this
 
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
+    // Preload everything.
     that.getUserIdAndHistories()
     that.getUserInfo()
     that.getSystemInfo()
-    that.setupUserCustomInfo()
+    that.getSharedInfo()
 
     console.log("globalData", that.globalData)
   },
-  setupUserCustomInfo: function() {
-    // These data should be stored in the cloud later.
-    that.globalData.userCustomInfo = {region: ["山东省", "济南市", "市中区"]}
-    var cityId = that.getCityId()
-    that.getLibraryData(cityId)
-    that.getInternshipData(cityId)
+  globalData: {
+    needAuth: false,
+    userInfo: null,
+    systemInfo: null,
+    openId: null,
+    myStudentRegisters: [],
+    myTeacherRegisters: [],
+    myStudentRegister: null,
+    myTeacherRegister: null,
+    myStudentReservations: [],
+    myTeacherReservations: [],
+    localStudentLibrary: {},
+    localTeacherLibrary: {},
+    localInternshipInfo: [],
+    localParttimeInfo: [],
+    librarySelection: "",
   },
+  // 获取用户基本信息
   getUserInfo: function() {
     // 获取用户信息
     wx.getSetting({
@@ -54,6 +63,7 @@ App({
       }
     })
   },
+  // 获取系统相关信息
   getSystemInfo: function() {
     wx.getSystemInfo({
       success: function (res) {
@@ -65,7 +75,10 @@ App({
       }
     })
   },
+  // 获取用户个人信息，如微信id及个人登记信息
   getUserIdAndHistories: function () {
+    // TODO: These data should be stored in the cloud later.
+    that.globalData.userCustomInfo = {region: ["山东省", "济南市", "市中区"]}
     wx.login({
       success: function (res) {
         var code = res.code
@@ -98,8 +111,8 @@ App({
             }
 
             var studentInfoCallback = function(studentInfo) {
-              that.globalData.myStudentHistory = studentInfo
-              console.log('myStudentHistory', that.globalData.myStudentHistory)
+              that.globalData.myStudentRegisters = studentInfo
+              console.log('myStudentRegisters', that.globalData.myStudentRegisters)
               that.globalData.myStudentRegister = that.selectNewestData(studentInfo)
               console.log('myStudentRegister', that.globalData.myStudentRegister)
               if (that.globalData.myStudentRegister == null) {
@@ -110,7 +123,7 @@ App({
             that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
             
             var teacherInfoCallback = function(teacherInfo) {
-              that.globalData.myTeacherHistory = teacherInfo
+              that.globalData.myTeacherRegisters = teacherInfo
               that.globalData.myTeacherRegister = that.selectNewestData(teacherInfo)
               console.log('myTeacherRegister', that.globalData.myTeacherRegister)
               if (that.globalData.myTeacherRegister == null) {
@@ -127,9 +140,17 @@ App({
       }
     })
   },
+  // 获取公共信息，如资源库等
+  getSharedInfo: function () {
+    var cityId = that.getCityId()
+    that.getLibraryData(cityId)
+    that.getInternshipData(cityId)
+  },
+  // 获取当前城市
   getRegion: function() {
     return that.globalData.userCustomInfo.region.slice()
   },
+  // 获取当前城市id
   getCityId: function() {
     var addressValues = that.globalData.userCustomInfo.region
     var provinceId = citys.provinceToId[addressValues[0]]
@@ -143,6 +164,7 @@ App({
     }
     return cityId
   },
+  // 获取当前城市附近的大学
   getLocalUniversities: function() {
     var provinceId = that.getProvinceUniversityId()
     var universities =  universitys.universitys[provinceId].slice()
@@ -160,6 +182,7 @@ App({
   setGlobalRegion: function(region) {
     that.globalData.userCustomInfo = {region: region}
   },
+  // 获取资源库信息
   getLibraryData: function() {
     var cityId = that.getCityId()
     var studentInfoCallback = function(studentInfo) {
@@ -183,7 +206,6 @@ App({
       header: {'content-type': 'application/json'},
       method: "POST",
       success: function (res) {
-        // console.log("xiaoguang debug", searchData, res)
         callback(res.data.result)
       },
       fail: function (res) {console.log("failed", res)}
@@ -191,9 +213,6 @@ App({
   },
   getStudentInfo: function(searchData, callback) {
     var basic_student_url = "https://api.zhexiankeji.com/education/baseStudent/search"
-    // if (select) {
-    //   basic_student_url = "https://api.zhexiankeji.com/education/student/select"
-    // }
     wx.request({
       url: basic_student_url,
       data:  searchData,
@@ -243,6 +262,8 @@ App({
       fail: function (res) {console.log("failed", res)}
     })
   },
+
+  // Reconstructs teacher info.
   constructTeacherInfo: function(btresult, wtresult) {
     console.log("constructTeacherInfo", btresult, wtresult)
     var result = []
@@ -299,10 +320,8 @@ App({
     console.log("result", result)
     return result
   },
-  formatId: function (id) {
-    var formattedId = "00000000000" + id
-    return formattedId.substr(formattedId.length - idLength)
-  },
+
+  // Reconstructs student info.
   constructStudentInfo: function(bsresult, wresult) {
     var result = []
     for (var i = 0; i < bsresult.length; i++) {
@@ -357,6 +376,11 @@ App({
       }
     }
     return result
+  },
+  
+  formatId: function (id) {
+    var formattedId = "00000000000" + id
+    return formattedId.substr(formattedId.length - idLength)
   },
   getUniversityName: function(uid) {
     return universitys.idToUniversitys[uid]
@@ -416,27 +440,8 @@ App({
     });
     return lst[0]
   },
-  // Not ready
+  // TODO: Not ready
   getInternshipData: function() {
     var cityId = that.getCityId()
-  },
-  globalData: {
-    needAuth: false,
-    userInfo: null,
-    systemInfo: null,
-    openId: null,
-    // Deprecated: 全部注册信息
-    myStudentHistory: [],
-    myTeacherHistory: [],
-    // 唯一注册信息
-    myStudentRegister: null,
-    myTeacherRegister: null,
-    myStudentReservations: [],
-    myTeacherReservations: [],
-    localStudentLibrary: {},
-    localTeacherLibrary: {},
-    localInternshipInfo: [],
-    localParttimeInfo: [],
-    librarySelection: "",
   }
 })
