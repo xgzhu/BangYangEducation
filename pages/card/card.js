@@ -3,6 +3,7 @@ var that
 
 Page({
   data: {
+    personal: "",
     errorLoad1: false,
     finishLoad1: false,
     loadingInfo1: "正在加载图片",
@@ -15,10 +16,41 @@ Page({
   },
   onLoad: function(e) {
     that = this
-    console.log("card",e.personal)
-    if (e.personal == "student") {
+    that.setData({ personal: e.personal, item: e.item})
+    that.preparePage()
+  },
+  preparePage: function() {
+    if (that.data.personal == "student") {
       if (app.globalData.myStudentRegister == null) {
-        //todo
+        that.refreshInfo(that.prepareCard)
+        return
+      }
+    } else if (that.data.personal == "teacher") {
+      if (app.globalData.myTeacherRegister == null) {
+        that.refreshInfo(that.prepareCard)
+        return
+      }
+    }
+    that.prepareCard()
+  },
+  prepareCard: function() {
+    if (that.data.personal == "student") {
+      if (app.globalData.myStudentRegister == null) {
+        wx.showModal({
+          title: '未注册学生',
+          content: '后台显示你尚未注册过学生信息，是否要填写？',
+          success: function (res) {
+            if (!res.confirm)
+              wx.navigateBack()
+            else
+              wx.redirectTo({
+                url: '../student-form/student-form'
+              })
+          },
+          fail: function (res) {
+            console.log("checkExisting fail")
+          },
+        })
         return
       }
       var myStudent = app.globalData.myStudentRegister
@@ -34,8 +66,23 @@ Page({
         canRegister: false,
         showReserveOption: false
       })
-    } else if (e.personal == "teacher") {
+    } else if (that.data.personal == "teacher") {
       if (app.globalData.myTeacherRegister == null) {
+        wx.showModal({
+          title: '未注册教师',
+          content: '后台显示你尚未注册过教师信息，是否要填写？',
+          success: function (res) {
+            if (!res.confirm)
+              wx.navigateBack()
+            else
+              wx.redirectTo({
+                url: '../teacher-form/teacher-form'
+              })
+          },
+          fail: function (res) {
+            console.log("checkExisting fail")
+          },
+        })
         return
       }
       that.setData(app.globalData.myTeacherRegister)
@@ -46,7 +93,7 @@ Page({
         showIdPic: true
       })
     } else {
-      var item = JSON.parse(e.item)
+      var item = JSON.parse(that.data.item)
       that.setData(item)
       that.setData({
         canRegister: true,
@@ -270,6 +317,40 @@ Page({
         })
       },
     })
+  },
+  onPullDownRefresh: function () {
+    if (that.data.personal == "") {
+      return
+    }
+    console.log("REFRESH!!")
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    wx.showLoading({
+      title: '正在更新...'
+    })
+    that.refreshInfo();
+  },
+  refreshInfo: function(callback) {
+    if (that.data.personal == "student") {
+      var callbackFunction = function (studentInfo) {
+        app.globalData.myStudentRegister = studentInfo[0]
+        that.prepareCard()
+        wx.hideLoading()
+        wx.hideNavigationBarLoading()
+        if (callback != undefined)
+          callback()
+      }
+      app.getStudentInfo({ "sWxid": app.globalData.openId }, callbackFunction)
+    } else {
+      var callbackFunction = function (teacherInfo) {
+        app.globalData.myTeacherRegister = teacherInfo[0]
+        that.prepareCard()
+        wx.hideLoading()
+        wx.hideNavigationBarLoading()
+        if (callback != undefined)
+          callback()
+      }
+      app.getTeacherInfo({ "tWxid": app.globalData.openId }, callbackFunction)
+    }
   },
   errorLoad1: function () {
     that.setData({
