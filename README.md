@@ -14,6 +14,19 @@
 - Added more links in index.
 - Merged pages: index, student-form, teacher-form, lib-selection, library, card
 
+Pages
+------------
+- "pages/index/index": tab page：首页
+- "pages/reservation/reservation": 我的预约list
+- "pages/personal/personal": tab page：我的
+- "pages/card/card": 信息卡片，在各种地方都用，外观有待提高
+- "pages/library/library": 资源库list
+- "pages/teacher-form/teacher-form": 注册教师表
+- "pages/student-form/student-form": 注册学生表
+- "pages/lib-selection/lib-selection": 资源库，filter选择
+- "pages/selection-list/selection-list": 多选表，这个不好看，但暂时不知道怎么改
+- "pages/logs/logs": 没用
+
 
 更新历史
 ------------
