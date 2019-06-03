@@ -201,14 +201,14 @@
 <view wx:if="{{page>=3}}">
   <image src="../../utils/imgs/content_line.png" class="content-line"> </image>
 
-  <view class="display_show">
+  <!-- <view class="display_show">
     <view class="section__title">上课区域</view>
       <view class="section__big_content {{error_address}}">
       <picker mode="region" value="{{addressValues}}" custom-item="全部" bindchange="finishAddress">
         <view class="picker">{{addressValues}}</view>
       </picker>
     </view>
-  </view>
+  </view> -->
 
   <view class="display_show">
     <view class="section__title">上课时间</view>

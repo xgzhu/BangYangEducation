@@ -15,7 +15,7 @@ Page({
   data: {
     gradeValue: invalid,
     gradeInfo: "请选择当前年级",
-    areaValues: ["", "", ""],
+    areaValues: ["山东省", "济南市", ""],
     areaInfo: "请选择上课地点",
     subjectValues: [],
     //characterValue: invalid,
@@ -202,7 +202,7 @@ Page({
       success = false
       style_grade = "error"
     }
-    if (val.sProvince == "") {
+    if (val.wAddress == "") {
       success = false
       style_address = "error"
     }

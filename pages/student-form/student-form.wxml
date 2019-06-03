@@ -54,12 +54,19 @@
       </view>
     </view>
   </view>
-  <view class="display_show">
+  <!-- <view class="display_show">
     <view class="section__title">上课地址</view>
       <view class="section__big_content {{error_address}}">
       <picker mode="region" bindchange="finishArea" value="{{areaValues}}">
         <view class="picker">{{areaInfo}}</view>
       </picker>
+    </view>
+  </view> -->
+
+  <view class="display_show">
+    <view class="section__title">上课地址</view>
+    <view class="section__big_content {{error_address}}">
+    <input name="wAddress" placeholder="（济南）街道，单元楼等" maxlength="40"/>
     </view>
   </view>
   <view class="display_show">
@@ -86,13 +93,6 @@
   </view>
   
   <image src="../../utils/imgs/content_line_optional.png" class="content-line" wx:if="{{submitMore}}"> </image>
-
-  <view class="display_show" wx:if="{{submitMore}}">
-    <view class="section__title">具体地址</view>
-    <view class="section__big_content">
-    <input name="wAddress" placeholder="街道，单元楼等（选填）" maxlength="40"/>
-    </view>
-  </view>
 
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">文理方向</view>

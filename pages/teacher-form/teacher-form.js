@@ -22,7 +22,7 @@ Page({
     collegeInfoMaster: "请选择硕士学校",
     collegeInfoPhd: "请选择博士学校",
     entranceYearInfo: "",
-    addressValues: ["全部","全部","全部"],
+    addressValues: ["山东省","济南市","槐荫区"],
     tEducations: ['专科','本科','硕士','博士','博士后'],
     tEducation: '本科',
     page: 1,
@@ -442,8 +442,8 @@ Page({
     e.detail.value.tAim = wx.getStorageSync('tAim')
     e.detail.value.tSubject = wx.getStorageSync('tSubject')
     console.log("e.detail.value", e.detail.value)
-    //if (that.validateInput(e.detail.value, that.data.page)) {
-    if (true) {
+    if (that.validateInput(e.detail.value, that.data.page)) {
+    //if (true) {
       if (that.data.page < 4) {
         that.setData({
           page: that.data.page+1
