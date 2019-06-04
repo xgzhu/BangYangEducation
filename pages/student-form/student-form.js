@@ -258,7 +258,8 @@ Page({
       formData.sSex = parseInt(e.detail.value.sSex)
       // formData.sWxid = wx.getStorageSync('openId')
       formData.sWxid = app.globalData.openId
-      formData.wGrade = "G"+e.detail.value.wGrade.toString()
+      // formData.wGrade = "G"+e.detail.value.wGrade.toString()
+      formData.wGrade = grades.idToGrades["G"+e.detail.value.wGrade.toString()]
       formData.cityId = app.getCityId(that.data.areaValues)
       formData.pName = e.detail.value.pName
       formData.pPhone = e.detail.value.pPhone

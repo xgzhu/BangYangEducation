@@ -14,7 +14,7 @@
         </image>
         <image wx:if="{{!item.isMale}}" src="../../utils/imgs/icon_girl.png" class="card-avatar-content">
         </image> -->
-        <image src="https://api.zhexiankeji.com/image/{{item.tId}}_teacher__0.jpg" class="card-avatar-content" mode="aspectFit">
+        <image src="https://api.zhexiankeji.com/education/image/{{item.tId}}_teacher__0.jpg" class="card-avatar-content" mode="aspectFit">
         </image>
         <view class="card-teacher-id">家教编号</view>
         <view class="card-teacher-id">{{item.id}}</view>

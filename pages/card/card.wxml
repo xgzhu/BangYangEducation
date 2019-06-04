@@ -136,21 +136,21 @@
   <view class="display_show">
     <view class="section__title">个人照片</view>
     <view wx:if='{{!finishLoad1}}' class="section__big_content_noline">{{loadingInfo1}}</view>
-    <image wx:if='{{!errorLoad1}}' src="https://api.zhexiankeji.com/image/{{tId}}_teacher__0.jpg" class="section__big_content_noline" mode="aspectFit"
+    <image wx:if='{{!errorLoad1}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__0.jpg" class="section__big_content_noline" mode="aspectFit"
     binderror="errorLoad1" bindload="finishLoad1">
     </image>
   </view>
   <view class="display_show" wx:if="{{showIdPic}}">
     <view class="section__title">学生证</view>
     <view wx:if='{{!finishLoad2}}' class="section__big_content_noline">{{loadingInfo2}}</view>
-    <image wx:if='{{!errorLoad2}}' src="https://api.zhexiankeji.com/image/{{tId}}_teacher__1.jpg" class="section__big_content_noline" mode="aspectFit"
+    <image wx:if='{{!errorLoad2}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__1.jpg" class="section__big_content_noline" mode="aspectFit"
     binderror="errorLoad2" bindload="finishLoad2">
     </image>
   </view>
   <view class="display_show" wx:if="{{showIdPic}}">
     <view class="section__title">校园卡</view>
     <view wx:if='{{!finishLoad3}}' class="section__big_content_noline">{{loadingInfo3}}</view>
-    <image wx:if='{{!errorLoad3}}' src="https://api.zhexiankeji.com/image/{{tId}}_teacher__2.jpg" class="section__big_content_noline" mode="aspectFit"
+    <image wx:if='{{!errorLoad3}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__2.jpg" class="section__big_content_noline" mode="aspectFit"
     binderror="errorLoad3" bindload="finishLoad3">
     </image>
   </view>

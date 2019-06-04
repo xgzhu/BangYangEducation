@@ -336,6 +336,7 @@ Page({
         that.prepareCard()
         wx.hideLoading()
         wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
         if (callback != undefined)
           callback()
       }
@@ -346,6 +347,7 @@ Page({
         that.prepareCard()
         wx.hideLoading()
         wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
         if (callback != undefined)
           callback()
       }

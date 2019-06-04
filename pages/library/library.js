@@ -139,10 +139,6 @@ Page({
       if (element.sWxid == app.globalData.openId || element.tWxid == app.globalData.openId) {
         continue
       }
-      // 去掉所有未审核教师
-      if (element.title == "未审核教师") {
-        continue
-      }
       // Gender Filter
       if (selections.gender != undefined && selections.gender != "2"
         && selections.gender != element.gender.toString()) {
@@ -287,21 +283,26 @@ Page({
     wx.showLoading({
       title: '正在更新...'
     })
-    app.studentLibraryReadyCallback = function() {
-      if (that.data.selectedObject == "student") {
+    if (that.data.selectedObject == "student") {
+      var studentLibraryReadyCallback = function(studentInfo) {
+        app.globalData.localStudentLibrary[that.data.cityId] = studentInfo
         that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
       }
+      app.getStudentInfo({"cityId":that.data.cityId}, studentLibraryReadyCallback)
     }
-    app.teacherLibraryReadyCallback = function() {
-      if (that.data.selectedObject == "teacher") {
+    if (that.data.selectedObject == "teacher") {
+      var teacherLibraryReadyCallback = function(teacherInfo) {
+        app.globalData.localTeacherLibrary[that.data.cityId] = teacherInfo
         that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
       }
+      app.getTeacherInfo({"cityId":that.data.cityId}, teacherLibraryReadyCallback)
     }
-    app.getLibraryData(that.data.cityId)
   },
   /** Local Functions: listAContainsAtLeastOneFromListB
    */

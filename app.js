@@ -341,7 +341,8 @@ App({
         bs.sId = bs.id
         bs.id = that.formatId(bs.id)
         bs.time = w.wType
-        bs.grade = grades.idToGrades[w.wGrade]
+        // bs.grade = grades.idToGrades[w.wGrade]
+        bs.grade = w.wGrade
         bs.subjects = ""
         bs.subjectsList = []
         bs.gender = bs.sSex
