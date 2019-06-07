@@ -38,10 +38,6 @@ Page({
     console.log("librarySelection", selections)
     var areaValues = app.globalData.userCustomInfo.region
     var cityId = app.getCityId(areaValues)
-    // var showBtn = false
-    // if (selections.showBtn != undefined) {
-    //   showBtn = selections.showBtn
-    // }
     that.setData({
       idToTeacherIdentity: teachers.reversedGrade.slice(),
       idToUniversitys: universitys.idToUniversitys,
@@ -49,8 +45,8 @@ Page({
       cityId: cityId,
       selections: selections,
       emptyInfo: "啊呀，好像没有信息，放宽点要求试试？"
-      // showBtn: showBtn,
     })
+    that.updateDatabase()
     that.setupList(selections)
     if (selections.info == "teacher") {
       that.setData({sourcePrint: "教师资源", selectionPrint: that.getSelectionPrint(selections)})
@@ -283,25 +279,28 @@ Page({
     wx.showLoading({
       title: '正在更新...'
     })
+    that.updateDatabase()
+  },
+  updateDatabase: function() {
     if (that.data.selectedObject == "student") {
-      var studentLibraryReadyCallback = function(studentInfo) {
+      var studentLibraryReadyCallback = function (studentInfo) {
         app.globalData.localStudentLibrary[that.data.cityId] = studentInfo
         that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
         wx.stopPullDownRefresh()
       }
-      app.getStudentInfo({"cityId":that.data.cityId}, studentLibraryReadyCallback)
+      app.getStudentInfo({ "cityId": that.data.cityId }, studentLibraryReadyCallback)
     }
     if (that.data.selectedObject == "teacher") {
-      var teacherLibraryReadyCallback = function(teacherInfo) {
+      var teacherLibraryReadyCallback = function (teacherInfo) {
         app.globalData.localTeacherLibrary[that.data.cityId] = teacherInfo
         that.setupList(that.data.selections)
         wx.hideLoading()
         wx.hideNavigationBarLoading()
         wx.stopPullDownRefresh()
       }
-      app.getTeacherInfo({"cityId":that.data.cityId}, teacherLibraryReadyCallback)
+      app.getTeacherInfo({ "cityId": that.data.cityId }, teacherLibraryReadyCallback)
     }
   },
   /** Local Functions: listAContainsAtLeastOneFromListB

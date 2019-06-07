@@ -120,7 +120,7 @@ App({
               }
               that.getReservationInfo({sId: that.globalData.myStudentRegister.sId, iType: 2, searchType:2}, teacherReservationCallback)
             }
-            that.getStudentInfo({"sWxid":wxId}, studentInfoCallback)
+            that.getMyStudentInfo({"sWxid":wxId}, studentInfoCallback)
             
             var teacherInfoCallback = function(teacherInfo) {
               that.globalData.myTeacherRegisters = teacherInfo
@@ -131,7 +131,7 @@ App({
               }
               that.getReservationInfo({tId: that.globalData.myTeacherRegister.tId, iType: 1, searchType:1}, studentReservationCallback)
             }
-            that.getTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
+            that.getMyTeacherInfo({"tWxid":wxId}, teacherInfoCallback)
           },
           fail: function (res) {
             console.log("fail to get openId")
@@ -211,6 +211,45 @@ App({
       fail: function (res) {console.log("failed", res)}
     })
   },
+  getMyStudentInfo: function(searchData, callback) {
+    var student_url = "https://api.zhexiankeji.com/education/student/select"
+    wx.request({
+      url: student_url,
+      data:  searchData,
+      header: {'content-type': 'application/json'},
+      method: "POST",
+      success: function (res) {
+        if (res.data.result.length > 0) {
+          console.log("getMyStudentInfo-res", res.data.result[0])
+          var studentInfo = that.constructStudentInfo(
+              [res.data.result[0].student], res.data.result[0].works)
+          studentInfo = that.constructDetailedStudentInfo(
+              studentInfo[0], res.data.result[0].patriarchs[0])
+          console.log("getMyStudentInfo", studentInfo)
+          callback(studentInfo)
+        }
+      },
+      fail: function (res) {console.log("failed", res)}
+    })
+  },
+  getMyTeacherInfo: function(searchData, callback) {
+    var teacher_url = "https://api.zhexiankeji.com/education/teacher/select"
+    wx.request({
+      url: teacher_url,
+      data:  searchData,
+      header: {'content-type': 'application/json'},
+      method: "POST",
+      success: function (res) {
+        if (res.data.result.length > 0) {
+          var teacherInfo = that.constructTeacherInfo(
+          [res.data.result[0].teacher], res.data.result[0].teacherWorks)
+          console.log("getMyTeacherInfo", teacherInfo)
+          callback(teacherInfo)
+        }
+      },
+      fail: function (res) {console.log("failed", res)}
+    })
+  },
   getStudentInfo: function(searchData, callback) {
     var basic_student_url = "https://api.zhexiankeji.com/education/baseStudent/search"
     wx.request({
@@ -280,10 +319,16 @@ App({
         bt.description = "未填写描述"
         if (bt.tDescribe != "")
           bt.description = bt.tDescribe
+        if (bt.description.length < 82) {
+          bt.descriptionShort = bt.description
+        } else {
+          bt.descriptionShort = bt.description.substring(0, 80) + "..."
+        }
         bt.tId = bt.id
         bt.id = that.formatId(bt.id)
         bt.time = wt.tDirection
-        bt.identity = bt.tType
+        bt.identity = teachers.reversedGrade[parseInt(bt.tType)]
+        bt.education = teachers.databaseIdToIdentity[bt.tEducation]
         bt.gender = bt.tSex
         bt.subjects = ""
         bt.subjectsList = []
@@ -321,6 +366,14 @@ App({
     return result
   },
 
+  constructDetailedStudentInfo: function(studentInfo, patriarch) {
+    studentInfo.parent = patriarch.pName
+    studentInfo.pPhone = patriarch.pPhone
+    if (studentInfo.sPhone == studentInfo.pPhone)
+      studentInfo.sPhone = ''
+    return [studentInfo]
+  },
+
   // Reconstructs student info.
   constructStudentInfo: function(bsresult, wresult) {
     var result = []
@@ -328,7 +381,6 @@ App({
       var bs = bsresult[i]
       for (var j = 0; j < wresult.length; j++) {
         var w = wresult[j]
-        // console.log(i + " " + j + " : " + bs.id + " " +w.sId)
         if (bs.id != w.sId) {
           continue;
         }
@@ -338,6 +390,11 @@ App({
         bs.description = "未填写描述"
         if (bs.sDescribe != "")
           bs.description = bs.sDescribe
+        if (bs.description.length < 82) {
+          bs.descriptionShort = bs.description
+        } else {
+          bs.descriptionShort = bs.description.substring(0, 80) + "..."
+        }
         bs.sId = bs.id
         bs.id = that.formatId(bs.id)
         bs.time = w.wType
@@ -347,6 +404,7 @@ App({
         bs.subjectsList = []
         bs.gender = bs.sSex
         bs.isTeacher = false
+        bs.address = w.wAddress
         var subjectsAndPoints = w.wSubject.split("+")
         for (var k = 0; k < subjectsAndPoints.length; k++) {
           var sap = subjectsAndPoints[k].split(",")
@@ -359,6 +417,7 @@ App({
         }
         bs.hourly_pay = w.wPrice
         bs.education = w.wEducation
+        /*
         var demand
         if (w.wSex == 2 && w.wEducation == "") {
           demand = "无要求"
@@ -371,6 +430,11 @@ App({
           demand += w.wSex == 0 ? "男教员" : "女教员"
         }
         bs.demand = demand
+        */
+        bs.wTtype = w.wTtype  // 教员学历要求
+        bs.wSex = w.wSex  // 教员性别要求
+        bs.teacherRequirement = teachers.reversedGrade[bs.wTtype] 
+            + ", " + teachers.reversedGender[bs.wSex]
         result.push(bs)
         // console.log(bs)
         break;

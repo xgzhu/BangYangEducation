@@ -16,7 +16,7 @@ Page({
    */
   data: {
     identityValue: invalid,
-    identitys: [],
+    teacherGrades: [],
     identityInfo: "请选择当前身份",
     collegeInfo: "请选择本科学校",
     collegeInfoMaster: "请选择硕士学校",
@@ -43,19 +43,19 @@ Page({
    */
   onLoad: function (options) {
     that = this
-    that.checkExisting()
-    var identitys = teachers.grades.slice()
-    identitys.splice(0, 1)
+    that.checkExisting(options.update == undefined)
+    var teacherGrades = teachers.grades.slice()
+    teacherGrades.splice(0, 1)
     that.setData({
-      identitys: identitys,
+      teacherGrades: teacherGrades,
       uProvince: universitys.provinces,
       universitys: universitys.universitys,
       provinceAndUniversitys: [universitys.provinces, universitys.universitys["1"]],
       provinceAndUniversitysMaster: [universitys.provinces, universitys.universitys["1"]],
       provinceAndUniversitysPhd: [universitys.provinces, universitys.universitys["1"]],
-      puValue: ["北京", "清华大学"],
-      puValueMaster: ["北京", "清华大学"],
-      puValuePhd: ["北京", "清华大学"],
+      puValue: [0, 0],
+      puValueMaster: [0, 0],
+      puValuePhd: [0, 0],
       entranceYearInfo: curYear + "年",
       entranceYears: [(curYear-9)+"年", (curYear-8)+"年", (curYear-7)+"年", (curYear-6)+"年", (curYear-5)+"年", (curYear-4)+"年", (curYear-3)+"年", (curYear-2)+"年", (curYear-1)+"年", (curYear)+"年"],
       provinceToId: citys.provinceToId,
@@ -84,8 +84,12 @@ Page({
       that.setData({subjectInfo:subjectInfo, subjectInfoReadable:subjectInfo.split("+"), error_subject: ""})
     }
   },
-  checkExisting: function () {
-    if (app.globalData.myTeacherRegister == null) {
+  checkExisting: function (query) {
+    if (query == false) {
+      that.prepareForm()
+      return
+    }
+    if (app.globalData.myStudentRegister == null) {
       return
     }
     wx.showModal({
@@ -110,7 +114,74 @@ Page({
       defaultName: myData.name,
       defaultBoy: myData.gender == 0,
       defaultGirl: myData.gender == 1,
+      defaultPhone: myData.tPhone,
+      defaultMajor: myData.tMajor
     })
+    that.finishPhone(that.mockDetailValue(myData.tPhone))
+    that.finishIdentity(that.mockDetailValue(myData.tType - 2))
+    if (myData.tUniversity != undefined && myData.tUniversity != "") {
+      var puValue = that.setUniversity(myData.tUniversity, "0")
+      that.setData({puValue: puValue})
+    }
+    if (myData.tGraduate != undefined && myData.tGraduate != "") {
+      that.setUniversity(myData.tGraduate, "1")
+      that.setData({puValueMaster: puValue})
+    }
+    if (myData.tDoctoral != undefined && myData.tDoctoral != "") {
+      that.setUniversity(myData.tDoctoral, "2")
+      that.setData({puValuePhd: puValue})
+    }
+    console.log("prepareForm", that.data)
+  },
+  setUniversity: function(universityId, level) {
+    var provinceIdxAndUniversityIdx = that.getProvinceIdxAndUniversityIdx(universityId)
+    if (provinceIdxAndUniversityIdx.provinceIdx != undefined) {
+      that.changeUniversityProvince(
+        {
+          detail: {
+            column: 0,
+            value: provinceIdxAndUniversityIdx.provinceIdx
+          },
+          currentTarget: {
+            dataset: {level: level}
+          }
+        })
+      that.finishUniversity(
+        {
+          detail: {
+            value: [provinceIdxAndUniversityIdx.provinceIdx, provinceIdxAndUniversityIdx.universityIdx]
+          },
+          currentTarget: {
+            dataset: {level: level}
+          }
+        })
+      return provinceIdxAndUniversityIdx.puValue
+    }
+    return [0, 0]
+  },
+  getProvinceIdxAndUniversityIdx: function(universityId) {
+    var collegeName = universitys.idToUniversitys[universityId]
+    for (var provinceId in universitys.universitys) {
+      for (var universityIdx in universitys.universitys[provinceId]) {
+        // console.log("university", universitys.universitys[provinceId][university])
+        var university = universitys.universitys[provinceId][universityIdx]
+        if (university.name == collegeName) {
+          console.log("getProvinceIdxAndUniversityIdx", university)
+          return {provinceIdx:parseInt(provinceId)-1, 
+                  universityIdx:universityIdx,
+                  puValue:[parseInt(provinceId)-1, parseInt(universityIdx)]}
+        }
+      }
+    }
+    return {}
+  },
+  mockDetailValue: function(value) {
+    var mockDetailValue = {detail:{value:value}}
+    return mockDetailValue
+  },
+  addMockCurrentTarget: function(object, dataset) {
+    value.currentTarget.dataset = dataset
+    return object
   },
 
   // 输入结束后的检查
@@ -138,9 +209,10 @@ Page({
   },
   finishIdentity: function (e) {
     var idx = parseInt(e.detail.value)
+    console.log("finishIdentity-idx", idx, that.data)
     that.setData({
-      identityInfo: that.data.identitys[idx].name,
-      identityValue: that.data.identitys[idx].id,
+      identityInfo: that.data.teacherGrades[idx].name,
+      identityValue: that.data.teacherGrades[idx].id,
       error_identity: "",
     })
     switch (idx) {
@@ -158,6 +230,7 @@ Page({
     })
   },
   changeUniversityProvince: function (e) {
+    console.log("changeUniversityProvince", e)
     if (e.detail.column != 0) {
       return
     }
@@ -176,6 +249,7 @@ Page({
     }
   },
   finishUniversity: function (e) {
+    console.log("finishUniversity", e)
     var level = parseInt(e.currentTarget.dataset.level)
     var value = e.detail.value
     if (level == 0) {
@@ -550,7 +624,8 @@ Page({
   },
   uploadImage: function(id, metadata) {
     var img_url = "https://api.zhexiankeji.com/education/image/upload"
-    // console.log("upload img ", { name: id + "_teacher__2" }) -> ture_teacher__2, problem in id?
+    console.log("upload img ", { name: id + "_teacher__2" }) // -> ture_teacher__2, problem in id?
+    
     // 个人照片
     wx.uploadFile({
       url: img_url,

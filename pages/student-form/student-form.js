@@ -13,7 +13,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    gradeValue: invalid,
     gradeInfo: "请选择当前年级",
     areaValues: ["山东省", "济南市", ""],
     areaInfo: "请选择上课地点",
@@ -22,8 +21,8 @@ Page({
     teacherValue: ["", ""],
     //characterInfo: "请选择性格类型",
     teacherInfo: "请选择教员要求",
-    teacherGenderValue: invalid,
-    teacherGradeValue: invalid,
+    teacherGenderValue: 2,  // 性别不限
+    teacherGradeValue: 1, // 学历不限
     times:[
       { name: '平时', value: 1},
       { name: '周末', value: 2},
@@ -36,7 +35,7 @@ Page({
    */
   onLoad: function (options) {
     that = this
-    that.checkExisting()
+    that.checkExisting(options.update == undefined)
     that.setData({
       grades: grades.grades.slice(),
       subjects: subjects.subjects.slice(),
@@ -59,7 +58,11 @@ Page({
     }
     console.log(that.data)
   },
-  checkExisting: function () {
+  checkExisting: function (query) {
+    if (query == false) {
+      that.prepareForm()
+      return
+    }
     if (app.globalData.myStudentRegister == null) {
       return
     }
@@ -80,11 +83,58 @@ Page({
   // prepare existing info.
   prepareForm: function() {
     var myData = app.globalData.myStudentRegister
+    var work_time = that.data.times
+    if (myData.time&0x01)
+      work_time[0].checked = true
+    if (myData.time&0x02)
+      work_time[1].checked = true
+    if (myData.time&0x04)
+      work_time[2].checked = true
     that.setData({
       defaultName: myData.name,
       defaultBoy: myData.gender == 0,
       defaultGirl: myData.gender == 1,
+      defaultAddress: myData.address,
+      defaultPhone: myData.pPhone,
+      defaultStudentPhone: myData.sPhone,
+      defaultQq: myData.sQq,
+      gradeInfo: myData.grade,
+      defaultParent: myData.parent,
+      times: work_time,
+      wen_ke: myData.sDirection == 1,
+      li_ke: myData.sDirection == 2,
+      defaultMajor: myData.sMajor,
+      teacherGenderValue: myData.wSex,
+      teacherGradeValue: myData.wTtype,
+      teacherInfo: myData.teacherRequirement,
     })
+
+    if (myData.hourly_pay > 0) {
+      that.setData({DefaultPrice: myData.hourly_pay})
+    }
+
+    if (myData.description != "未填写描述") {
+      that.setData({
+        defaultDescription: myData.description
+      })
+    }
+
+    var subjectValues = []
+    for (var i = 0; i < myData.subjectsList.length; i++) {
+      var subject = myData.subjectsList[0]
+      console.log("subject", subject)
+      var subjectValue = {
+        subject: {name: subject.name}, 
+        point: {name: subject.point},
+        string: subject.name + "," + subject.point
+      }
+    }
+    subjectValues.push(subjectValue)
+    that.setData({
+      subjectValues: subjectValues,
+    })
+    that.subjectDeduplication()
+    //console.log("subjectValues", that.data)
   },
 
   // 输入结束后的检查
@@ -109,7 +159,6 @@ Page({
   finishGrade: function(e) {
     that.setData({
       gradeInfo: grades.grades[e.detail.value].name,
-      gradeValue: grades.grades[e.detail.value].id,
       error_grade: "",
     })
   },
@@ -152,7 +201,7 @@ Page({
     that.setData({
       teacherGradeValue: teacherGrade.id,
       teacherGenderValue: teacherGender.id,
-      teacherInfo: teacherGrade.name+","+teacherGender.name
+      teacherInfo: teacherGrade.name+", "+teacherGender.name
     })
   },
   removeSubject: function(e) {
@@ -198,7 +247,7 @@ Page({
       success = false
       style_gender = "error"
     }
-    if (val.wGrade == invalid) {
+    if (val.wGrade == "请选择当前年级") {
       success = false
       style_grade = "error"
     }
@@ -243,7 +292,7 @@ Page({
     return wType
   },
   formSubmit: function (e) {
-    e.detail.value.wGrade = that.data.gradeValue
+    e.detail.value.wGrade = that.data.gradeInfo
     e.detail.value.wSubject = that.data.subjectValues
     e.detail.value.sProvince = that.data.areaValues[0]
     e.detail.value.sCity = that.data.areaValues[1]
@@ -259,7 +308,7 @@ Page({
       // formData.sWxid = wx.getStorageSync('openId')
       formData.sWxid = app.globalData.openId
       // formData.wGrade = "G"+e.detail.value.wGrade.toString()
-      formData.wGrade = grades.idToGrades["G"+e.detail.value.wGrade.toString()]
+      formData.wGrade = e.detail.value.wGrade
       formData.cityId = app.getCityId(that.data.areaValues)
       formData.pName = e.detail.value.pName
       formData.pPhone = e.detail.value.pPhone
@@ -289,12 +338,8 @@ Page({
         formData.wPrice = parseInt(e.detail.value.wPrice)
       // if (that.data.characterInfo != "请选择性格类型")
       //   formData.sDescribe = e.detail.value.sDescribe + " ("+that.data.characterInfo+")"
-      if (that.data.teacherInfo != "请选择教员要求") {
-        if (that.data.teacherGradeValue > 1)
-          formData.wTtype = that.data.teacherGradeValue.toString()
-        if (that.data.teacherGenderValue < 2)
-          formData.wSex = that.data.teacherGenderValue
-      }
+      formData.wTtype = that.data.teacherGradeValue.toString()
+      formData.wSex = that.data.teacherGenderValue
       var url = "https://api.zhexiankeji.com/education/student/insert"
       if (app.globalData.myStudentRegister != null) {
         formData.id = app.globalData.myStudentRegister.sId
@@ -339,7 +384,7 @@ Page({
                       url: '../card/card?personal=student'
                     })
                   }
-                  app.getStudentInfo({"sWxid":app.globalData.openId}, studentInfoCallback)
+                  app.getMyStudentInfo({"sWxid":app.globalData.openId}, studentInfoCallback)
                 }
               },
               fail: function(res) {

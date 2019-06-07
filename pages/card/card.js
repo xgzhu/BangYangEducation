@@ -16,18 +16,21 @@ Page({
   },
   onLoad: function(e) {
     that = this
-    that.setData({ personal: e.personal, item: e.item})
+    that.setData({
+      personal: e.personal == undefined ? "" : e.personal,
+      item: e.item == undefined ? "" : e.item,
+      showReviseOption: (e.personal == "student" || e.personal == "teacher")})
     that.preparePage()
   },
   preparePage: function() {
     if (that.data.personal == "student") {
       if (app.globalData.myStudentRegister == null) {
-        that.refreshInfo(that.prepareCard)
+        that.updateInfo(that.prepareCard)
         return
       }
     } else if (that.data.personal == "teacher") {
       if (app.globalData.myTeacherRegister == null) {
-        that.refreshInfo(that.prepareCard)
+        that.updateInfo(that.prepareCard)
         return
       }
     }
@@ -61,10 +64,10 @@ Page({
       that.setData({
         nickname: myStudent.name,
         title: myStudent.gender == 0 ? "男生":"女生",
-        address_detail: myStudent.sArea + " " + myStudent.sAddress,
+        address_detail: myStudent.address,
         work_time: work_time,
         canRegister: false,
-        showReserveOption: false
+        showReserveOption: false,
       })
     } else if (that.data.personal == "teacher") {
       if (app.globalData.myTeacherRegister == null) {
@@ -327,9 +330,9 @@ Page({
     wx.showLoading({
       title: '正在更新...'
     })
-    that.refreshInfo();
+    that.updateInfo();
   },
-  refreshInfo: function(callback) {
+  updateInfo: function(callback) {
     if (that.data.personal == "student") {
       var callbackFunction = function (studentInfo) {
         app.globalData.myStudentRegister = studentInfo[0]
@@ -340,7 +343,7 @@ Page({
         if (callback != undefined)
           callback()
       }
-      app.getStudentInfo({ "sWxid": app.globalData.openId }, callbackFunction)
+      app.getMyStudentInfo({ "sWxid": app.globalData.openId }, callbackFunction)
     } else {
       var callbackFunction = function (teacherInfo) {
         app.globalData.myTeacherRegister = teacherInfo[0]
@@ -351,7 +354,18 @@ Page({
         if (callback != undefined)
           callback()
       }
-      app.getTeacherInfo({ "tWxid": app.globalData.openId }, callbackFunction)
+      app.getMyTeacherInfo({ "tWxid": app.globalData.openId }, callbackFunction)
+    }
+  },
+  navToForm: function() {
+    if (that.data.personal == "student") {
+      wx.navigateTo({
+        url: '../student-form/student-form?update=true'
+      })
+    } else if (that.data.personal == "teacher") {
+      wx.navigateTo({
+        url: '../teacher-form/teacher-form?update=true'
+      })
     }
   },
   errorLoad1: function () {

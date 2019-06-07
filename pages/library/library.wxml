@@ -25,7 +25,7 @@
         <view wx:if="{{!item.isMale}}" class="card-content-name">{{item.nickname}} (女) {{item.identityInfo}}</view>
         <view class="card-content-subject">可教科目: {{item.subjects}}</view>
         <view class="card-content-subject">可教年级: {{item.targetGradeReadable}}</view>
-        <view class="card-content-description">个人简介: {{item.description}}</view>
+        <view class="card-content-description">个人简介: {{item.descriptionShort}}</view>
         <view class="card-content-salary" wx:if="{{item.hourly_pay > 0}}">目标工资: {{item.hourly_pay}}元／小时</view>
         <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">目标工资: 面议</view>
       </view>
@@ -44,10 +44,10 @@
         <view wx:if="{{item.isMale}}" class="card-content-name">{{item.nickname}} (男) {{item.grade}}</view>
         <view wx:if="{{!item.isMale}}" class="card-content-name">{{item.nickname}} (女) {{item.grade}}</view>
         <view class="card-content-subject">求教科目: {{item.subjects}}</view>
-        <view class="card-content-description">学员情况: {{item.description}}</view>
+        <view class="card-content-description">学员情况: {{item.descriptionShort}}</view>
         <view class="card-content-salary" wx:if="{{item.hourly_pay > 0}}">可付工资: {{item.hourly_pay}}元／小时</view>
         <view class="card-content-salary" wx:if="{{item.hourly_pay == 0}}">可付工资: 面议</view>
-        <view class="card-content-salary">教员要求: {{item.demand}}</view>
+        <view class="card-content-salary">教员要求: {{item.teacherRequirement}}</view>
       </view>
     </view>
   </view>

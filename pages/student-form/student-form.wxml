@@ -66,7 +66,7 @@
   <view class="display_show">
     <view class="section__title">上课地址</view>
     <view class="section__big_content {{error_address}}">
-    <input name="wAddress" placeholder="（济南）街道，单元楼等" maxlength="40"/>
+    <input name="wAddress" placeholder="（济南）街道，单元楼等" maxlength="40" value="{{defaultAddress}}"/>
     </view>
   </view>
   <view class="display_show">
@@ -81,14 +81,14 @@
   </view>
   <view class="display_show">
     <view class="section__title">家长称呼</view>
-    <input name="pName" placeholder="请输入您的称呼"  maxlength="7"
+    <input name="pName" placeholder="请输入您的称呼"  maxlength="7" value="{{defaultParent}}"
     bindblur="finishPName"
     class="section__big_content {{error_pName}}"/>
   </view>
   <view class="display_show">
     <view class="section__title">家长电话</view>
     <view class="section__big_content {{error_phone}}">
-    <input type="number" name="pPhone" placeholder="请输入11位手机号"  maxlength="11"
+    <input type="number" name="pPhone" placeholder="请输入11位手机号"  maxlength="11" value="{{defaultPhone}}"
     bindblur="finishPhone"/></view>
   </view>
   
@@ -97,20 +97,20 @@
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">文理方向</view>
     <radio-group name="sDirection" class="section__big_content">
-      <view class="selection"><label><radio value="1"/>文科</label></view>
-      <view class="selection"><label><radio value="2"/>理科</label></view>
+      <view class="selection"><label><radio value="1" checked="{{wen_ke}}"/>文科</label></view>
+      <view class="selection"><label><radio value="2" checked="{{li_ke}}"/>理科</label></view>
     </radio-group>
   </view>
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">目标专业</view>
     <view class="section__big_content">
-    <input name="sMajor" placeholder="比如外语、计算机等（选填）" maxlength="40"/>
+    <input name="sMajor" placeholder="比如外语、计算机等（选填）" value="{{defaultMajor}}" maxlength="40"/>
     </view>
   </view>
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">个人描述</view>
     <view class="section__big_content">
-    <input name="sDescribe" placeholder="比如性格、兴趣等（选填）" maxlength="40"/>
+    <input name="sDescribe" placeholder="比如性格、兴趣等（选填）" maxlength="40" value="{{defaultDescription}}"/>
     </view>
   </view>
 
@@ -129,20 +129,20 @@
     <view class="section__title">教员薪酬</view>
     <view class="section__big_content">
       <view class="section__median_content">
-      <input name="wPrice" type="digit" placeholder="0.0"/></view>
+      <input name="wPrice" type="digit" placeholder="0.0" value="{{DefaultPrice}}"/></view>
       <view class="section__median_content">元／小时</view>
     </view>
   </view>
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">学生电话</view>
-    <input type="number" name="sPhone" placeholder="请输入11位手机号"  maxlength="11"
+    <input type="number" name="sPhone" placeholder="请输入11位手机号"  maxlength="11" value="{{defaultStudentPhone}}"
     bindblur="finishPhone"
     class="section__big_content"/>
   </view>
   <view class="display_show" wx:if="{{submitMore}}">
     <view class="section__title">学生QQ</view>
     <view class="section__big_content">
-    <input type="number" name="sQq" placeholder="请输入QQ号码(选填)"  maxlength="11"
+    <input type="number" name="sQq" placeholder="请输入QQ号码(选填)"  maxlength="11" value="{{defaultQq}}"
     bindblur="finishPhone"/>
     </view>
   </view>

@@ -32,18 +32,25 @@
   display: inline-block;
   vertical-align:top;
   padding-right: 20rpx;
+  padding-left: 20rpx;
   width: 25%;
 }
 .section__big_content {
   display: inline-block;
   vertical-align:top;
   border-bottom: 1rpx dotted blue;
-  width: 60%;
+  padding-right: 20rpx;
+  padding-left: 20rpx;
+  width: 55%;
+  font-weight: bold;
+  font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }
 .section__big_content_noline {
   display: inline-block;
   vertical-align:top;
-  width: 60%;
+  padding-right: 20rpx;
+  padding-left: 20rpx;
+  width: 55%;
   font-weight: bold;
 }
 .section__median_content {

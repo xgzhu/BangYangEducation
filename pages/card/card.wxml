@@ -7,13 +7,13 @@
   </view>
   <view class="display_show">
     <view class="section__title">简介</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{description}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">需求科目</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       <view wx:for="{{subjects}}">
         {{item}}
       </view>
@@ -21,40 +21,40 @@
   </view>
   <view class="display_show">
     <view class="section__title">时薪</view>
-    <view class="section__big_content_noline" wx:if="{{flexible_pay}}">
+    <view class="section__big_content" wx:if="{{flexible_pay}}">
       {{hourly_pay}}元 (可议)
     </view>
-    <view class="section__big_content_noline" wx:if="{{!flexible_pay}}">
+    <view class="section__big_content" wx:if="{{!flexible_pay}}">
       {{hourly_pay}}元 (固定)
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">开始日期</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{start_time}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">结束日期</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{end_time}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">工作时间</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{worktime}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">工作市区</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{address}}
     </view>
   </view>
   <view class="display_show" wx:if="{{address_detail!=undefined}}">
     <view class="section__title">具体地址</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{address_detail}}
     </view>
   </view>
@@ -69,7 +69,7 @@
   </view>
   <view class="display_show">
     <view class="section__title">可授科目</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
  <!--      <view wx:for="{{subjectsList}}">
         {{item.name}}, 
       </view> -->
@@ -78,79 +78,97 @@
   </view>
   <view class="display_show">
     <view class="section__title">可授年级</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{targetGradeReadable}}
     </view>
   </view>
 <!--   <view class="display_show">
     <view class="section__title">工作时间</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{work_time}}
     </view>
   </view> -->
   <view class="display_show" wx:if="{{address_detail!=undefined}}">
     <view class="section__title">可达区域</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{address_detail}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">期望时薪</view>
-    <view class="section__big_content_noline" wx:if="{{hourly_pay > 0}}">
+    <view class="section__big_content" wx:if="{{hourly_pay > 0}}">
       {{hourly_pay}}元
     </view>
-    <view class="section__big_content_noline" wx:else>
+    <view class="section__big_content" wx:else>
       面议
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">个人简介</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{description}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">当前身份</view>
+    <view class="section__big_content">
+      {{identity}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">最高学历</view>
+    <view class="section__big_content">
+      {{education}}
     </view>
   </view>
   <view class="display_show" wx:if="{{university!=undefined}}">
     <view class="section__title">本科学校</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{university}}
     </view>
   </view>
   <view class="display_show" wx:if="{{universityMaster!=undefined}}">
     <view class="section__title">硕士学校</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{universityMaster}}
     </view>
   </view>
   <view class="display_show" wx:if="{{universityPhd!=undefined}}">
     <view class="section__title">博士学校</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{universityPhd}}
     </view>
   </view>
   <view class="display_show">
+    <view class="section__title">专业</view>
+    <view class="section__big_content">
+      {{tMajor}}
+    </view>
+  </view>
+  <view class="display_show">
     <view class="section__title">家教编号</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{id}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">个人照片</view>
-    <view wx:if='{{!finishLoad1}}' class="section__big_content_noline">{{loadingInfo1}}</view>
-    <image wx:if='{{!errorLoad1}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__0.jpg" class="section__big_content_noline" mode="aspectFit"
+    <view wx:if='{{!finishLoad1}}' class="section__big_content">{{loadingInfo1}}</view>
+    <image wx:if='{{!errorLoad1}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__0.jpg" class="section__big_content" mode="aspectFit"
     binderror="errorLoad1" bindload="finishLoad1">
     </image>
   </view>
   <view class="display_show" wx:if="{{showIdPic}}">
     <view class="section__title">学生证</view>
-    <view wx:if='{{!finishLoad2}}' class="section__big_content_noline">{{loadingInfo2}}</view>
-    <image wx:if='{{!errorLoad2}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__1.jpg" class="section__big_content_noline" mode="aspectFit"
+    <view wx:if='{{!finishLoad2}}' class="section__big_content">{{loadingInfo2}}</view>
+    <image wx:if='{{!errorLoad2}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__1.jpg" class="section__big_content" mode="aspectFit"
     binderror="errorLoad2" bindload="finishLoad2">
     </image>
   </view>
   <view class="display_show" wx:if="{{showIdPic}}">
     <view class="section__title">校园卡</view>
-    <view wx:if='{{!finishLoad3}}' class="section__big_content_noline">{{loadingInfo3}}</view>
-    <image wx:if='{{!errorLoad3}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__2.jpg" class="section__big_content_noline" mode="aspectFit"
+    <view wx:if='{{!finishLoad3}}' class="section__big_content">{{loadingInfo3}}</view>
+    <image wx:if='{{!errorLoad3}}' src="https://api.zhexiankeji.com/education/image/{{tId}}_teacher__2.jpg" class="section__big_content" mode="aspectFit"
     binderror="errorLoad3" bindload="finishLoad3">
     </image>
   </view>
@@ -165,7 +183,7 @@
   </view>
   <view class="display_show">
     <view class="section__title">求教科目</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       <view wx:for="{{subjectsList}}">
         {{item.name}}: {{item.point}}
       </view>
@@ -173,42 +191,96 @@
   </view>
   <view class="display_show">
     <view class="section__title">年级</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{grade}}
     </view>
   </view>
-  <view class="display_show">
+  <view class="display_show" wx:if="{{work_time.length > 0}}">
     <view class="section__title">上课时间</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{work_time}}
     </view>
   </view>
   <view class="display_show" wx:if="{{address_detail!=undefined}}">
     <view class="section__title">上课区域</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{address_detail}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">可付时薪</view>
-    <view class="section__big_content_noline" wx:if="{{tPrice > 0}}">
-      {{tPrice}}元
+    <view class="section__big_content" wx:if="{{hourly_pay > 0}}">
+      {{hourly_pay}}元
     </view>
-    <view class="section__big_content_noline" wx:else>
+    <view class="section__big_content" wx:else>
       面议
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">个人简介</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{description}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{sDirection == 1}}">
+    <view class="section__title">文理方向</view>
+    <view class="section__big_content">
+      文科
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{sDirection == 2}}">
+    <view class="section__title">文理方向</view>
+    <view class="section__big_content">
+      理科
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{sMajor.length > 0}}">
+    <view class="section__title">目标专业</view>
+    <view class="section__big_content">
+      {{sMajor}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{teacherRequirement.length > 0}}">
+    <view class="section__title">教员要求</view>
+    <view class="section__big_content">
+      {{teacherRequirement}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{!showReserveOption}}">
+    <view class="section__title">家长称呼</view>
+    <view class="section__big_content">
+      {{parent}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{!showReserveOption}}">
+    <view class="section__title">家长电话</view>
+    <view class="section__big_content">
+      {{pPhone}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{sPhone.length > 0 && !showReserveOption}}">
+    <view class="section__title">学生电话</view>
+    <view class="section__big_content">
+      {{sPhone}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{sQq.length > 0 && !showReserveOption}}">
+    <view class="section__title">学生QQ</view>
+    <view class="section__big_content">
+      {{sQq}}
     </view>
   </view>
   <view class="display_show">
     <view class="section__title">学生编号</view>
-    <view class="section__big_content_noline">
+    <view class="section__big_content">
       {{id}}
     </view>
+  </view>
+</view>
+
+<view wx:if="{{showReviseOption}}">
+  <view class="reserve_button">
+    <button bindtap="navToForm">修改信息</button> 
   </view>
 </view>
 

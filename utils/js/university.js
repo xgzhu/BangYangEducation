@@ -133,336 +133,401 @@ var universitys = {
   {
     "name":"清华大学",
     "id":"1",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京大学",
     "id":"2",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国人民大学",
     "id":"3",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中央财经大学",
     "id":"4",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京邮电大学",
     "id":"5",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京航空航天大学",
     "id":"6",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京工业大学",
     "id":"7",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京理工大学",
     "id":"8",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京化工大学",
     "id":"9",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"对外经济贸易大学",
     "id":"10",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国传媒大学",
     "id":"11",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中央民族大学",
     "id":"12",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国矿业大学(北京)",
     "id":"13",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国政法大学",
     "id":"14",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国石油大学(北京)",
     "id":"15",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中央音乐学院",
     "id":"16",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京体育大学",
     "id":"17",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京外国语大学",
     "id":"18",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京交通大学",
     "id":"19",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京科技大学",
     "id":"20",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京林业大学",
     "id":"21",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国农业大学",
     "id":"22",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京中医药大学",
     "id":"23",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"华北电力大学(北京)",
     "id":"24",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京师范大学",
     "id":"25",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"中国地质大学(北京)",
     "id":"26",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   },
   {
     "name":"北京其他高校",
     "id":"1027",
-    "province":"北京"
+    "province":"北京",
+    "provinceId":"1"
   }],
 "2" : [
   {
     "name":"复旦大学",
     "id":"27",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"上海交通大学",
     "id":"28",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"华东师范大学",
     "id":"29",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"同济大学",
     "id":"30",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"上海财经大学",
     "id":"31",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"上海外国语大学",
     "id":"32",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"上海大学",
     "id":"33",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"华东理工大学",
     "id":"34",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"东华大学",
     "id":"35",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   },
   {
     "name":"上海其他高校",
     "id":"1036",
-    "province":"上海"
+    "province":"上海",
+    "provinceId":"2"
   }],
 "3" : [
   {
     "name":"南开大学",
     "id":"36",
-    "province":"天津"
+    "province":"天津",
+    "provinceId":"3"
   },
   {
     "name":"天津大学",
     "id":"37",
-    "province":"天津"
+    "province":"天津",
+    "provinceId":"3"
   },
   {
     "name":"天津医科大学",
     "id":"38",
-    "province":"天津"
+    "province":"天津",
+    "provinceId":"3"
   },
   {
     "name":"河北工业大学",
     "id":"39",
-    "province":"天津"
+    "province":"天津",
+    "provinceId":"3"
   },
   {
     "name":"天津其他高校",
     "id":"1040",
-    "province":"天津"
+    "province":"天津",
+    "provinceId":"3"
   }],
 "4" : [
   {
     "name":"重庆大学",
     "id":"40",
-    "province":"重庆"
+    "province":"重庆",
+    "provinceId":"4"
   },
   {
     "name":"西南大学",
     "id":"41",
-    "province":"重庆"
+    "province":"重庆",
+    "provinceId":"4"
   },
   {
     "name":"重庆其他高校",
     "id":"1042",
-    "province":"重庆"
+    "province":"重庆",
+    "provinceId":"4"
   }],
 "5" : [
   {
     "name":"华北电力大学(保定)",
     "id":"42",
-    "province":"河北"
+    "province":"河北",
+    "provinceId":"5"
   },
   {
     "name":"河北其他高校",
     "id":"1043",
-    "province":"河北"
+    "province":"河北",
+    "provinceId":"5"
   }],
 "6" : [
   {
     "name":"太原理工大学",
     "id":"43",
-    "province":"山西"
+    "province":"山西",
+    "provinceId":"6"
   },
   {
     "name":"山西其他高校",
     "id":"1044",
-    "province":"山西"
+    "province":"山西",
+    "provinceId":"6"
   }],
 "7" : [
   {
     "name":"内蒙古大学",
     "id":"44",
-    "province":"内蒙古"
+    "province":"内蒙古",
+    "provinceId":"7"
   },
   {
     "name":"内蒙古其他高校",
     "id":"1045",
-    "province":"内蒙古"
+    "province":"内蒙古",
+    "provinceId":"7"
   }],
 "8" : [
   {
     "name":"大连理工大学",
     "id":"45",
-    "province":"辽宁"
+    "province":"辽宁",
+    "provinceId":"8"
   },
   {
     "name":"东北大学",
     "id":"46",
-    "province":"辽宁"
+    "province":"辽宁",
+    "provinceId":"8"
   },
   {
     "name":"辽宁大学",
     "id":"47",
-    "province":"辽宁"
+    "province":"辽宁",
+    "provinceId":"8"
   },
   {
     "name":"大连海事大学",
     "id":"48",
-    "province":"辽宁"
+    "province":"辽宁",
+    "provinceId":"8"
   },
   {
     "name":"辽宁其他高校",
     "id":"1049",
-    "province":"辽宁"
+    "province":"辽宁",
+    "provinceId":"8"
   }],
 "9" : [
   {
     "name":"吉林大学",
     "id":"49",
-    "province":"吉林"
+    "province":"吉林",
+    "provinceId":"9"
   },
   {
     "name":"东北师范大学",
     "id":"50",
-    "province":"吉林"
+    "province":"吉林",
+    "provinceId":"9"
   },
   {
     "name":"延边大学",
     "id":"51",
-    "province":"吉林"
+    "province":"吉林",
+    "provinceId":"9"
   },
   {
     "name":"吉林其他高校",
     "id":"1052",
-    "province":"吉林"
+    "province":"吉林",
+    "provinceId":"9"
   }],
 "10" : [
   {
     "name":"东北农业大学",
     "id":"52",
-    "province":"黑龙江"
+    "province":"黑龙江",
+    "provinceId":"10"
   },
   {
     "name":"东北林业大学",
     "id":"53",
-    "province":"黑龙江"
+    "province":"黑龙江",
+    "provinceId":"10"
   },
   {
     "name":"哈尔滨工业大学",
     "id":"54",
-    "province":"黑龙江"
+    "province":"黑龙江",
+    "provinceId":"10"
   },
   {
     "name":"哈尔滨工程大学",
     "id":"55",
-    "province":"黑龙江"
+    "province":"黑龙江",
+    "provinceId":"10"
   },
   {
     "name":"黑龙江其他高校",
     "id":"1056",
-    "province":"黑龙江"
+    "province":"黑龙江",
+    "provinceId":"10"
   }],
 "11" : [
   {
