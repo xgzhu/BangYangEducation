@@ -8,8 +8,11 @@
 .buttonFrame {
   display: inline-block;
   vertical-align:top;
-  width: 50%;
+  width: 46%;
   height: 100%;
+  padding-top: 15rpx;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
 .buttonFinishLeft {
@@ -24,4 +27,9 @@
   border: 2rpx solid;
   border-color: #ff8719;
   background-color: white;
+}
+
+.padding-border {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
 }

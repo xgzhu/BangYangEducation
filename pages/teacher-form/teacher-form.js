@@ -43,7 +43,6 @@ Page({
    */
   onLoad: function (options) {
     that = this
-    that.checkExisting(options.update == undefined)
     var teacherGrades = teachers.grades.slice()
     teacherGrades.splice(0, 1)
     that.setData({
@@ -59,7 +58,8 @@ Page({
       entranceYears: [(curYear-9)+"年", (curYear-8)+"年", (curYear-7)+"年", (curYear-6)+"年", (curYear-5)+"年", (curYear-4)+"年", (curYear-3)+"年", (curYear-2)+"年", (curYear-1)+"年", (curYear)+"年"],
       provinceToId: citys.provinceToId,
       provinces: citys.provinces.slice(),
-      citys: citys.citys
+      citys: citys.citys,
+      update: options.update != undefined
     })
     if (options.region != undefined && options.region != "") {
       that.setData({
@@ -68,16 +68,17 @@ Page({
     if (options.shouldReturn != undefined) {
       that.setData({shouldReturn: options.shouldReturn})
     }
-    wx.setStorageSync("tAim", "")
-    wx.setStorageSync("tSubject", "")
+    wx.setStorageSync('tAim', "")
+    wx.setStorageSync('tSubject', "")
+    that.checkExisting(options.update == undefined)
   },
   onShow: function () {
-    var gradeInfo = wx.getStorageSync("tAim")
+    var gradeInfo = wx.getStorageSync('tAim')
     if (gradeInfo != undefined && gradeInfo != "") {
       var gradeInfoReadable = app.getTargetGradeReadable(gradeInfo.split("+"))
       that.setData({gradeInfo:gradeInfo, gradeInfoReadable:gradeInfoReadable, error_grade: ""})
     }
-    var subjectInfo = wx.getStorageSync("tSubject")
+    var subjectInfo = wx.getStorageSync('tSubject')
     if (subjectInfo != undefined && subjectInfo != "") {
       that.setData({subjectInfo:subjectInfo, subjectInfoReadable:subjectInfo.split("+"), error_subject: ""})
     }
@@ -94,7 +95,6 @@ Page({
       title: '注册信息已存在',
       content: '后台显示你已经注册过信息，是否要重新填写？',
       success: function(res) {
-        wx.setStorageSync("reserveConfirm", res.confirm)
         if (!res.confirm)
           wx.navigateBack()
         else
@@ -120,8 +120,6 @@ Page({
       birthValue: myData.tBirthday,
       birthInfo: myData.tBirthday,
       defaultHighSchool: myData.tHighschool,
-      gradeInfoReadable: myData.targetGradeReadable,
-      subjectInfoReadable: myData.tSubject.split("+"),
       tDescribe: myData.tDescribe,
       tAddress: myData.tAddress,
       images: [
@@ -130,8 +128,8 @@ Page({
         "https://api.zhexiankeji.com/education/image/" + myData.tId + "_teacher__2.jpg"
       ]
     })
-    wx.setStorageSync("tAim", myData.tAim)
-    wx.setStorageSync("tSubject", myData.tSubject)
+    wx.setStorageSync('tAim', myData.tAim)
+    wx.setStorageSync('tSubject', myData.tSubject)
     that.finishPhone(that.mockDetailValue(myData.tPhone))
     that.finishIdentity(that.mockDetailValue(myData.tType - 2))
     if (myData.tUniversity != undefined && myData.tUniversity != "") {
@@ -155,6 +153,16 @@ Page({
     } else {
       that.setData({
         defaultScore: parseInt(myData.tScore)
+      })
+    }
+    if (myData.tSubject != "") {
+      that.setData({
+        subjectInfoReadable: myData.tSubject.split("+")
+      })
+    }
+    if (myData.targetGradeReadable != "") {
+      that.setData({
+        gradeInfoReadable: myData.targetGradeReadable
       })
     }
     var times = that.data.times
@@ -373,11 +381,11 @@ Page({
       that.setData({error_describe: ""})
   },
   selectGrade: function() {
-    var options = {name:"tAim", list:grades.grades, categories: grades.categories}
+    var options = {name:'tAim', list:grades.grades, categories: grades.categories}
     that.navToSelectionList(options)
   },
   selectSubject: function() {
-    var options = {name:"tSubject", list:subjects.subjects, categories: subjects.categories}
+    var options = {name:'tSubject', list:subjects.subjects, categories: subjects.categories}
     that.navToSelectionList(options)
   },
   navToSelectionList: function(options) {
@@ -631,9 +639,14 @@ Page({
                       app.globalData.myTeacherHistory = teacherInfo
                       app.globalData.myTeacherRegister = app.selectNewestData(teacherInfo)
                       console.log('myTeacherRegister updated', app.globalData.myTeacherRegister)
-                      wx.redirectTo({
-                        url: '../card/card?personal=teacher'
-                      })
+                      
+                      if (that.data.update) {
+                        wx.navigateBack();
+                      } else {
+                        wx.redirectTo({
+                          url: '../card/card?personal=teacher'
+                        })
+                      }
                     }
                     app.getTeacherInfo({ "tWxid": app.globalData.openId }, teacherInfoCallback)
                   }

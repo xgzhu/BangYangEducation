@@ -35,7 +35,6 @@ Page({
    */
   onLoad: function (options) {
     that = this
-    that.checkExisting(options.update == undefined)
     that.setData({
       grades: grades.grades.slice(),
       subjects: subjects.subjects.slice(),
@@ -45,7 +44,8 @@ Page({
       teacherRequirements: [teachers.grades.slice(), teachers.genders.slice()],
       provinceToId: citys.provinceToId,
       provinces: citys.provinces.slice(),
-      citys: citys.citys
+      citys: citys.citys,
+      update: options.update != undefined
     })
     if (options.region != undefined && options.region != "") {
       that.setData({
@@ -56,6 +56,7 @@ Page({
     if (options.shouldReturn != undefined) {
       that.setData({shouldReturn: options.shouldReturn})
     }
+    that.checkExisting(options.update == undefined)
     console.log(that.data)
   },
   checkExisting: function (query) {
@@ -380,9 +381,13 @@ Page({
                   var studentInfoCallback = function(studentInfo) {
                     var myStudentHistory = studentInfo
                     app.globalData.myStudentRegister = app.selectNewestData(studentInfo)
-                    wx.redirectTo({
-                      url: '../card/card?personal=student'
-                    })
+                    if (that.data.update) {
+                      wx.navigateBack();
+                    } else {
+                      wx.redirectTo({
+                        url: '../card/card?personal=student'
+                      })
+                    }
                   }
                   app.getMyStudentInfo({"sWxid":app.globalData.openId}, studentInfoCallback)
                 }

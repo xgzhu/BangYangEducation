@@ -117,6 +117,7 @@ Page({
     if (reserveConfirm) {
       that.makeReverservation()
     }
+    that.preparePage()
   },
   navToForm: function(type) {
     var url = type=="teacher" ? '../find/find' : '../apply/apply';
@@ -213,7 +214,7 @@ Page({
       data.iStatus = 0
       url = "https://api.zhexiankeji.com/education/intention/update"
     }
-    console.log("data", JSON.stringify(data))
+    //console.log("data", JSON.stringify(data))
     wx.request({
       url: url,
       data: JSON.stringify(data),
