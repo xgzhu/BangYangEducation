@@ -67,13 +67,13 @@
   <view class="title">
     {{title}}
   </view>
-  <view class="display_show">
+  <view class="display_show" wx:if="{{subjectsListReadable.length > 0}}">
     <view class="section__title">可授科目</view>
     <view class="section__big_content">
       {{subjectsListReadable}}
     </view>
   </view>
-  <view class="display_show">
+  <view class="display_show" wx:if="{{targetGradeReadable.length > 0}}">
     <view class="section__title">可授年级</view>
     <view class="section__big_content">
       {{targetGradeReadable}}
@@ -167,6 +167,12 @@
     <view class="section__title">出生日期</view>
     <view class="section__big_content">
       {{tBirthday}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{!showReserveOption}}">
+    <view class="section__title">邮寄地址</view>
+    <view class="section__big_content">
+      {{tAddress}}
     </view>
   </view>
   <view class="display_show">
