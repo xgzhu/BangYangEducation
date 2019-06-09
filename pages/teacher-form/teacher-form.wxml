@@ -121,13 +121,6 @@
     </view>
   </view>
 <!--   <view class="display_show">
-    <view class="section__title">文理方向</view>
-    <radio-group name="tDirection" class="section__big_content {{error_direction}}" bindchange="finishDirection">
-      <view class="selection"><label><radio value="0"/>文科</label></view>
-      <view class="selection"><label><radio value="1"/>理科</label></view>
-    </radio-group>
-  </view> -->
-<!--   <view class="display_show">
     <view class="section__title">学院</view>
     <view class="section__big_content {{error_school}}">
     <input name="wSchool" placeholder="请输入官方名称" maxlength="20" 
@@ -141,13 +134,13 @@
     bindblur="finishProgram"/>
     </view>
   </view>
-  <view class="display_show">
+<!--   <view class="display_show">
     <view class="section__title">学号</view>
     <view class="section__big_content {{error_student_id}}">
     <input name="wStudentId" placeholder="请输入学号" maxlength="20" 
     bindblur="finishStudentId"/>
     </view>
-  </view>
+  </view> -->
 <!--   <view class="display_show">
     <view class="section__title">籍贯</view>
     <view class="section__big_content {{error_home}}">
@@ -171,7 +164,7 @@
   <view class="display_show">
     <view class="section__title">毕业高中</view>
     <view class="section__big_content {{error_high_school}}">
-    <input name="tHighschool" placeholder="请输入官方名称" maxlength="20" 
+    <input name="tHighschool" placeholder="请输入官方名称" maxlength="20"  value="{{defaultHighSchool}}"
     bindblur="finishHighSchool"/>
     </view>
   </view>
@@ -179,12 +172,12 @@
     <view class="section__title">高考分数</view>
     <view class="section__big_content {{error_exam_score}}">
       <view class="section__big_content_2">
-        <input name="tScore" type="number" placeholder="请输入高考分数" maxlength="20" 
+        <input name="tScore" type="number" placeholder="请输入高考分数" maxlength="20" value="{{defaultScore}}"
         bindblur="finishExamScore" disabled="{{examScoreDisabled}}" />
       </view>
-      <view class="section__small_content">
+      <view class="section__small_content blackfont">
         <checkbox-group value="yes" bindchange="finishExamScore">
-          <checkbox>保送</checkbox>
+          <checkbox checked="{{bao_song}}">保送</checkbox>
         </checkbox-group>
       </view>
     </view>
@@ -248,8 +241,10 @@
 
   <view class="display_show">
     <view class="section__title">个人简介</view>
-    <view class="section__big_content">
-      <textarea name="tDescribe" placeholder="建议填写性格，经历等" maxlength="500" auto-focus="true" auto-height="true"/>
+    <view class="section__big_content {{error_describe}}">
+      <textarea name="tDescribe" placeholder="建议填写性格，经历等" value="{{tDescribe}}" 
+      maxlength="500" auto-focus="true" auto-height="true"
+      bindblur="finishDescribe" />
     </view>
   </view>
 </view>
@@ -300,7 +295,8 @@
   <view class="display_show">
     <view class="section__title">邮寄地址</view>
     <view class="section__big_content {{error_detail_address}}">
-    <textarea name="tAddress" placeholder="宿舍、家庭地址" maxlength="40" bindblur="finishDetailAddress" auto-height="true"/>
+    <textarea name="tAddress" placeholder="宿舍、家庭地址" maxlength="40" 
+    bindblur="finishDetailAddress" auto-height="true" value="{{tAddress}}"/>
     </view>
   </view>
 </view>

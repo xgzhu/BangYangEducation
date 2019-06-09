@@ -132,6 +132,14 @@
   border-color: red;
 }
 
+.grey_color {
+  color: grey;
+}
+
+.blackfont {
+  color: black;
+}
+
 .buttonFrame {
   display: inline-block;
   vertical-align:top;

@@ -70,9 +70,6 @@
   <view class="display_show">
     <view class="section__title">可授科目</view>
     <view class="section__big_content">
- <!--      <view wx:for="{{subjectsList}}">
-        {{item.name}}, 
-      </view> -->
       {{subjectsListReadable}}
     </view>
   </view>
@@ -80,6 +77,12 @@
     <view class="section__title">可授年级</view>
     <view class="section__big_content">
       {{targetGradeReadable}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{work_time.length > 0}}">
+    <view class="section__title">上课时间</view>
+    <view class="section__big_content">
+      {{work_time}}
     </view>
   </view>
 <!--   <view class="display_show">
@@ -143,6 +146,27 @@
     <view class="section__title">专业</view>
     <view class="section__big_content">
       {{tMajor}}
+    </view>
+  </view>
+  <view class="display_show">
+    <view class="section__title">毕业高中</view>
+    <view class="section__big_content">
+      {{tHighschool}}
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{!showReserveOption}}">
+    <view class="section__title">高考分数</view>
+    <view class="section__big_content" wx:if="{{tScore != 1000}}">
+      {{tScore}}
+    </view>
+    <view class="section__big_content" wx:else>
+      保送
+    </view>
+  </view>
+  <view class="display_show" wx:if="{{!showReserveOption}}">
+    <view class="section__title">出生日期</view>
+    <view class="section__big_content">
+      {{tBirthday}}
     </view>
   </view>
   <view class="display_show">

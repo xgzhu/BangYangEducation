@@ -62,6 +62,7 @@ App({
         console.log("fail to get userInfo")
       }
     })
+    wx.setStorageSync("reserveConfirm", false)
   },
   // 获取系统相关信息
   getSystemInfo: function() {
@@ -241,8 +242,9 @@ App({
       method: "POST",
       success: function (res) {
         if (res.data.result.length > 0) {
+          console.log("getMyTeacherInfo-res", res)
           var teacherInfo = that.constructTeacherInfo(
-          [res.data.result[0].teacher], res.data.result[0].teacherWorks)
+              [res.data.result[0].teacher], res.data.result[0].teacherWorks)
           console.log("getMyTeacherInfo", teacherInfo)
           callback(teacherInfo)
         }
@@ -333,10 +335,16 @@ App({
         bt.subjects = ""
         bt.subjectsList = []
         bt.hourly_pay = wt.tPrice
+        bt.tAim = wt.tAim
+        bt.tSubject = wt.tSubject
         bt.targetGrade = wt.tAim.split("+")
         bt.targetGradeReadable = that.getTargetGradeReadable(bt.targetGrade)
         bt.isTeacher = true
         bt.title = "未审核教师"
+        var work_time = bt.time&0x01 ? "平时 " : "" 
+        work_time = work_time + (bt.time&0x02 ? "周末 " : "")
+        work_time = work_time + (bt.time&0x04 ? "假期 " : "")
+        bt.work_time = work_time
         if (bt.tTitle != "") {
           bt.title = bt.tTitle
         }
@@ -398,6 +406,10 @@ App({
         bs.sId = bs.id
         bs.id = that.formatId(bs.id)
         bs.time = w.wType
+        var work_time = bs.time&0x01 ? "平时 " : "" 
+        work_time = work_time + (bs.time&0x02 ? "周末 " : "")
+        work_time = work_time + (bs.time&0x04 ? "假期 " : "")
+        bs.work_time = work_time
         // bs.grade = grades.idToGrades[w.wGrade]
         bs.grade = w.wGrade
         bs.subjects = ""

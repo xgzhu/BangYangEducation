@@ -57,15 +57,11 @@ Page({
         return
       }
       var myStudent = app.globalData.myStudentRegister
-      var work_time = myStudent.time&0x01 ? "平时 " : "" 
-      work_time = work_time + (myStudent.time&0x02 ? "周末 " : "")
-      work_time = work_time + (myStudent.time&0x04 ? "假期 " : "")
       that.setData(myStudent)
       that.setData({
         nickname: myStudent.name,
         title: myStudent.gender == 0 ? "男生":"女生",
         address_detail: myStudent.address,
-        work_time: work_time,
         canRegister: false,
         showReserveOption: false,
       })

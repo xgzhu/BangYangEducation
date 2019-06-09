@@ -48,7 +48,6 @@ Page({
     teacherGrades.splice(0, 1)
     that.setData({
       teacherGrades: teacherGrades,
-      uProvince: universitys.provinces,
       universitys: universitys.universitys,
       provinceAndUniversitys: [universitys.provinces, universitys.universitys["1"]],
       provinceAndUniversitysMaster: [universitys.provinces, universitys.universitys["1"]],
@@ -71,7 +70,6 @@ Page({
     }
     wx.setStorageSync("tAim", "")
     wx.setStorageSync("tSubject", "")
-    console.log(that.data)
   },
   onShow: function () {
     var gradeInfo = wx.getStorageSync("tAim")
@@ -110,13 +108,30 @@ Page({
   // prepare existing info.
   prepareForm: function() {
     var myData = app.globalData.myTeacherRegister
+    var teacherGrades = teachers.grades.slice()
+    teacherGrades.splice(0, 1)
     that.setData({
+      teacherGrades: teacherGrades,
       defaultName: myData.name,
       defaultBoy: myData.gender == 0,
       defaultGirl: myData.gender == 1,
       defaultPhone: myData.tPhone,
-      defaultMajor: myData.tMajor
+      defaultMajor: myData.tMajor,
+      birthValue: myData.tBirthday,
+      birthInfo: myData.tBirthday,
+      defaultHighSchool: myData.tHighschool,
+      gradeInfoReadable: myData.targetGradeReadable,
+      subjectInfoReadable: myData.tSubject.split("+"),
+      tDescribe: myData.tDescribe,
+      tAddress: myData.tAddress,
+      images: [
+        "https://api.zhexiankeji.com/education/image/" + myData.tId + "_teacher__0.jpg",
+        "https://api.zhexiankeji.com/education/image/" + myData.tId + "_teacher__1.jpg",
+        "https://api.zhexiankeji.com/education/image/" + myData.tId + "_teacher__2.jpg"
+      ]
     })
+    wx.setStorageSync("tAim", myData.tAim)
+    wx.setStorageSync("tSubject", myData.tSubject)
     that.finishPhone(that.mockDetailValue(myData.tPhone))
     that.finishIdentity(that.mockDetailValue(myData.tType - 2))
     if (myData.tUniversity != undefined && myData.tUniversity != "") {
@@ -131,6 +146,22 @@ Page({
       that.setUniversity(myData.tDoctoral, "2")
       that.setData({puValuePhd: puValue})
     }
+    if (myData.tScore == "1000") {
+      that.setData({
+        bao_song: true,
+        examScoreDisabled: true,
+        error_exam_score: "greyfont"
+      })
+    } else {
+      that.setData({
+        defaultScore: parseInt(myData.tScore)
+      })
+    }
+    var times = that.data.times
+    times[0].checked = myData.time & 0x01
+    times[1].checked = myData.time & 0x02
+    times[2].checked = myData.time & 0x04
+    that.setData({times: times})
     console.log("prepareForm", that.data)
   },
   setUniversity: function(universityId, level) {
@@ -235,7 +266,7 @@ Page({
       return
     }
     var level = parseInt(e.currentTarget.dataset.level)
-    var provinceId = that.data.uProvince[e.detail.value].id
+    var provinceId = universitys.provinces[e.detail.value].id
     var universityList = universitys.universitys[provinceId]
     console.log(provinceId, universityList)
     if (level == 0) {
@@ -328,14 +359,18 @@ Page({
     if (e.type=="blur" && e.detail.value != "") {
       that.setData({error_exam_score: ""})
     } else if (e.type=="change" && e.detail.value.length != 0) {
-      that.setData({error_exam_score: "", examScoreDisabled: true})
+      that.setData({error_exam_score: "greyfont", examScoreDisabled: true})
     } else if (e.type=="change" && e.detail.value.length == 0) {
-      that.setData({examScoreDisabled: false})
+      that.setData({error_exam_score: "", examScoreDisabled: false})
     }
   },
   finishDetailAddress: function(e) {
     if (e.detail.value != "")
       that.setData({error_detail_address: ""})
+  },
+  finishDescribe: function(e) {
+    if (e.detail.value != "")
+      that.setData({error_describe: ""})
   },
   selectGrade: function() {
     var options = {name:"tAim", list:grades.grades, categories: grades.categories}
@@ -419,10 +454,10 @@ Page({
         that.setData({error_birthday: "error"})
         success = false
       }
-      if (data.wStudentId == "") {
+/*      if (data.wStudentId == "") {
         that.setData({error_student_id: "error"})
         success = false
-      }
+      }*/
       if (data.tMajor == "") {
         that.setData({error_program: "error"})
         success = false
@@ -457,12 +492,16 @@ Page({
         that.setData({error_time: "error"})
         success = false
       }
-      if (that.data.gradeInfo == "请选择目标年级") {
+      if (that.data.gradeInfoReadable == "请选择目标年级") {
         that.setData({error_grade: "error"})
         success = false
       }
-      if (that.data.subjectInfo == "请选择目标科目") {
+      if (that.data.subjectInfoReadable == "请选择目标科目") {
         that.setData({error_subject: "error"})
+        success = false
+      }
+      if (data.tDescribe == undefined || data.tDescribe == "") {
+        that.setData({error_describe: "error"})
         success = false
       }
     }
@@ -627,62 +666,69 @@ Page({
     console.log("upload img ", { name: id + "_teacher__2" }) // -> ture_teacher__2, problem in id?
     
     // 个人照片
-    wx.uploadFile({
-      url: img_url,
-      filePath:that.data.images[0],
-      formData: {name: id + "_teacher__0"},
-      name:"image",
-      header: {
-        'content-type': 'multipart/form-data'
-      },
-      success: function (res) {
-        console.log("upload image", res)
-        var res_id = res.data.result
-        if (res.data.errCode == undefined) {
-          var obj = JSON.parse(res.data);
-          res_id = obj.result
+    if (!that.data.images[0].startsWith("https")) {
+      wx.uploadFile({
+        url: img_url,
+        filePath:that.data.images[0],
+        formData: {name: id + "_teacher__0"},
+        name:"image",
+        header: {
+          'content-type': 'multipart/form-data'
+        },
+        success: function (res) {
+          console.log("upload image", res)
+          var res_id = res.data.result
+          if (res.data.errCode == undefined) {
+            var obj = JSON.parse(res.data);
+            res_id = obj.result
+          }
+          that.completeImageInfo(res_id, id, 0, metadata)
         }
-        that.completeImageInfo(res_id, id, 0, metadata)
-      }
-    })
+      })
+    }
+    
     // 学生证
-    wx.uploadFile({
-      url: img_url,
-      filePath:that.data.images[1],
-      formData: {name: id + "_teacher__1"},
-      name:"image",
-      header: {
-        'content-type': 'multipart/form-data'
-      },
-      success: function (res) {
-        console.log("upload image", res)
-        var res_id = res.data.result
-        if (res.data.errCode == undefined) {
-          var obj = JSON.parse(res.data);
-          res_id = obj.result
+    if (!that.data.images[1].startsWith("https")) {
+      wx.uploadFile({
+        url: img_url,
+        filePath:that.data.images[1],
+        formData: {name: id + "_teacher__1"},
+        name:"image",
+        header: {
+          'content-type': 'multipart/form-data'
+        },
+        success: function (res) {
+          console.log("upload image", res)
+          var res_id = res.data.result
+          if (res.data.errCode == undefined) {
+            var obj = JSON.parse(res.data);
+            res_id = obj.result
+          }
+          that.completeImageInfo(res_id, id, 1, metadata)
         }
-        that.completeImageInfo(res_id, id, 1, metadata)
-      }
-    })
+      })
+    }
     // 校园卡
-    wx.uploadFile({
-      url: img_url,
-      filePath:that.data.images[2],
-      formData: {name: id + "_teacher__2"},
-      name:"image",
-      header: {
-        'content-type': 'multipart/form-data'
-      },
-      success: function (res) {
-        console.log("upload image", res)
-        var res_id = res.data.result
-        if (res.data.errCode == undefined) {
-          var obj = JSON.parse(res.data);
-          res_id = obj.result
+    if (!that.data.images[2].startsWith("https")) {
+      wx.uploadFile({
+        url: img_url,
+        filePath:that.data.images[2],
+        formData: {name: id + "_teacher__2"},
+        name:"image",
+        header: {
+          'content-type': 'multipart/form-data'
+        },
+        success: function (res) {
+          console.log("upload image", res)
+          var res_id = res.data.result
+          if (res.data.errCode == undefined) {
+            var obj = JSON.parse(res.data);
+            res_id = obj.result
+          }
+          that.completeImageInfo(res_id, id, 2, metadata)
         }
-        that.completeImageInfo(res_id, id, 2, metadata)
-      }
-    })
+      })
+    }
   },
   completeImageInfo: function(imageId, applicationId, typeId, metadata) {
     var url = "https://api.zhexiankeji.com/education/picture/insert"
